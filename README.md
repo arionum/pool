@@ -14,3 +14,5 @@ Start the poolsanity by running: php /path/to/pool/poolsanity.php &>/dev/null &
 The requirements are the same as for the arionum node: php 7.2 (with argon2), php-openssl, php-gmp, php-bcmath
 
 For the template system, we use raintpl3
+
+Please use a new name instead of aropool to avoid user confusion!
