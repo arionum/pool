@@ -1,0 +1,81 @@
+            </div>
+            <!-- /Column Center -->
+
+        </section>
+        <!-- /Content -->
+
+        <!-- Page Footer -->
+        <footer id="content-footer">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="footer-legal">Copyright © AroPool 2018. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    <span class="footer-meta"></span>
+                    <a href="#content" class="footer-return-top">
+                        <span class="fa fa-angle-up"></span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+        <!-- /Page Footer -->
+
+    </section>
+    <!-- /Main Wrapper -->
+
+</div>
+<!-- /Body Wrap  -->
+
+<!-- Scripts -->
+
+<!-- jQuery -->
+<script src="assets/js/jquery/jquery-1.12.4.min.js"></script>
+<script src="assets/js/jquery/jquery_ui/jquery-ui.min.js"></script>
+<!-- <script src="assets/js/utility/fullscreen/jquery.fullscreen.js"></script> -->
+
+
+<!-- Simple Circles Plugin -->
+<script src="assets/js/plugins/circles/circles.js"></script>
+
+
+<!-- Date/Month - Pickers -->
+<script src="assets/allcp/forms/js/jquery-ui-monthpicker.min.js"></script>
+<script src="assets/allcp/forms/js/jquery-ui-datepicker.min.js"></script>
+
+
+<!-- Theme Scripts -->
+<script src="assets/js/utility/utility.js"></script>
+<script src="assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="assets/js/demo/demo.js"></script>
+<script src="assets/js/main.js"></script>
+
+<!-- Widget JS -->
+<script src="assets/js/demo/widgets.js"></script>
+<script src="assets/js/demo/widgets_sidebar.js"></script>
+<script src="assets/js/pages/dashboard1.js"></script>
+<!-- /Scripts -->
+
+<script src="assets/js/plugins/datatables/media/js/jquery.dataTables.js"></script>
+<script src="assets/js/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+<script src="assets/js/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+<script src="assets/js/plugins/datatables/media/js/dataTables.bootstrap.js"></script>
+
+<script>
+
+$('.datatable').dataTable({
+
+{if="$q=='payments'"} "order": [[ 0, "desc" ]],{/if}
+{if="$q=='blocks'"}        "order": [[ 1, "desc" ]],{/if}
+
+
+
+            "iDisplayLength": 15
+        });
+
+
+</script>
+
+
+</body>
+
+</html>

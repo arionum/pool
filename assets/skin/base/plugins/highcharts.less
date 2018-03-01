@@ -1,0 +1,36 @@
+// ====================== High Charts =======================
+
+.chart-legend {} .legend-item {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.nav.chart-legend > li {
+
+    &> a {
+        background: transparent;
+        color: @brand-dark;
+        font: 700 12px/20px 'Ubuntu';
+        text-transform: uppercase;
+    }
+    &> a:hover {
+        background: transparent;
+        color: @brand-primary;
+    }
+}
+
+.highcharts-container .highcharts-axis-labels text,
+.highcharts-container .highcharts-legend-item text {
+    color: @dark-blue !important;
+    fill: @dark-blue !important;
+    font-size: 12px !important;
+    font-family: 'Ubuntu', sans-serif !important;
+    font-weight: 400 !important;
+}
+.highcharts-container .highcharts-title {
+    font-family: 'Ubuntu', sans-serif !important;
+    font-size: 26px !important;
+    color: @brand-dark !important;
+    fill: @brand-dark !important;
+}

@@ -18,3 +18,5 @@ The requirements are the same as for the arionum node: php 7.2 (with argon2), ph
 For the template system, we use raintpl3
 
 Please use a new name instead of aropool to avoid user confusion!
+
+This project is early alpha, bugs may be found, functions might not work properly etc.

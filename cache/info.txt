@@ -1,0 +1,1 @@
+{"status":"ok","data":{"difficulty":"45669041","block":"ReoyrSmEHtkHkSTowE4opskgow9hWx9nwbjcTqWtac68MNnaQYygW417sa7nrXZtvKc66McLfQfH8BEginMvNJC","height":19515,"public_key":"your public key","limit":1000000},"coin":"arionum"}
