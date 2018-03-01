@@ -68,7 +68,7 @@ $tpl->draw('header');
 	 $tpl->assign("lastwon",$last_won);
 	$tpl->assign("total_paid",number_format($db->single("SELECT val FROM info WHERE id='total_paid'")/1000000,2));
 	$tpl->assign("shares",$shares);
-	$tpl->assign("historic",$historic)
+	$tpl->assign("historic",$historic);
 	$tpl->assign("difficulty",200000000-$current['difficulty']);
 
 	$tpl->draw("index");
