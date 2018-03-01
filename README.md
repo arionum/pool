@@ -7,6 +7,8 @@ The pool requires a full node running on the same server (on a different subdoma
 
 Edit the config.php and follow the instructions inside.
 
+Import the contrib/pool.sql to your NEW mysql database.
+
 Create a cron entry on the format */10 * * * * user php /path/to/pool/payments.php
 
 Start the poolsanity by running: php /path/to/pool/poolsanity.php &>/dev/null &
