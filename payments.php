@@ -26,7 +26,7 @@ register_shutdown_function("shut_down");
 set_time_limit(0);
 if(php_sapi_name() !== 'cli') die("This should only be run as cli");
 
-require_once("/var/www/html/db.php");
+require_once("db.php");
 
 function pay_post($url, $data=array()){
 	global $pool_config;
@@ -62,6 +62,10 @@ $min=date("i");
 
 $blocks_paid=500;
 if($hour==10&&$min<20) $blocks_paid=5000;
+
+
+$db->run("DELETE FROM miners WHERE historic+shares<=20");
+$db->run("UPDATE miners SET hashrate=(SELECT SUM(hashrate) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
 
 
 echo "\n----------------------------------------------------------------------------------\n";
@@ -122,9 +126,7 @@ echo "Pending balance: $not\n";
 
 
 
-$db->run("DELETE FROM miners WHERE historic+shares<=20");
 $db->run("UPDATE miners SET pending=(SELECT SUM(val) FROM payments WHERE done=0 AND payments.address=miners.id AND height>=:h)",array(":h"=>$current-$blocks_paid));
-$db->run("UPDATE miners SET hashrate=(SELECT SUM(hashrate) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
 
 $db->run("DELETE FROM payments WHERE done=1 AND height<:h",array(":h"=>$current-1000));
 

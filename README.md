@@ -5,9 +5,13 @@ Live version: http://aropool.com
 
 The pool requires a full node running on the same server (on a different subdomain) as it uses it's libraries and db connection.
 
+Create a new database for the pool (separate from the node one)
+
 Edit the config.php and follow the instructions inside.
 
 Import the contrib/pool.sql to your NEW mysql database.
+
+chmod 777 cache -R
 
 Create a cron entry on the format */10 * * * * user php /path/to/pool/payments.php
 
