@@ -122,7 +122,7 @@ if($q=="info"){
                         $total_historic+=$x['historic'];
                 }
                 $reward=$reward*(1-$pool_config['fee']);
-                $miner_reward=$pool_config['miner_reward']*$reward;
+                $miner_reward=$pool_config['historic_reward']*$reward;
                 $historic_reward=$pool_config['miner_reward']*$reward;
 		$current_reward=$pool_config['current_reward']*$reward;
       
