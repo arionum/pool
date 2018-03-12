@@ -6,7 +6,7 @@ Live version: http://aropool.com
 
 The pool requires a full node running on the same server (on a different subdomain) as it uses it's libraries and db connection.
 
-## Installation
+## Install
 
 The requirements are the same as for the arionum node:
 
@@ -21,7 +21,7 @@ The requirements are the same as for the arionum node:
 2. Edit the `config.php` and follow the instructions inside.
 3. Import the `contrib/pool.sql` to your NEW mysql database.
 4. Chmod the cache directory using `chmod 777 cache -R`.
-5. Create a cron entry on the format:
+5. Create a cron entry using the following format:
    ```bash
    */10 * * * * user php /path/to/pool/payments.php
    ```
