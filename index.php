@@ -58,7 +58,7 @@ $tpl->draw('header');
 	$total_hr_ext="H/s";
     }
 
-
+	$tpl->assign("avg_hr",$avg_hr);
 	$tpl->assign("hr_ext",$total_hr_ext);
 	$tpl->assign("total_hr",$total_hr_text);
 	$tpl->assign("miners",$miners);
