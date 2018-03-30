@@ -63,14 +63,16 @@ $min=date("i");
 $blocks_paid=500;
 if($hour==10&&$min<20) $blocks_paid=5000;
 
-
-$db->run("DELETE FROM miners WHERE historic+shares<=20");
-$db->run("UPDATE miners SET hashrate=(SELECT SUM(hashrate) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
-
-
 echo "\n----------------------------------------------------------------------------------\n";
 $current=$aro->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
 echo "Current block $current\n";
+
+
+$db->run("DELETE FROM miners WHERE historic+shares<=20");
+$db->run("UPDATE miners SET hashrate=(SELECT SUM(hashrate) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
+$db->run("UPDATE miners SET pending=(SELECT SUM(val) FROM payments WHERE done=0 AND payments.address=miners.id AND height>=:h)",array(":h"=>$current-$blocks_paid));
+
+
 
 $r=$db->run("SELECT DISTINCT block FROM payments WHERE height<:h AND done=0 AND height>=:h2",array(":h"=>$current-10, ":h2"=>$current-$blocks_paid));
 if(count($r)==0) die("No payments pending\n");
