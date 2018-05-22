@@ -3,6 +3,10 @@
     "description": "A proof of concept pool for Arionum.",
     "license": "MIT",
     "require": {
+        "php": "^7.2",
+        "ext-openssl": "*",
+        "ext-gmp": "*",
+        "ext-bcmath": "*",
         "rain/raintpl": "^3.1"
     }
 }
