@@ -1,5 +1,12 @@
 {
     "require": {
         "rain/raintpl": "^3.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesnifferr": "^3.2"
+    },
+    "scripts": {
+        "check-style": "phpcs --standard=PSR2 --extensions=php --ignore=vendor/*,cache/*,assets/* .",
+        "fix-style": "phpcbf --standard=PSR2 --extensions=php --ignore=vendor/*,cache/*,assets/* ."
     }
 }
