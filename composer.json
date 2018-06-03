@@ -1,5 +1,12 @@
 {
+    "name": "arionum/pool",
+    "description": "A proof of concept pool for Arionum.",
+    "license": "MIT",
     "require": {
+        "php": "^7.2",
+        "ext-bcmath": "*",
+        "ext-gmp": "*",
+        "ext-openssl": "*",
         "rain/raintpl": "^3.1"
     }
 }
