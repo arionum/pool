@@ -70,11 +70,15 @@ while (1) {
     $g = json_decode($f, true);
 
     $res = [
-        "difficulty" => $g['data']['difficulty'],
-        "block"      => $g['data']['block'],
-        "height"     => $g['data']['height'],
-        "public_key" => $pool_config['public_key'],
-        "limit"      => $max_dl,
+        "difficulty"    => $g['data']['difficulty'],
+        "block"         => $g['data']['block'],
+        "height"        => $g['data']['height'],
+        "public_key"    => $pool_config['public_key'],
+        "limit"         => $max_dl,
+        "recommendation"=> $g['data']['recommendation'], 
+        "argon_mem"     => $g['data']['argon_mem'],  
+        "argon_threads" => $g['data']['argon_threads'], 
+        "argon_time"    => $g['data']['argon_time'],
     ];
     $fin = json_encode(["status" => "ok", "data" => $res, "coin" => "arionum"]);
     echo "\n$fin\n";
