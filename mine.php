@@ -77,7 +77,7 @@ if ($q == "info") {
 
 
     $argon2 = '$argon2i$v=19$m=524288,t=1,p=1'.$argon;
-            if($g['data']['height']>=80000&&$g['data']['height']%3!=0) $argon2='$argon2i$v=19$m=16384,t=4,p=4'.$argon;
+            if($g['data']['height']>=80000&&$g['data']['height']%2!=0) $argon2='$argon2i$v=19$m=16384,t=4,p=4'.$argon;
 
 
     $base = "$public_key-$nonce-".$g['data']['block']."-".$g['data']['difficulty'];
