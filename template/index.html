@@ -69,17 +69,13 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-xs-5 ph10 text-center">
-                                        <i class="fa fa-line-chart"></i>
+                                        <h2 class="">{$total_gpu}</h2>
+                                        <h6 class="text-muted">GPU Hash Rate ({$gpu_ext})</h6>
+
                                     </div>
                                     <div class="col-xs-7 pl35 text-center">
                                         <h2 class="">{$total_hr}</h2>
-                                        <h6 class="text-muted">Hash Rate ({$hr_ext})</h6>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="info-block-stat">
-                                            <span>Average HR /s</span>
-                                            <span>{$avg_hr}</span>
-                                        </div>
+                                        <h6 class="text-muted">CPU Hash Rate ({$hr_ext})</h6>
                                     </div>
                                 </div>
                             </div>
@@ -153,11 +149,12 @@
                                             <thead>
                                             <tr>
                                             <tr>
-                                            <th class="va-m">Shares</th>
-                                            <th class="va-m">%</th>
- 					    <th class="va-m">Hash Rate</th>
-	<th class="va-m">Pending</th>
-                                            <th class="va-m">Total paid</th>
+                                            	<th class="va-m">Shares</th>
+                                            	<th class="va-m">%</th>
+ 					     	<th class="va-m">CPU HR</th>
+                                               	<th class="va-m">GPU HR</th>
+     						<th class="va-m">Pending</th>
+                                            	<th class="va-m">Total paid</th>
 						<th class="va-m">Miner</th>
                                         </tr>
                                             </tr>
@@ -166,10 +163,10 @@
                                             <tr>
                                             <tr>
                                                 <th class="va-m">Shares</th>
- <th class="va-m">%</th>
-
-                                                <th class="va-m">Hash Rate</th>
-<th class="va-m">Pending</th>
+ 						<th class="va-m">%</th>
+ 						<th class="va-m">CPU HR</th>
+                                                <th class="va-m">GPU HR</th>
+						<th class="va-m">Pending</th>
                                                 <th class="va-m">Total paid</th>
 						<th class="va-m">Miner</th>
                                             </tr>
@@ -181,6 +178,7 @@
                                                     <td>{$value.historic}</td>
                                                     <td>{$value.percent} %</td>
 						    <td>{$value.hashrate}</td>
+							<td>{$value.gpuhr}</td>
 						    <td>{$value.pending}</td>
                                                     <td>{$value.total_paid}</td>
                                                     <td>{$value.id}</td>
