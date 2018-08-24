@@ -95,9 +95,15 @@ ALTER TABLE `workers`
 
 ALTER TABLE `payments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
+
 
 INSERT INTO `info` (`id`, `val`) VALUES
 ('total_hash_rate', '0'),
 ('total_paid', '0');
 
+ALTER TABLE `miners` ADD `gpuhr` INT NULL DEFAULT '0' AFTER `hashrate`; 
+ALTER TABLE `workers` ADD `gpuhr` INT NULL DEFAULT '0' AFTER `hashrate`; 
+INSERT INTO `info` (`id`, `val`) VALUES ('total_gpu_hr', '');
+
+
+COMMIT;
