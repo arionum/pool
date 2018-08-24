@@ -59,6 +59,25 @@ if ($q == "") {
         $total_hr_ext = "H/s";
     }
 
+    $total_hr=$db->single("SELECT val FROM info WHERE id='total_gpu_hr'");
+
+    if($total_hr>=1000000){
+        $total_gpu_text=number_format($total_hr/1000000,2);
+        $total_gpu_ext="MH/s";
+    }
+    elseif($total_hr>1000&&$total_hr<1000000) {
+        $total_gpu_text=number_format($total_hr/1000,2);
+        $total_gpu_ext="KH/s";
+    } else {
+        $total_gpu_text=number_format($total_hr)." H/s";
+        $total_gpu_ext="H/s";
+    }
+
+       $tpl->assign("gpu_ext",$total_gpu_ext);
+        $tpl->assign("total_gpu",$total_gpu_text);
+
+    
+    
     $tpl->assign("avg_hr", $avg_hr);
     $tpl->assign("hr_ext", $total_hr_ext);
     $tpl->assign("total_hr", $total_hr_text);
