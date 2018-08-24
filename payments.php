@@ -77,6 +77,7 @@ echo "Current block $current\n";
 
 
 $db->run("DELETE FROM miners WHERE historic+shares<=20");
+$db->run("UPDATE miners SET gpuhr=(SELECT SUM(gpuhr) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
 $db->run("UPDATE miners SET hashrate=(SELECT SUM(hashrate) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
 $db->run(
     "UPDATE miners SET pending=(SELECT SUM(val) FROM payments WHERE done=0 AND payments.address=miners.id AND height>=:h)",
