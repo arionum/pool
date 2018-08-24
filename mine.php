@@ -35,10 +35,10 @@ if ($q == "info") {
 
         $worker = md5($miner.$_GET['worker'].$ip);
         $hr = intval($_GET['hashrate']);
-
-        $bind = [":id" => $worker, ":hr" => $hr, ":hr2" => $hr, ":miner" => $miner, ":ip" => $ip, ":ip2" => $ip];
+        $gpuhr=intval($_GET['gpuhr']+$_GET['hrgpu']);
+        $bind = [":id" => $worker, ":hr" => $hr, ":hr2" => $hr, ":miner" => $miner, ":ip" => $ip, ":ip2" => $ip, ":gpuhr"=>$gpuhr, ":gpuhr2"=>$gpuhr];
         $db->run(
-            "INSERT into workers SET id=:id, hashrate=:hr,updated=UNIX_TIMESTAMP(), miner=:miner, ip=:ip ON DUPLICATE KEY UPDATE updated=UNIX_TIMESTAMP(), hashrate=:hr2, ip=:ip2",
+            "INSERT into workers SET id=:id, hashrate=:hr,updated=UNIX_TIMESTAMP(), miner=:miner, ip=:ip, gpuhr=:gpuhr ON DUPLICATE KEY UPDATE updated=UNIX_TIMESTAMP(), hashrate=:hr2, ip=:ip2, gpuhr=:gpuhr2",
             $bind
         );
     }
