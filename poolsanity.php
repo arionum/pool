@@ -45,21 +45,23 @@ while (1) {
         $db->run("UPDATE miners SET historic=historic*0.95+shares, shares=0,bestdl=1000000");
         $db->run("TRUNCATE table nonces");
 
-        $r = $db->run("SELECT * FROM miners WHERE historic>0");
-        $total_hr = 0;
-        foreach ($r as $x) {
-            $thr = $db->single(
-                "SELECT SUM(hashrate) FROM workers WHERE miner=:m AND updated>UNIX_TIMESTAMP()-3600",
-                [":m" => $x['id']]
-            );
-            if ($x['historic'] / $thr < 2) {
-                $thr = 0;
-                echo "$x[id] [$x[historic]] -> ".$x['historic'] / $thr."\n";
-            }
-            $total_hr += $thr;
-        }
-        echo "Total hr: $total_hr\n";
-        $db->run("UPDATE info SET val=:thr WHERE id='total_hash_rate'", [":thr" => $total_hr]);
+           $r=$db->run("SELECT * FROM miners WHERE historic>0");
+                $total_hr=0;
+                $total_gpu=0;
+                foreach($r as $x){
+                        $thr=$db->row("SELECT SUM(hashrate) as cpu, SUM(gpuhr) as gpu FROM workers WHERE miner=:m AND updated>UNIX_TIMESTAMP()-3600",array(":m"=>$x['id']));
+                        if($x['historic']/$thr['cpu']<2||$x['historic']/$thr['gpu']<2) {
+                                $thr['cpu']=0;
+                                $thr['gpu']=0;
+                                echo "$x[id] [$x[historic]] -> ".$x['historic']/$thr[cpu]."\n";
+                        }
+                        $total_hr+=$thr['cpu'];
+                        $total_gpu+=$thr['gpu'];
+                }
+            echo "Total hr: $total_hr\n";
+            $db->run("UPDATE info SET val=:thr WHERE id='total_hash_rate'",array(":thr"=>$total_hr));
+            $db->run("UPDATE info SET val=:thr WHERE id='total_gpu_hr'",array(":thr"=>$total_gpu));
+
     }
 
 
