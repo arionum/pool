@@ -2,6 +2,7 @@
 #die("maintenance");
 require("db.php");
 $q = san($_GET['q']);
+$id = san($_GET['id']);
 
 use Rain\Tpl;
 
@@ -13,6 +14,7 @@ Tpl::configure('php_enabled', false);
 
 $tpl = new Tpl();
 $tpl->assign("q", $q);
+$tpl->assign("id", $id);
 $tpl->draw('header');
 
 if ($q == "") {
@@ -92,6 +94,27 @@ if ($q == "") {
     $tpl->assign("difficulty", 200000000 - $current['difficulty']);
 
     $tpl->draw("index");
+} elseif ($q == 'acc') {
+
+    $r = $db->run("SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
+    //var_dump($r);
+    $b = [];
+    foreach ($r as $x) {
+        //$x['reward'] = number_format($x['reward'], 2);
+        $b[] = $x;
+    }
+
+    $r = $db->run("SELECT * FROM miners WHERE id=:miner",  [":miner" => $id] );
+ 
+    $tpl->assign("account", $r);
+
+    $r = $db->run("SELECT sum(hashrate) AS cpuhr, sum(gpuhr) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id]);
+  
+    $tpl->assign("hashrate", $r);
+
+    $tpl->assign("workers", $b);
+    $tpl->draw("account");
+
 } elseif ($q == "blocks") {
     $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 100");
     $b = [];

@@ -1,0 +1,106 @@
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12 allcp-grid ">
+        <div class="panel of-h" id="spy1">
+            <div class="panel-heading br-b-o w-mt-15">
+                <span class="panel-title"><h4>Miner: {$id}</h4></span>
+            </div>
+            <div class="panel-body pn mt25">
+                <div class="table-responsive">
+                    <table class="table display">
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    {loop="$hashrate"}
+                    <tr>
+                        <td>CPU hashrate:</td>
+                        <td>{$value.cpuhr}</td>
+                    </tr>
+                    <tr>
+                        <td>GPU hashrate:</td>
+                        <td>{$value.gpuhr}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    {/loop}
+                    {loop="$account"}
+                    <tr>
+                        <td>Pending balance:</td>
+                        <td>{$value.pending}</td>
+                    </tr>
+                    <tr>
+                        <td>Total paid:</td>
+                        <td>{$value.total_paid}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td>Shares for current block:</td>
+                        <td>{$value.shares}</td>
+                    </tr>
+                    <tr>
+                        <td>Total historic shares:</td>
+                        <td>{$value.historic}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Best nonce for current block (best DL):</td>
+                        <td>{$value.bestdl}</td>
+                    </tr>
+                    {/loop}
+                    </table>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12 allcp-grid ">
+        <div class="panel of-h" id="spy1">
+            <div class="panel-heading br-b-o w-mt-15">
+                <span class="panel-title">Miner's workers</span>
+            </div>
+            <div class="panel-body pn mt25">
+                <div class="table-responsive">
+                    <table class="table display datatable" id="datatable1">
+                        <thead>
+                        <tr>
+                            <th class="va-m">ID</th>
+                            <th class="va-m">CPU hr</th>
+                            <th class="va-m">GPU hr</th>
+                            <th class="va-m">Updated</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                        <tr>
+                        <th class="va-m">ID</th>
+                        <th class="va-m">CPU hr</th>
+                        <th class="va-m">GPU hr</th>
+                        <th class="va-m">Updated</th>
+                        </tr>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {loop="$workers"}
+                        <tr>
+                            <td>{$value.id}</td>
+                            <td>{$value.hashrate}</td>
+                            <td>{$value.gpuhr}</td>
+                            <td>{$value.updated}</td>
+                        </tr>
+                        {/loop}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+
+
