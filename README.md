@@ -15,6 +15,8 @@ The requirements are the same as for the arionum node:
 - php-gmp
 - php-bcmath
 
+after cloning repository do `composer update` - it will download required code
+
 ## Usage
 
 1. Create a new database for the pool (separate from the node one).
