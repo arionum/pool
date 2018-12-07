@@ -6,7 +6,7 @@ $id = san($_GET['id']);
 
 use Rain\Tpl;
 
-Tpl::configure('tpl_dir', 'template2/');
+Tpl::configure('tpl_dir', 'template/');
 Tpl::configure('debug', true);
 Tpl::configure('cache_dir', 'cache/template/');
 Tpl::configure('path_replace', false);
