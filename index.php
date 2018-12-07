@@ -124,7 +124,7 @@ if ($q == "") {
     $tpl->assign("account", $b);
 
 
-    $r = $db->run("SELECT sum(hashrate) AS cpuhr, sum(gpuhr) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id]);
+    $r = $db->run("SELECT count(id) as count, sum(hashrate) AS cpuhr, sum(gpuhr) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id]);
     $c = [];
     foreach ($r as $x) {
         $x['cpuhr'] = number_format($x['cpuhr'], 0);

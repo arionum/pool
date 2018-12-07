@@ -22,6 +22,7 @@ function curl_post($url, $post)
 $ip = $_SERVER['REMOTE_ADDR'];
 
 $q = san($_GET['q']);
+$worker = san($_GET['worker']);
 $max_dl = $pool_config['max_deadline'];
 
 
@@ -33,7 +34,7 @@ if ($q == "info") {
             die("invalid wallet address. This address comes from a broken wallet file!");
         }
 
-        $worker = md5($miner.$_GET['worker'].$ip);
+        //$worker = md5($miner.$_GET['worker'].$ip);
         $hr = intval($_GET['hashrate']);
         $gpuhr=intval($_GET['gpuhr']+$_GET['hrgpu']);
         $bind = [":id" => $worker, ":hr" => $hr, ":hr2" => $hr, ":miner" => $miner, ":ip" => $ip, ":ip2" => $ip, ":gpuhr"=>$gpuhr, ":gpuhr2"=>$gpuhr];
