@@ -78,7 +78,10 @@ if ($q == "") {
        $tpl->assign("gpu_ext",$total_gpu_ext);
         $tpl->assign("total_gpu",$total_gpu_text);
 
-    
+    $agem = time();    
+    $agem = $current['date'];
+
+    $agem = ( time() - $current['date']) ; 
     
     $tpl->assign("avg_hr", $avg_hr);
     $tpl->assign("hr_ext", $total_hr_ext);
@@ -92,6 +95,10 @@ if ($q == "") {
     $tpl->assign("shares", $shares);
     $tpl->assign("historic", $historic);
     $tpl->assign("difficulty", 200000000 - $current['difficulty']);
+    if ($current['height'] % 2) $blocktype = "GPU"; else $blocktype = "CPU"; 
+    $tpl->assign("blocktype", $blocktype);    
+    $tpl->assign("agem", $agem);
+
 
     $tpl->draw("index");
 } elseif ($q == 'acc') {

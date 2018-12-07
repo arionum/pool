@@ -12,8 +12,11 @@ $pool_config['node_path'] = '/var/www/node';
 // The access URL for node
 $pool_config['node_url'] = 'http://127.0.0.1:30000';
 
-// The maximum deadline that is allowed for pool miners
+// The maximum deadline that is allowed for pool miners // cpu block type
 $pool_config['max_deadline'] = 1000000;
+
+// The maximum deadline that is allowed for pool miners // gpu block type
+$pool_config['max_deadline_gpu'] = 1000000;
 
 /*
 |--------------------------------------------------------------------------

@@ -64,8 +64,9 @@ while (1) {
 
     }
 
+    if ($current % 2) $max_dl = $pool_config['max_deadline_gpu']; else $max_dl = $pool_config['max_deadline']; 
 
-    $max_dl = $pool_config['max_deadline'];
+    
     $cache_file = "cache/info.txt";
 
     $f = file_get_contents($pool_config['node_url']."/mine.php?q=info");
