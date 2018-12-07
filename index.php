@@ -140,9 +140,7 @@ if ($q == "") {
         $c['cpuhr'] = $c['cpuhr'] + $x['cpuhr'];
         $c['gpuhr'] = $c['gpuhr'] + $x['gpuhr'];
     }
-
-    var_dump($c);
-
+    
     $tpl->assign("hashrate", $c);
 
 
