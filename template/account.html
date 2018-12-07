@@ -11,19 +11,17 @@
                     <tr>
                         <td colspan="2">&nbsp;</td>
                     </tr>
-                    {loop="$hashrate"}
                     <tr>
                         <td>CPU hashrate:</td>
-                        <td>{$value.cpuhr} h/s</td>
+                        <td>{$hashrate['cpuhr']} h/s</td>
                     </tr>
                     <tr>
                         <td>GPU hashrate:</td>
-                        <td>{$value.gpuhr} h/s</td>
+                        <td>{$hashrate['gpuhr']} h/s</td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
                     </tr>
-                    {/loop}
                     {loop="$account"}
                     <tr>
                         <td>Pending balance:</td>

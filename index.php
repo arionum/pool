@@ -132,12 +132,17 @@ if ($q == "") {
 
 
     $r = $db->run("SELECT sum(hashrate) / count(id) AS cpuhr, sum(gpuhr) / count(id) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id]);
-    $c = [];
+    $c['cpuhr'] = 0;
+    $c['gpuhr'] = 0;
     foreach ($r as $x) {
         $x['cpuhr'] = number_format($x['cpuhr'], 0);
         $x['gpuhr'] = number_format($x['gpuhr'], 0);
-        $c[] = $x;
+        $c['cpuhr'] = $c['cpuhr'] + $x['cpuhr'];
+        $c['gpuhr'] = $c['gpuhr'] + $x['gpuhr'];
     }
+
+    var_dump($c);
+
     $tpl->assign("hashrate", $c);
 
 
