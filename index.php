@@ -99,8 +99,8 @@ if ($q == "") {
     $r = $db->run("SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
     $b = [];
     foreach ($r as $x) {
-        $x['hashrate'] = number_format($x['hashrate'], 2);
-        $x['gpuhr'] = number_format($x['gpuhr'], 2);
+        $x['hashrate'] = number_format($x['hashrate'], 0);
+        $x['gpuhr'] = number_format($x['gpuhr'], 0);
 
         $x['updated'] = date('Y/m/d H:i:s', $x['updated']);
         
