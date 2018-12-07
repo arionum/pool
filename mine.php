@@ -131,7 +131,7 @@ if ($q == "info") {
 
             if ($bl['generator'] == $pool_config['address'] && $added == 0) {
                 $reward = $aro->single(
-                    "SELECT val FROM transactions WHERE block=:bl AND message="" AND version=0",
+                    "SELECT val FROM transactions WHERE block=:bl AND message='' AND version=0",
                     [":bl" => $bl['id']]
                 );
                 if ($reward == 0) {
