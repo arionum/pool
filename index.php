@@ -112,8 +112,8 @@ if ($q == "") {
     $r = $db->run("SELECT * FROM miners WHERE id=:miner",  [":miner" => $id] );
     $b = [];
     foreach ($r as $x) {
-        $x['hashrate'] = number_format($x['hashrate'], 2);
-        $x['gpuhr'] = number_format($x['gpuhr'], 2);
+        $x['hashrate'] = number_format($x['hashrate'], 0);
+        $x['gpuhr'] = number_format($x['gpuhr'], 0);
 
         $x['pending'] = number_format($x['pending'], 2);
         $x['total_paid'] = number_format($x['total_paid'], 2);
@@ -127,8 +127,8 @@ if ($q == "") {
     $r = $db->run("SELECT sum(hashrate) AS cpuhr, sum(gpuhr) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id]);
     $c = [];
     foreach ($r as $x) {
-        $x['cpuhr'] = number_format($x['cpuhr'], 2);
-        $x['gpuhr'] = number_format($x['gpuhr'], 2);
+        $x['cpuhr'] = number_format($x['cpuhr'], 0);
+        $x['gpuhr'] = number_format($x['gpuhr'], 0);
         $c[] = $x;
     }
     $tpl->assign("hashrate", $c);
