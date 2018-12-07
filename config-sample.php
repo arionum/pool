@@ -68,3 +68,6 @@ $pool_config['miner_reward'] = 0;
 
 // The minimum payout that is required
 $pool_config['min_payout'] = 3;
+
+// The message included in payments
+$pool_config['payout_message'] = "";

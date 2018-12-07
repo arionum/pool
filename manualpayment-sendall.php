@@ -62,14 +62,14 @@ function pay_post($url, $data = [])
     return $res;
 }
 
+$pool_config['min_payout'] = 0;
+
 
 $hour = date("H");
 $min = date("i");
 
-$blocks_paid = 500;
-if ($hour == 10 && $min < 20) {
-    $blocks_paid = 5000;
-}
+$blocks_paid = 50000;
+
 
 echo "\n----------------------------------------------------------------------------------\n";
 $current = $aro->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
