@@ -135,12 +135,10 @@ if ($q == "") {
     $c['cpuhr'] = 0;
     $c['gpuhr'] = 0;
     foreach ($r as $x) {
-        $x['cpuhr'] = number_format($x['cpuhr'], 0);
-        $x['gpuhr'] = number_format($x['gpuhr'], 0);
         $c['cpuhr'] = $c['cpuhr'] + $x['cpuhr'];
         $c['gpuhr'] = $c['gpuhr'] + $x['gpuhr'];
     }
-    
+
     $tpl->assign("hashrate", $c);
 
 
