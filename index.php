@@ -18,7 +18,7 @@ $tpl->assign("q", $q);
 $tpl->assign("id", $id);
 $tpl->draw('header');
 
-if ($q == "") {
+if ($q === '') {
     $current = $aro->row("SELECT * FROM blocks ORDER by height DESC LIMIT 1");
     $last_won = $db->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
 
@@ -48,7 +48,7 @@ if ($q == "") {
 
     $total_hr = $db->single("SELECT val FROM info WHERE id='total_hash_rate'");
     $avg_hr = floor($total_hr / $miners);
-    if ($miners == 0) {
+    if ($miners === 0) {
         $avg_hr = 0;
     }
     if ($total_hr >= 1000000) {
@@ -102,7 +102,7 @@ if ($q == "") {
 
 
     $tpl->draw("index");
-} elseif ($q == 'acc') {
+} elseif ($q === 'acc') {
     $r = $db->run(
         "SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",
         [":miner" => $id]
@@ -149,7 +149,7 @@ if ($q == "") {
 
 
     $tpl->draw("account");
-} elseif ($q == "blocks") {
+} elseif ($q === "blocks") {
     $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 100");
     $b = [];
     foreach ($r as $x) {
@@ -159,21 +159,21 @@ if ($q == "") {
 
     $tpl->assign("blocks", $b);
     $tpl->draw("blocks");
-} elseif ($q == "payments") {
+} elseif ($q === "payments") {
     $r = $db->run("SELECT id,address,val,done,txn FROM payments ORDER by id DESC LIMIT 5000");
     $b = [];
     foreach ($r as $x) {
-        if ($x['done'] == 0) {
-            $x['txn'] = "Pending";
+        if ($x['done'] === 0) {
+            $x['txn'] = 'Pending';
         }
         $b[] = $x;
     }
 
     $tpl->assign("payments", $b);
     $tpl->draw("payments");
-} elseif ($q == "benchmarks") {
+} elseif ($q === "benchmarks") {
     $tpl->draw("benchmarks");
-} elseif ($q == "info") {
+} elseif ($q === "info") {
     $tpl->draw("info");
 }
 

@@ -26,11 +26,11 @@ $q = san($_GET['q']);
 $max_dl = $pool_config['max_deadline'];
 
 
-if ($q == "info") {
+if ($q === "info") {
     $time = time();
     if ($_GET['hashrate'] > 0) {
         $miner = san($_GET['address']);
-        if ($miner == '3uj7kyCcy5q6A1s1DQkgb58zXz6mLsjHpaoEkYxL6TjzkRP7muGZaXeGNcqk1bTgpQTVDuwPoKh49dGQn8bMwdBZ' || $miner == '4EtWPLwbUAs2JNnqb8yprvAKYCfA4dU3bJTRm2KjnM6f811MAh9qr7wrHABCHrnWPTdgmEF8iXqRBu2XSPHMuHnR') {
+        if ($miner === '3uj7kyCcy5q6A1s1DQkgb58zXz6mLsjHpaoEkYxL6TjzkRP7muGZaXeGNcqk1bTgpQTVDuwPoKh49dGQn8bMwdBZ' || $miner === '4EtWPLwbUAs2JNnqb8yprvAKYCfA4dU3bJTRm2KjnM6f811MAh9qr7wrHABCHrnWPTdgmEF8iXqRBu2XSPHMuHnR') {
             die("invalid wallet address. This address comes from a broken wallet file!");
         }
 
@@ -59,9 +59,9 @@ if ($q == "info") {
     exit;
 }
 
-if ($q == "submitNonce") {
+if ($q === "submitNonce") {
     $reject = $db->single("SELECT COUNT(1) FROM rejects WHERE ip=:ip AND data>UNIX_TIMESTAMP()-20", [":ip" => $ip]);
-    if ($reject == 1) {
+    if ($reject === 1) {
         api_err("rejected");
     }
 
@@ -70,7 +70,7 @@ if ($q == "submitNonce") {
     $address = san($_POST['address']);
 
     $chk = $db->single("SELECT count(1) FROM nonces WHERE nonce=:nonce", [":nonce" => $nonce]);
-    if ($chk != 0) {
+    if ($chk !== 0) {
         $db->run("INSERT into abusers SET miner=:miner, nonce=:nonce", [":miner" => $address, ":nonce" => $nonce]);
         api_err("duplicate");
         exit;
@@ -81,7 +81,7 @@ if ($q == "submitNonce") {
     $f = file_get_contents($pool_config['node_url']."/mine.php?q=info");
     $g = json_decode($f, true);
 
-    if ($_POST['height'] > 1 && $g['data']['height'] != $_POST['height']) {
+    if ($_POST['height'] > 1 && $g['data']['height'] !== $_POST['height']) {
         api_err('stale block');
     }
 
@@ -89,7 +89,7 @@ if ($q == "submitNonce") {
 
 
     $argon2 = '$argon2i$v=19$m=524288,t=1,p=1'.$argon;
-    if ($g['data']['height'] >= 80000 && $g['data']['height'] % 2 != 0) {
+    if ($g['data']['height'] >= 80000 && $g['data']['height'] % 2 !== 0) {
         $argon2 = '$argon2i$v=19$m=16384,t=4,p=4'.$argon;
     }
 
@@ -134,16 +134,16 @@ if ($q == "submitNonce") {
 
         $res = file_get_contents($pool_config['node_url']."/mine.php?q=submitNonce", false, $context);
         $data = json_decode($res, true);
-        if ($data['status'] == "ok") {
+        if ($data['status'] === "ok") {
             $bl = $aro->row("SELECT * FROM blocks ORDER by height DESC LIMIT 1");
             $added = $db->single("SELECT COUNT(1) FROM blocks WHERE id=:id", [":id" => $bl['id']]);
 
-            if ($added == 0 && $bl['generator'] == $pool_config['address']) {
+            if ($added === 0 && $bl['generator'] === $pool_config['address']) {
                 $reward = $aro->single(
                     "SELECT val FROM transactions WHERE block=:bl AND message='' AND version=0",
                     [":bl" => $bl['id']]
                 );
-                if ($reward == 0) {
+                if ($reward === 0) {
                     api_err("something went wrong");
                 }
                 $original_reward = $reward;
@@ -165,7 +165,7 @@ if ($q == "submitNonce") {
                     if ($x['historic'] > 0) {
                         $crw += ($x['historic'] / $total_historic) * $historic_reward;
                     }
-                    if ($x['id'] == $address) {
+                    if ($x['id'] === $address) {
                         $crw += $miner_reward;
                     }
                     $db->run(

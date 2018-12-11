@@ -66,7 +66,7 @@ $hour = date("H");
 $min = date("i");
 
 $blocks_paid = 500;
-if ($hour == 10 && $min < 20) {
+if ($hour === 10 && $min < 20) {
     $blocks_paid = 5000;
 }
 
@@ -88,7 +88,7 @@ $r = $db->run(
     "SELECT DISTINCT block FROM payments WHERE height<:h AND done=0 AND height>=:h2",
     [":h" => $current - 10, ":h2" => $current - $blocks_paid]
 );
-if (count($r) == 0) {
+if (count($r) === 0) {
     die("No payments pending\n");
 }
 
@@ -99,7 +99,7 @@ $db->run("DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-3600");
 foreach ($r as $x) {
     echo "Checking $x[block]\n";
     $s = $aro->single("SELECT COUNT(1) FROM blocks WHERE id=:id", [":id" => $x['block']]);
-    if ($s == 0) {
+    if ($s === 0) {
         $db->run("DELETE FROM blocks WHERE id=:id", [":id" => $x['block']]);
         $db->run("DELETE FROM payments WHERE block=:id", [":id" => $x['block']]);
         echo "Deleted block: $x[block]\n";
@@ -138,7 +138,7 @@ foreach ($r as $x) {
     ]);
     echo "$val\n";
     echo "$x[address]\n";
-    if ($res['status'] != "ok") {
+    if ($res['status'] !== "ok") {
         print("ERROR: $res[data]\n");
     } else {
         $total_paid += $x['v'];
