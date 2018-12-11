@@ -73,4 +73,4 @@ $pool_config['miner_reward'] = 0;
 $pool_config['min_payout'] = 3;
 
 // The message included in payments
-$pool_config['payout_message'] = "";
+$pool_config['payout_message'] = '';

@@ -24,15 +24,15 @@ function shut_down()
     echo "\n# ShutDown #\n";
 }
 
-register_shutdown_function("shut_down");
+register_shutdown_function('shut_down');
 ###############################################
 
 set_time_limit(0);
-if (php_sapi_name() !== 'cli') {
-    die("This should only be run as cli");
+if (PHP_SAPI !== 'cli') {
+    die('This should only be run as cli');
 }
 
-require_once("db.php");
+require_once __DIR__.'/db.php';
 
 function pay_post($url, $data = [])
 {
@@ -41,16 +41,16 @@ function pay_post($url, $data = [])
     $postdata = http_build_query(
         [
             'data' => json_encode($data),
-            "coin" => " arionum",
+            'coin' => ' arionum',
         ]
     );
 
     $opts = [
         'http' =>
             [
-                'timeout' => "300",
-                'method'  => 'POST',
-                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'timeout' => '300',
+                'method' => 'POST',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
                 'content' => $postdata,
             ],
     ];
@@ -58,51 +58,63 @@ function pay_post($url, $data = [])
     $context = stream_context_create($opts);
 
     $result = file_get_contents($peer.$url, false, $context);
-    $res = json_decode($result, true);
-    return $res;
+    return json_decode($result, true);
 }
 
 $pool_config['min_payout'] = 0;
 
 
-$hour = date("H");
-$min = date("i");
+$hour = date('H');
+$min = date('i');
 
 $blocks_paid = 50000;
 
 
 echo "\n----------------------------------------------------------------------------------\n";
-$current = $aro->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
+$current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
 
-$db->run("DELETE FROM miners WHERE historic+shares<=20");
-$db->run("UPDATE miners SET gpuhr=(SELECT SUM(gpuhr) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
-$db->run("UPDATE miners SET hashrate=(SELECT SUM(hashrate) FROM workers WHERE miner=miners.id AND updated>UNIX_TIMESTAMP()-3600)");
+$db->run('DELETE FROM miners WHERE historic+shares<=20');
+$db->run('UPDATE miners
+          SET gpuhr = (
+            SELECT SUM(gpuhr)
+            FROM workers
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600
+          )');
+$db->run('UPDATE miners
+          SET hashrate = (
+            SELECT SUM(hashrate)
+            FROM workers
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600)');
 $db->run(
-    "UPDATE miners SET pending=(SELECT SUM(val) FROM payments WHERE done=0 AND payments.address=miners.id AND height>=:h)",
-    [":h" => $current - $blocks_paid]
+    'UPDATE miners
+     SET pending = (
+       SELECT SUM(val)
+       FROM payments
+       WHERE done = 0 AND payments.address = miners.id AND height >= :h)',
+    [':h' => $current - $blocks_paid]
 );
 
 
 $r = $db->run(
-    "SELECT DISTINCT block FROM payments WHERE height<:h AND done=0 AND height>=:h2",
-    [":h" => $current - 10, ":h2" => $current - $blocks_paid]
+    'SELECT DISTINCT block FROM payments WHERE height<:h AND done=0 AND height>=:h2',
+    [':h' => $current - 10, ':h2' => $current - $blocks_paid]
 );
-if (count($r) == 0) {
+if (count($r) === 0) {
     die("No payments pending\n");
 }
 
-$db->run("DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-3600");
-$db->run("DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-3600");
+$db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-3600');
+$db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-3600');
 
 // check for orphan blocks
 foreach ($r as $x) {
     echo "Checking $x[block]\n";
-    $s = $aro->single("SELECT COUNT(1) FROM blocks WHERE id=:id", [":id" => $x['block']]);
-    if ($s == 0) {
-        $db->run("DELETE FROM blocks WHERE id=:id", [":id" => $x['block']]);
-        $db->run("DELETE FROM payments WHERE block=:id", [":id" => $x['block']]);
+    $s = $aro->single('SELECT COUNT(1) FROM blocks WHERE id=:id', [':id' => $x['block']]);
+    if ($s === 0) {
+        $db->run('DELETE FROM blocks WHERE id=:id', [':id' => $x['block']]);
+        $db->run('DELETE FROM payments WHERE block=:id', [':id' => $x['block']]);
         echo "Deleted block: $x[block]\n";
     }
 }
@@ -110,8 +122,8 @@ foreach ($r as $x) {
 
 $total_paid = 0;
 $r = $db->run(
-    "SELECT SUM(val) as v, address FROM payments WHERE height<:h AND height>=:h2 AND done=0 GROUP by address",
-    [":h" => $current - 10, ":h2" => $current - $blocks_paid]
+    'SELECT SUM(val) as v, address FROM payments WHERE height<:h AND height>=:h2 AND done=0 GROUP by address',
+    [':h' => $current - 10, ':h2' => $current - $blocks_paid]
 );
 foreach ($r as $x) {
     if ($x['v'] < $pool_config['min_payout']) {
@@ -124,37 +136,37 @@ foreach ($r as $x) {
     if ($fee > 10) {
         $fee = 10;
     }
-    $val = number_format($x['v'] - $fee, 8, ".", "");
+    $val = number_format($x['v'] - $fee, 8, '.', '');
     #$val=intval($val);
     $public_key = $pool_config['public_key'];
     $private_key = $pool_config['private_key'];
 
-    $res = pay_post("/api.php?q=send", [
-        "dst"         => $x['address'],
-        "val"         => $val,
-        "private_key" => $private_key,
-        "public_key"  => $public_key,
-        "version"     => 1,
-        "message"     => $pool_config['payout_message']
+    $res = pay_post('/api.php?q=send', [
+        'dst' => $x['address'],
+        'val' => $val,
+        'private_key' => $private_key,
+        'public_key' => $public_key,
+        'version' => 1,
+        'message' => $pool_config['payout_message'],
     ]);
     echo "$val\n";
     echo "$x[address]\n";
-    if ($res['status'] != "ok") {
+    if ($res['status'] !== 'ok') {
         print("ERROR: $res[data]\n");
     } else {
         $total_paid += $x['v'];
 
         echo "Transaction sent - $x[address] - $val! Transaction id: $res[data]\n";
         $db->run(
-            "UPDATE payments SET txn=:txn, done=1 WHERE address=:address AND height<:h AND done=0 AND height>=:h2",
+            'UPDATE payments SET txn=:txn, done=1 WHERE address=:address AND height<:h AND done=0 AND height>=:h2',
             [
-                ":h"       => $current - 10,
-                ":h2"      => $current - $blocks_paid,
-                ":txn"     => $res['data'],
-                ":address" => $x['address'],
+                ':h' => $current - 10,
+                ':h2' => $current - $blocks_paid,
+                ':txn' => $res['data'],
+                ':address' => $x['address'],
             ]
         );
-        $db->run("UPDATE miners  SET total_paid=total_paid + :h WHERE id=:p", [":h" => $x['v'], ":p" => $x['address']]);
+        $db->run('UPDATE miners  SET total_paid=total_paid + :h WHERE id=:p', [':h' => $x['v'], ':p' => $x['address']]);
         echo "DB updated\n";
     }
 }
@@ -163,14 +175,18 @@ $old = $db->single("SELECT val FROM info WHERE id='total_paid'");
 $new = $old + $total_paid;
 echo "Total paid: $new\n";
 
-$db->run("UPDATE info SET val=:s WHERE id='total_paid'", [":s" => $new]);
-$not = $db->single("SELECT SUM(val) FROM payments WHERE done=0");
+$db->run("UPDATE info SET val=:s WHERE id='total_paid'", [':s' => $new]);
+$not = $db->single('SELECT SUM(val) FROM payments WHERE done=0');
 echo "Pending balance: $not\n";
 
 
 $db->run(
-    "UPDATE miners SET pending=(SELECT SUM(val) FROM payments WHERE done=0 AND payments.address=miners.id AND height>=:h)",
-    [":h" => $current - $blocks_paid]
+    'UPDATE miners
+     SET pending = (
+       SELECT SUM(val)
+       FROM payments
+       WHERE done = 0 AND payments.address = miners.id AND height >= :h)',
+    [':h' => $current - $blocks_paid]
 );
 
-$db->run("DELETE FROM payments WHERE done=1 AND height<:h", [":h" => $current - 1000]);
+$db->run('DELETE FROM payments WHERE done=1 AND height<:h', [':h' => $current - 1000]);
