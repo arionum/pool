@@ -56,7 +56,9 @@ if ($q == "info") {
     readfile("cache/info.txt");
 
     exit;
-} elseif ($q == "submitNonce") {
+}
+
+if ($q == "submitNonce") {
     $reject = $db->single("SELECT COUNT(1) FROM rejects WHERE ip=:ip AND data>UNIX_TIMESTAMP()-20", [":ip" => $ip]);
     if ($reject == 1) {
         api_err("rejected");
@@ -212,6 +214,6 @@ if ($q == "info") {
     }
 
     api_err("rejected - block changed");
-} else {
-    api_err("invalid command");
 }
+
+api_err("invalid command");
