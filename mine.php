@@ -8,10 +8,10 @@ function curl_post($url, $post)
     curl_setopt_array($curl, [
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 5,
-        CURLOPT_TIMEOUT        => 20,
-        CURLOPT_URL            => $url,
-        CURLOPT_POST           => 1,
-        CURLOPT_POSTFIELDS     => $post,
+        CURLOPT_TIMEOUT => 20,
+        CURLOPT_URL => $url,
+        CURLOPT_POST => 1,
+        CURLOPT_POSTFIELDS => $post,
 
     ]);
     $resp = curl_exec($curl);
@@ -35,8 +35,17 @@ if ($q == "info") {
 
         $worker = $_GET['worker'];
         $hr = intval($_GET['hashrate']);
-        $gpuhr=intval($_GET['gpuhr']+$_GET['hrgpu']);
-        $bind = [":id" => $worker, ":hr" => $hr, ":hr2" => $hr, ":miner" => $miner, ":ip" => $ip, ":ip2" => $ip, ":gpuhr"=>$gpuhr, ":gpuhr2"=>$gpuhr];
+        $gpuhr = intval($_GET['gpuhr'] + $_GET['hrgpu']);
+        $bind = [
+            ":id" => $worker,
+            ":hr" => $hr,
+            ":hr2" => $hr,
+            ":miner" => $miner,
+            ":ip" => $ip,
+            ":ip2" => $ip,
+            ":gpuhr" => $gpuhr,
+            ":gpuhr2" => $gpuhr,
+        ];
         $db->run(
             "INSERT into workers SET id=:id, hashrate=:hr,updated=UNIX_TIMESTAMP(), miner=:miner, ip=:ip, gpuhr=:gpuhr ON DUPLICATE KEY UPDATE updated=UNIX_TIMESTAMP(), hashrate=:hr2, ip=:ip2, gpuhr=:gpuhr2",
             $bind
@@ -77,7 +86,9 @@ if ($q == "info") {
 
 
     $argon2 = '$argon2i$v=19$m=524288,t=1,p=1'.$argon;
-            if($g['data']['height']>=80000&&$g['data']['height']%2!=0) $argon2='$argon2i$v=19$m=16384,t=4,p=4'.$argon;
+    if ($g['data']['height'] >= 80000 && $g['data']['height'] % 2 != 0) {
+        $argon2 = '$argon2i$v=19$m=16384,t=4,p=4'.$argon;
+    }
 
 
     $base = "$public_key-$nonce-".$g['data']['block']."-".$g['data']['difficulty'];
@@ -104,18 +115,18 @@ if ($q == "info") {
         $private_key = $pool_config['private_key'];
         $postdata = http_build_query(
             [
-                'argon'       => $argon,
-                'nonce'       => $nonce,
+                'argon' => $argon,
+                'nonce' => $nonce,
                 'private_key' => $private_key,
-                'public_key'  => $public_key,
+                'public_key' => $public_key,
             ]
         );
 
         $opts = [
             'http' =>
                 [
-                    'method'  => 'POST',
-                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'method' => 'POST',
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
                     'content' => $postdata,
                     'timeout' => 120,
                 ],
@@ -165,15 +176,15 @@ if ($q == "info") {
                     );
                 }
                 $db->run("INSERT into payments SET address=:to, block=:bl, height=:height, val=:val, txn='',done=0", [
-                    ":val"    => $original_reward * $pool_config['fee'],
+                    ":val" => $original_reward * $pool_config['fee'],
                     ":height" => $bl['height'],
-                    ":bl"     => $bl['id'],
-                    ":to"     => $pool_config['fee_address'],
+                    ":bl" => $bl['id'],
+                    ":to" => $pool_config['fee_address'],
                 ]);
 
                 $db->run("INSERT IGNORE into blocks SET reward=:reward, id=:id, height=:height, miner=:miner", [
-                    ":id"     => $bl['id'],
-                    ":miner"  => $address,
+                    ":id" => $bl['id'],
+                    ":miner" => $address,
                     ":height" => $bl['height'],
                     ":reward" => $original_reward,
                 ]);
