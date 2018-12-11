@@ -61,28 +61,27 @@ if ($q == "") {
         $total_hr_ext = "H/s";
     }
 
-    $total_hr=$db->single("SELECT val FROM info WHERE id='total_gpu_hr'");
+    $total_hr = $db->single("SELECT val FROM info WHERE id='total_gpu_hr'");
 
-    if($total_hr>=1000000){
-        $total_gpu_text=number_format($total_hr/1000000,2);
-        $total_gpu_ext="MH/s";
-    }
-    elseif($total_hr>1000&&$total_hr<1000000) {
-        $total_gpu_text=number_format($total_hr/1000,2);
-        $total_gpu_ext="KH/s";
+    if ($total_hr >= 1000000) {
+        $total_gpu_text = number_format($total_hr / 1000000, 2);
+        $total_gpu_ext = "MH/s";
+    } elseif ($total_hr > 1000 && $total_hr < 1000000) {
+        $total_gpu_text = number_format($total_hr / 1000, 2);
+        $total_gpu_ext = "KH/s";
     } else {
-        $total_gpu_text=number_format($total_hr)." H/s";
-        $total_gpu_ext="H/s";
+        $total_gpu_text = number_format($total_hr)." H/s";
+        $total_gpu_ext = "H/s";
     }
 
-       $tpl->assign("gpu_ext",$total_gpu_ext);
-        $tpl->assign("total_gpu",$total_gpu_text);
+    $tpl->assign("gpu_ext", $total_gpu_ext);
+    $tpl->assign("total_gpu", $total_gpu_text);
 
-    $agem = time();    
+    $agem = time();
     $agem = $current['date'];
 
-    $agem = ( time() - $current['date']) ; 
-    
+    $agem = (time() - $current['date']);
+
     $tpl->assign("avg_hr", $avg_hr);
     $tpl->assign("hr_ext", $total_hr_ext);
     $tpl->assign("total_hr", $total_hr_text);
@@ -95,28 +94,34 @@ if ($q == "") {
     $tpl->assign("shares", $shares);
     $tpl->assign("historic", $historic);
     $tpl->assign("difficulty", 200000000 - $current['difficulty']);
-    if ($current['height'] % 2) $blocktype = "GPU"; else $blocktype = "CPU"; 
-    $tpl->assign("blocktype", $blocktype);    
+    if ($current['height'] % 2) {
+        $blocktype = "GPU";
+    } else {
+        $blocktype = "CPU";
+    }
+    $tpl->assign("blocktype", $blocktype);
     $tpl->assign("agem", $agem);
 
 
     $tpl->draw("index");
 } elseif ($q == 'acc') {
-
-    $r = $db->run("SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
+    $r = $db->run(
+        "SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",
+        [":miner" => $id]
+    );
     $b = [];
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate'], 0);
         $x['gpuhr'] = number_format($x['gpuhr'], 0);
 
         $x['updated'] = date('Y/m/d H:i:s', $x['updated']);
-        
+
         $b[] = $x;
     }
     $tpl->assign("workers", $b);
 
 
-    $r = $db->run("SELECT * FROM miners WHERE id=:miner",  [":miner" => $id] );
+    $r = $db->run("SELECT * FROM miners WHERE id=:miner", [":miner" => $id]);
     $b = [];
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate'], 0);
@@ -125,13 +130,16 @@ if ($q == "") {
         $x['pending'] = number_format($x['pending'], 2);
         $x['total_paid'] = number_format($x['total_paid'], 2);
 
-        $x['updated'] = date('Y/m/d H:i:s', $x['updated']); 
+        $x['updated'] = date('Y/m/d H:i:s', $x['updated']);
         $b[] = $x;
     }
     $tpl->assign("account", $b);
 
 
-    $r = $db->run("SELECT sum(hashrate) / count(id) AS cpuhr, sum(gpuhr) / count(id) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id]);
+    $r = $db->run(
+        "SELECT sum(hashrate) / count(id) AS cpuhr, sum(gpuhr) / count(id) as gpuhr FROM workers WHERE miner=:miner GROUP BY id",
+        [":miner" => $id]
+    );
     $c['cpuhr'] = 0;
     $c['gpuhr'] = 0;
     foreach ($r as $x) {
@@ -143,7 +151,6 @@ if ($q == "") {
 
 
     $tpl->draw("account");
-
 } elseif ($q == "blocks") {
     $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 100");
     $b = [];
