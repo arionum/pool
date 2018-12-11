@@ -143,8 +143,8 @@ if ($q == "") {
     $c['cpuhr'] = 0;
     $c['gpuhr'] = 0;
     foreach ($r as $x) {
-        $c['cpuhr'] = $c['cpuhr'] + $x['cpuhr'];
-        $c['gpuhr'] = $c['gpuhr'] + $x['gpuhr'];
+        $c['cpuhr'] += $x['cpuhr'];
+        $c['gpuhr'] += $x['gpuhr'];
     }
 
     $tpl->assign("hashrate", $c);
