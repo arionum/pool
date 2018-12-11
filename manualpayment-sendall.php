@@ -49,8 +49,8 @@ function pay_post($url, $data = [])
         'http' =>
             [
                 'timeout' => "300",
-                'method'  => 'POST',
-                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'method' => 'POST',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
                 'content' => $postdata,
             ],
     ];
@@ -130,12 +130,12 @@ foreach ($r as $x) {
     $private_key = $pool_config['private_key'];
 
     $res = pay_post("/api.php?q=send", [
-        "dst"         => $x['address'],
-        "val"         => $val,
+        "dst" => $x['address'],
+        "val" => $val,
         "private_key" => $private_key,
-        "public_key"  => $public_key,
-        "version"     => 1,
-        "message"     => $pool_config['payout_message']
+        "public_key" => $public_key,
+        "version" => 1,
+        "message" => $pool_config['payout_message'],
     ]);
     echo "$val\n";
     echo "$x[address]\n";
@@ -148,9 +148,9 @@ foreach ($r as $x) {
         $db->run(
             "UPDATE payments SET txn=:txn, done=1 WHERE address=:address AND height<:h AND done=0 AND height>=:h2",
             [
-                ":h"       => $current - 10,
-                ":h2"      => $current - $blocks_paid,
-                ":txn"     => $res['data'],
+                ":h" => $current - 10,
+                ":h2" => $current - $blocks_paid,
+                ":txn" => $res['data'],
                 ":address" => $x['address'],
             ]
         );
