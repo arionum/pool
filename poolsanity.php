@@ -1,4 +1,5 @@
 <?php
+
 #################  PID SYSTEM #################
 $script_name = __FILE__;
 $scripta = explode('/', $script_name);
@@ -49,7 +50,9 @@ while (1) {
         $total_gpu = 0;
         foreach ($r as $x) {
             $thr = $db->row(
-                'SELECT SUM(hashrate) as cpu, SUM(gpuhr) as gpu FROM workers WHERE miner=:m AND updated>UNIX_TIMESTAMP()-3600',
+                'SELECT SUM(hashrate) AS cpu, SUM(gpuhr) AS gpu
+                 FROM workers
+                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 3600',
                 [':m' => $x['id']]
             );
             if ($x['historic'] / $thr['cpu'] < 2 || $x['historic'] / $thr['gpu'] < 2) {

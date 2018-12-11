@@ -30,7 +30,8 @@ if ($q === 'info') {
     $time = time();
     if ($_GET['hashrate'] > 0) {
         $miner = san($_GET['address']);
-        if ($miner === '3uj7kyCcy5q6A1s1DQkgb58zXz6mLsjHpaoEkYxL6TjzkRP7muGZaXeGNcqk1bTgpQTVDuwPoKh49dGQn8bMwdBZ' || $miner === '4EtWPLwbUAs2JNnqb8yprvAKYCfA4dU3bJTRm2KjnM6f811MAh9qr7wrHABCHrnWPTdgmEF8iXqRBu2XSPHMuHnR') {
+        if ($miner === '3uj7kyCcy5q6A1s1DQkgb58zXz6mLsjHpaoEkYxL6TjzkRP7muGZaXeGNcqk1bTgpQTVDuwPoKh49dGQn8bMwdBZ' ||
+            $miner === '4EtWPLwbUAs2JNnqb8yprvAKYCfA4dU3bJTRm2KjnM6f811MAh9qr7wrHABCHrnWPTdgmEF8iXqRBu2XSPHMuHnR') {
             die('invalid wallet address. This address comes from a broken wallet file!');
         }
 
@@ -48,7 +49,9 @@ if ($q === 'info') {
             ':gpuhr2' => $gpuhr,
         ];
         $db->run(
-            'INSERT into workers SET id=:id, hashrate=:hr,updated=UNIX_TIMESTAMP(), miner=:miner, ip=:ip, gpuhr=:gpuhr ON DUPLICATE KEY UPDATE updated=UNIX_TIMESTAMP(), hashrate=:hr2, ip=:ip2, gpuhr=:gpuhr2',
+            'INSERT INTO workers
+             SET id = :id, hashrate = :hr, updated = UNIX_TIMESTAMP(), miner = :miner, ip = :ip, gpuhr = :gpuhr
+             ON DUPLICATE KEY UPDATE updated = UNIX_TIMESTAMP(), hashrate = :hr2, ip = :ip2, gpuhr = :gpuhr2',
             $bind
         );
     }
@@ -110,7 +113,8 @@ if ($q === 'submitNonce') {
 
     $m = str_split($hash, 2);
 
-    $duration = hexdec($m[10]).hexdec($m[15]).hexdec($m[20]).hexdec($m[23]).hexdec($m[31]).hexdec($m[40]).hexdec($m[45]).hexdec($m[55]);
+    $duration = hexdec($m[10]).hexdec($m[15]).hexdec($m[20]).hexdec($m[23]).
+        hexdec($m[31]).hexdec($m[40]).hexdec($m[45]).hexdec($m[55]);
     $duration = ltrim($duration, '0');
     $result = gmp_div($duration, $g['data']['difficulty']);
 
@@ -196,7 +200,9 @@ if ($q === 'submitNonce') {
         $share = ceil(($max_dl - $result) / 100);
 
         $db->run(
-            'INSERT INTO miners SET  id=:id, shares=shares+:sh, updated=UNIX_TIMESTAMP(),bestdl=:bdl ON DUPLICATE KEY UPDATE shares=shares+:sh2, updated=UNIX_TIMESTAMP()',
+            'INSERT INTO miners
+             SET id = :id, shares = shares + :sh, updated = UNIX_TIMESTAMP(), bestdl = :bdl
+             ON DUPLICATE KEY UPDATE shares = shares + :sh2, updated = UNIX_TIMESTAMP()',
             [':id' => $address, ':sh' => $share, ':sh2' => $share, ':bdl' => (int)$result]
         );
         $db->run(

@@ -104,7 +104,10 @@ if ($q === '') {
     $tpl->draw('index');
 } elseif ($q === 'acc') {
     $r = $db->run(
-        'SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id',
+        'SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) AS gpuhr, updated
+         FROM workers
+         WHERE miner = :miner
+         GROUP BY id',
         [':miner' => $id]
     );
     $b = [];
@@ -135,7 +138,10 @@ if ($q === '') {
 
 
     $r = $db->run(
-        'SELECT sum(hashrate) / count(id) AS cpuhr, sum(gpuhr) / count(id) as gpuhr FROM workers WHERE miner=:miner GROUP BY id',
+        'SELECT sum(hashrate) / count(id) AS cpuhr, sum(gpuhr) / count(id) AS gpuhr
+         FROM workers
+         WHERE miner = :miner
+         GROUP BY id',
         [':miner' => $id]
     );
     $c['cpuhr'] = 0;
