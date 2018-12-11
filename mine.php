@@ -78,7 +78,7 @@ if ($q == "info") {
     $f = file_get_contents($pool_config['node_url']."/mine.php?q=info");
     $g = json_decode($f, true);
 
-    if ($g['data']['height'] != $_POST['height'] && $_POST['height'] > 1) {
+    if ($_POST['height'] > 1 && $g['data']['height'] != $_POST['height']) {
         api_err('stale block');
     }
 
@@ -114,12 +114,7 @@ if ($q == "info") {
     if ($result > 0 && $result <= 240) {
         $private_key = $pool_config['private_key'];
         $postdata = http_build_query(
-            [
-                'argon' => $argon,
-                'nonce' => $nonce,
-                'private_key' => $private_key,
-                'public_key' => $public_key,
-            ]
+            compact('argon', 'nonce', 'private_key', 'public_key')
         );
 
         $opts = [
@@ -140,7 +135,7 @@ if ($q == "info") {
             $bl = $aro->row("SELECT * FROM blocks ORDER by height DESC LIMIT 1");
             $added = $db->single("SELECT COUNT(1) FROM blocks WHERE id=:id", [":id" => $bl['id']]);
 
-            if ($bl['generator'] == $pool_config['address'] && $added == 0) {
+            if ($added == 0 && $bl['generator'] == $pool_config['address']) {
                 $reward = $aro->single(
                     "SELECT val FROM transactions WHERE block=:bl AND message='' AND version=0",
                     [":bl" => $bl['id']]
