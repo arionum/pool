@@ -109,8 +109,8 @@ if ($q === '') {
     );
     $b = [];
     foreach ($r as $x) {
-        $x['hashrate'] = number_format($x['hashrate'], 0);
-        $x['gpuhr'] = number_format($x['gpuhr'], 0);
+        $x['hashrate'] = number_format($x['hashrate']);
+        $x['gpuhr'] = number_format($x['gpuhr']);
 
         $x['updated'] = date('Y/m/d H:i:s', $x['updated']);
 
@@ -122,8 +122,8 @@ if ($q === '') {
     $r = $db->run("SELECT * FROM miners WHERE id=:miner", [":miner" => $id]);
     $b = [];
     foreach ($r as $x) {
-        $x['hashrate'] = number_format($x['hashrate'], 0);
-        $x['gpuhr'] = number_format($x['gpuhr'], 0);
+        $x['hashrate'] = number_format($x['hashrate']);
+        $x['gpuhr'] = number_format($x['gpuhr']);
 
         $x['pending'] = number_format($x['pending'], 2);
         $x['total_paid'] = number_format($x['total_paid'], 2);
