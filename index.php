@@ -77,9 +77,6 @@ if ($q == "") {
     $tpl->assign("gpu_ext", $total_gpu_ext);
     $tpl->assign("total_gpu", $total_gpu_text);
 
-    $agem = time();
-    $agem = $current['date'];
-
     $agem = (time() - $current['date']);
 
     $tpl->assign("avg_hr", $avg_hr);
