@@ -1,6 +1,7 @@
 <?php
 #die("maintenance");
-require("db.php");
+require_once __DIR__.'/db.php';
+
 $q = san($_GET['q']);
 $id = san($_GET['id']);
 

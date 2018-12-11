@@ -32,7 +32,7 @@ if (PHP_SAPI !== 'cli') {
     die("This should only be run as cli");
 }
 
-require_once("db.php");
+require_once __DIR__.'/db.php';
 
 function pay_post($url, $data = [])
 {

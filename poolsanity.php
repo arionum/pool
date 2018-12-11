@@ -27,10 +27,9 @@ function shut_down()
 register_shutdown_function("shut_down");
 ###############################################
 
-require_once("db.php");
-
-
+require_once __DIR__.'/db.php';
 set_time_limit(0);
+
 if (PHP_SAPI !== 'cli') {
     die("This should only be run as cli");
 }

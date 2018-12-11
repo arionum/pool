@@ -1,5 +1,6 @@
 <?php
-require_once("db.php");
+
+require_once __DIR__.'/db.php';
 set_time_limit(180);
 
 function curl_post($url, $post)
