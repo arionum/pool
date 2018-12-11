@@ -34,8 +34,8 @@ if ($q == "info") {
         }
 
         $worker = $_GET['worker'];
-        $hr = intval($_GET['hashrate']);
-        $gpuhr = intval($_GET['gpuhr'] + $_GET['hrgpu']);
+        $hr = (int)$_GET['hashrate'];
+        $gpuhr = (int)($_GET['gpuhr'] + $_GET['hrgpu']);
         $bind = [
             ":id" => $worker,
             ":hr" => $hr,
@@ -196,11 +196,11 @@ if ($q == "submitNonce") {
 
         $db->run(
             "INSERT INTO miners SET  id=:id, shares=shares+:sh, updated=UNIX_TIMESTAMP(),bestdl=:bdl ON DUPLICATE KEY UPDATE shares=shares+:sh2, updated=UNIX_TIMESTAMP()",
-            [":id" => $address, ":sh" => $share, ":sh2" => $share, ":bdl" => intval($result)]
+            [":id" => $address, ":sh" => $share, ":sh2" => $share, ":bdl" => (int)$result]
         );
         $db->run(
             "UPDATE miners SET bestdl=:bdl WHERE id=:id AND bestdl>:bdl2",
-            [":id" => $address, ":bdl" => intval($result), ":bdl2" => intval($result)]
+            [":id" => $address, ":bdl" => (int)$result, ":bdl2" => (int)$result]
         );
         api_echo("accepted");
     } else {
