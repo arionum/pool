@@ -31,7 +31,7 @@ require_once("db.php");
 
 
 set_time_limit(0);
-if (php_sapi_name() !== 'cli') {
+if (PHP_SAPI !== 'cli') {
     die("This should only be run as cli");
 }
 
