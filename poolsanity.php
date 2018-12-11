@@ -68,14 +68,9 @@ while (1) {
         $db->run("UPDATE info SET val=:thr WHERE id='total_gpu_hr'", [':thr' => $total_gpu]);
     }
 
-    if ($current % 2) {
-        $max_dl = $pool_config['max_deadline_gpu'];
-    } else {
-        $max_dl = $pool_config['max_deadline'];
-    }
+    $max_dl = ($current % 2) ? $pool_config['max_deadline_gpu'] : $pool_config['max_deadline'];
 
-
-    $cache_file = 'cache/info.txt';
+    $cache_file = "cache/info.txt";
 
     $f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
     $g = json_decode($f, true);

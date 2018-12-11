@@ -100,7 +100,6 @@ if ($q === '') {
     $tpl->assign('blocktype', $blocktype);
     $tpl->assign('agem', $agem);
 
-
     $tpl->draw('index');
 } elseif ($q === 'acc') {
     $r = $db->run(
@@ -110,6 +109,7 @@ if ($q === '') {
          GROUP BY id',
         [':miner' => $id]
     );
+
     $b = [];
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate']);
