@@ -61,21 +61,21 @@ function pay_post($url, $data = [])
     return json_decode($result, true);
 }
 
+$pool_config['min_payout'] = 0;
+
 
 $hour = date('H');
 $min = date('i');
 
-$blocks_paid = 500;
-if ($hour === 10 && $min < 20) {
-    $blocks_paid = 5000;
-}
+$blocks_paid = 50000;
+
 
 echo "\n----------------------------------------------------------------------------------\n";
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
 
-$db->run('DELETE FROM miners WHERE historic + shares <= 20');
+$db->run('DELETE FROM miners WHERE historic+shares<=20');
 $db->run('UPDATE miners
           SET gpuhr = (
             SELECT SUM(gpuhr)
@@ -86,15 +86,13 @@ $db->run('UPDATE miners
           SET hashrate = (
             SELECT SUM(hashrate)
             FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600
-          )');
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600)');
 $db->run(
     'UPDATE miners
      SET pending = (
        SELECT SUM(val)
        FROM payments
-       WHERE done = 0 AND payments.address = miners.id AND height >= :h
-     )',
+       WHERE done = 0 AND payments.address = miners.id AND height >= :h)',
     [':h' => $current - $blocks_paid]
 );
 
@@ -187,8 +185,7 @@ $db->run(
      SET pending = (
        SELECT SUM(val)
        FROM payments
-       WHERE done = 0 AND payments.address = miners.id AND height >= :h
-     )',
+       WHERE done = 0 AND payments.address = miners.id AND height >= :h)',
     [':h' => $current - $blocks_paid]
 );
 

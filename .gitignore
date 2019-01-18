@@ -1,2 +1,4 @@
 /vendor
 /cache/template
+/cache/info.txt
+/config.php

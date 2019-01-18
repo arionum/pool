@@ -10,7 +10,6 @@
                                     <div class="col-xs-7 pl35 prn text-center">
                                         <h2>{$height}</h2>
                                         <h6>Current Block</h6>
-
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="info-block-stat">
@@ -71,7 +70,6 @@
                                     <div class="col-xs-5 ph10 text-center">
                                         <h2 class="">{$total_gpu}</h2>
                                         <h6 class="text-muted">GPU Hash Rate ({$gpu_ext})</h6>
-
                                     </div>
                                     <div class="col-xs-7 pl35 text-center">
                                         <h2 class="">{$total_hr}</h2>
@@ -82,16 +80,10 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- AllCP Info -->
-            
-
-             
                     <div class="row">
                         <div class="col-xs-12 col-md-12 col-lg-12 allcp-grid ">
-
                             <!-- Widget Calendar -->
-          
                             <div class="panel of-h" id="spy1">
                                 <div class="panel-heading br-b-o w-mt-15">
                                     <span class="panel-title">Current Shares</span>
@@ -105,7 +97,7 @@
                                                 <th class="va-m">Shares</th>
                                                 <th class="va-m">%</th>
                                                 <th class="va-m">Best DL</th>
-						<th class="va-m">Miner</th>
+						                        <th class="va-m">Miner</th>
                                             </tr>
                                             </thead>
                                             <tfoot>
@@ -114,31 +106,27 @@
                                                 <th class="va-m">Shares</th>
                                                 <th class="va-m">%</th>
                                                 <th class="va-m">Best DL</th>
-						<th class="va-m">Miner</th>
+						                        <th class="va-m">Miner</th>
                                             </tr>
                                             </tr>
                                             </tfoot>
-
                                             <tbody>
-{loop="$shares"}
+                                            {loop="$shares"}
                                             <tr>
                                                 <td>{$value.shares}</td>
                                                 <td>{$value.percent} %</td>
                                                 <td>{$value.bestdl}</td>
-						<td>{$value.id}</td>
+						                        <td><a href="/?q=acc&id={$value.id}">{$value.id}</a></td>
                                             </tr>
-{/loop}
+                                            {/loop}
                                             </tbody>
                                         </table>
                                     </div>
-    
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-12">
-
-                            
-                            <div class="panel of-h" id="spy1">
+                            <div class="panel of-h" id="spy2">
                                 <div class="panel-heading br-b-o w-mt-15">
                                     <span class="panel-title">Historic Shares</span>
                                     <span class="panel-title pull-right">Total Historic Shares: {$total_historic}</span>
@@ -151,46 +139,43 @@
                                             <tr>
                                             	<th class="va-m">Shares</th>
                                             	<th class="va-m">%</th>
- 					     	<th class="va-m">CPU HR</th>
+ 					     	                    <th class="va-m">CPU HR</th>
                                                	<th class="va-m">GPU HR</th>
-     						<th class="va-m">Pending</th>
+     						                    <th class="va-m">Pending</th>
                                             	<th class="va-m">Total paid</th>
-						<th class="va-m">Miner</th>
-                                        </tr>
+						                        <th class="va-m">Miner</th>
+                                            </tr>
                                             </tr>
                                             </thead>
                                             <tfoot>
                                             <tr>
                                             <tr>
                                                 <th class="va-m">Shares</th>
- 						<th class="va-m">%</th>
- 						<th class="va-m">CPU HR</th>
+ 						                        <th class="va-m">%</th>
+ 						                        <th class="va-m">CPU HR</th>
                                                 <th class="va-m">GPU HR</th>
-						<th class="va-m">Pending</th>
+						                        <th class="va-m">Pending</th>
                                                 <th class="va-m">Total paid</th>
-						<th class="va-m">Miner</th>
+						                        <th class="va-m">Miner</th>
                                             </tr>
                                             </tr>
                                             </tfoot>
                                             <tbody>
-{loop="$historic"}
+                                            {loop="$historic"}
                                                 <tr>
                                                     <td>{$value.historic}</td>
                                                     <td>{$value.percent} %</td>
-						    <td>{$value.hashrate}</td>
-							<td>{$value.gpuhr}</td>
-						    <td>{$value.pending}</td>
+						                            <td>{$value.hashrate}</td>
+							                        <td>{$value.gpuhr}</td>
+						                            <td>{$value.pending}</td>
                                                     <td>{$value.total_paid}</td>
-                                                    <td>{$value.id}</td>
+                                                    <td><a href="/?q=acc&id={$value.id}">{$value.id}</a></td>
                                                 </tr>
-{/loop}
+                                            {/loop}
                                             </tbody>
                                         </table>
                                     </div>
-    
                                 </div>
                             </div>
-                            
-                           
                         </div>
                     </div>
