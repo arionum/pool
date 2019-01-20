@@ -15,6 +15,7 @@ Tpl::configure('php_enabled', false);
 $tpl = new Tpl();
 $tpl->assign("q", $q);
 $tpl->assign("id", $id);
+$tpl->assign("pool_name", $pool_config['pool_name']);
 $tpl->draw('header');
 
 if ($q == "") {

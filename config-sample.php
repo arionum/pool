@@ -79,4 +79,5 @@ $pool_config['payout_message'] = '';
 // Additional poolinfo
 $pool_config['pool_url'] = 'http://pooladdress.here';
 $pool_config['pool_deprecation'] = 0.02;
+$pool_config['pool_name'] = 'Your Poolname here';
 
