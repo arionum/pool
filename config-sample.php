@@ -74,3 +74,9 @@ $pool_config['min_payout'] = 3;
 
 // The message included in payments
 $pool_config['payout_message'] = '';
+
+
+// Additional poolinfo
+$pool_config['pool_url'] = 'http://pooladdress.here';
+$pool_config['pool_deprecation'] = 0.02;
+
