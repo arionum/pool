@@ -181,7 +181,7 @@ if ($q == "") {
     $tpl->assign("historic_reward", $pool_config['historic_reward']*100,0);
     $tpl->assign("server", gethostname());
     $tpl->assign("pool_url", $pool_config['pool_url']);
-    $tpl->assign("pool_deprecation", number_format($pool_config['pool_deprecation']*100,1));
+    $tpl->assign("pool_degradation", number_format($pool_config['pool_degradation']*100,1));
 
 
 

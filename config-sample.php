@@ -18,6 +18,9 @@ $pool_config['max_deadline'] = 1000000;
 // The maximum deadline that is allowed for pool miners // gpu block type
 $pool_config['max_deadline_gpu'] = 1000000;
 
+// Degradation rate of historical shares
+$pool_config['pool_degradation'] = 0.02;
+
 /*
 |--------------------------------------------------------------------------
 | Database Configuration
@@ -54,6 +57,8 @@ $pool_config['fee_address'] = 'fee wallet address';
 // The fee that the pool takes from the funds (default is 2%)
 $pool_config['fee'] = 0.02;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Payments Configuration
@@ -75,9 +80,12 @@ $pool_config['min_payout'] = 3;
 // The message included in payments
 $pool_config['payout_message'] = '';
 
+/*
+|--------------------------------------------------------------------------
+| Addiontal Pool Information
+|--------------------------------------------------------------------------
+*/
 
-// Additional poolinfo
 $pool_config['pool_url'] = 'http://pooladdress.here';
-$pool_config['pool_deprecation'] = 0.02;
 $pool_config['pool_name'] = 'Your Poolname here';
 

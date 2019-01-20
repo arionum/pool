@@ -42,7 +42,7 @@ while (1) {
     $ck = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
     if ($ck !== $current && $ck) {
         $current = $ck;
-        $db->run('UPDATE miners SET historic=historic*0.95+shares, shares=0,bestdl=1000000');
+        $db->run('UPDATE miners SET historic=historic-historic*:dr+shares, shares=0,bestdl=1000000', [':dr' => $pool_config['pool_degradation']]);
         $db->run('TRUNCATE table nonces');
 
         $r = $db->run('SELECT * FROM miners WHERE historic>0');
@@ -70,7 +70,7 @@ while (1) {
 
     $max_dl = ($current % 2) ? $pool_config['max_deadline_gpu'] : $pool_config['max_deadline'];
 
-    $cache_file = "cache/info.txt";
+    $cache_file = __DIR__."/cache/info.txt";
 
     $f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
     $g = json_decode($f, true);
