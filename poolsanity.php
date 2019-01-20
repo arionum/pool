@@ -35,6 +35,8 @@ if (PHP_SAPI !== 'cli') {
     die('This should only be run as cli');
 }
 
+if ($pool_config['pool_degradation']==null) {die('Degradation rate not set in config');}
+
 $current = 0;
 $ticks = 0;
 while (1) {
