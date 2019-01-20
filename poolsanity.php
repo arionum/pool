@@ -44,9 +44,7 @@ while (1) {
     $ck = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
     if ($ck !== $current && $ck) {
         $current = $ck;
-        $db->run('UPDATE miners SET historic=historic*0.98+shares, shares=0,bestdl=1000000');
-//	revert
-//        $db->run('UPDATE miners SET historic=historic+shares-historic*:dr, shares=0,bestdl=1000000', [':dr' => $pool_config['pool_degradation']]);
+        $db->run('UPDATE miners SET historic=historic+shares-historic*:dr, shares=0,bestdl=1000000', [':dr' => $pool_config['pool_degradation']]);
         $db->run('TRUNCATE table nonces');
 
         $r = $db->run('SELECT * FROM miners WHERE historic>0');
