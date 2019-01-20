@@ -169,6 +169,18 @@ if ($q == "") {
 //} elseif ($q == "benchmarks") {
 //    $tpl->draw("benchmarks");
 } elseif ($q == "info") {
+
+    $tpl->assign("minpayout", number_format($pool_config['min_payout'],2));
+    $tpl->assign("fee", number_format($pool_config['fee']*100,1));
+    $tpl->assign("cpu_deadline", number_format($pool_config['max_deadline']));
+    $tpl->assign("gpu_deadline", number_format($pool_config['max_deadline_gpu']));
+    $tpl->assign("poolwallet", $pool_config['address']);
+    $tpl->assign("current_reward", $pool_config['current_reward']*100);
+    $tpl->assign("miner_reward", $pool_config['miner_reward']*100);
+    $tpl->assign("historic_reward", $pool_config['historic_reward']*100);
+    $tpl->assign("server", gethostname());
+
+
     $tpl->draw("info");
 }
 
