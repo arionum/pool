@@ -16,6 +16,7 @@
                                             <span>Last won block</span>
                                             <span>{$lastwon}</span>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -68,13 +69,18 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-xs-5 ph10 text-center">
-                                        <h2 class="">{$total_gpu}</h2>
-                                        <h6 class="text-muted">GPU Hash Rate ({$gpu_ext})</h6>
+                                        <h2 class="text-muted">{$total_hr}</h2>
+                                        <h6 class="text-muted">{$hr_ext}</h6>
                                     </div>
-                                    <div class="col-xs-7 pl35 text-center">
-                                        <h2 class="">{$total_hr}</h2>
-                                        <h6 class="text-muted">CPU Hash Rate ({$hr_ext})</h6>
+                                    <div class="col-xs-7 ph35 text-center">
+                                        <h2 class="text-muted">{$total_gpu}</h2>
+                                        <h6 class="text-muted">{$gpu_ext}</h6>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="info-block-stat">
+                                            <span>CPU & GPU hashrate</span>
+                                        </div>
+
                                 </div>
                             </div>
                         </div>
@@ -86,8 +92,8 @@
                             <!-- Widget Calendar -->
                             <div class="panel of-h" id="spy1">
                                 <div class="panel-heading br-b-o w-mt-15">
-                                    <span class="panel-title">Current Shares</span>
-                                    <span class="panel-title pull-right">Total Current Shares: {$total_shares}</span>
+                                    <span class="panel-title">Total Current Shares: {$total_shares}</span>
+                                    <span class="panel-title pull-right"><font size="-1"><i>Earned by nonces submitted during current block</I></font></span>
                                 </div>
                                 <div class="panel-body pn mt25">
                                     <div class="table-responsive">
@@ -128,8 +134,8 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="panel of-h" id="spy2">
                                 <div class="panel-heading br-b-o w-mt-15">
-                                    <span class="panel-title">Historic Shares</span>
-                                    <span class="panel-title pull-right">Total Historic Shares: {$total_historic}</span>
+                                    <span class="panel-title">Total Historic Shares: {$total_historic}</span>
+                                    <span class="panel-title pull-right"><font size="-1"><i>Hashrates and payments are updated hourly</i></font></span>
                                 </div>
                                 <div class="panel-body pn mt25">
                                     <div class="table-responsive">
