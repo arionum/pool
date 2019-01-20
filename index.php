@@ -116,6 +116,12 @@ if ($q == "") {
     }
     $tpl->assign("workers", $b);
 
+	$yesterday=time()-86400;
+	$yesterday_block=$aro->single("SELECT height+1 FROM blocks WHERE date<=$yesterday ORDER by height DESC LIMIT 1");
+	$last_payment_txn=$db->single("SELECT txn FROM payments WHERE address=:miner AND done=1 ORDER by height DESC LIMIT 1", [":miner" => $id]);
+	$last_payment_time=$aro->single("SELECT date FROM transactions WHERE id=$last_payment_txn");
+	$last_payment=$db->single("SELECT val FROM payments WHERE address=:miner AND done=1 ORDER by height DESC LIMIT 1", [":miner" => $id]);
+	$past_24h=$db->single("SELECT SUM(val) FROM payments WHERE address=:miner AND height>=$yesterday_block AND done=1", [":miner" => $id]);
 
     $r = $db->run("SELECT * FROM miners WHERE id=:miner",  [":miner" => $id] );
     $b = [];
@@ -125,7 +131,9 @@ if ($q == "") {
 
         $x['pending'] = number_format($x['pending'], 2);
         $x['total_paid'] = number_format($x['total_paid'], 2);
-
+	$x['last_payment'] = number_format($last_payment, 2);
+	$x['last_paid'] =  date('Y/m/d H:i:s', $last_payment_time);
+	$x['24h_paid'] = number_format($past_24h,2);
         $x['updated'] = date('Y/m/d H:i:s', $x['updated']); 
         $b[] = $x;
     }
