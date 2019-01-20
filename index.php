@@ -109,7 +109,6 @@ if ($q == "") {
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate'], 0);
         $x['gpuhr'] = number_format($x['gpuhr'], 0);
-
         $x['updated'] = date('Y/m/d H:i:s', $x['updated']);
         
         $b[] = $x;
@@ -128,11 +127,17 @@ if ($q == "") {
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate'], 0);
         $x['gpuhr'] = number_format($x['gpuhr'], 0);
+        if ($x['bestdl'] == 1000000) {
+            $x['bestdl'] = "No nonce submitted";
+        }
 
         $x['pending'] = number_format($x['pending'], 2);
         $x['total_paid'] = number_format($x['total_paid'], 2);
 	$x['last_payment'] = number_format($last_payment, 2);
 	$x['last_paid'] =  date('Y/m/d H:i:s', $last_payment_time);
+        if ($last_payment_time == false) {
+            $x['last_paid'] = "No payment yet";
+        }
 	$x['last_txn'] = $last_payment_txn;
 	$x['24h_paid'] = number_format($past_24h,2);
         $x['updated'] = date('Y/m/d H:i:s', $x['updated']); 
