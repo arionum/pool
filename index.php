@@ -136,6 +136,9 @@ if ($q == "") {
 	$x['last_payment'] = number_format($last_payment, 2);
 	$x['last_paid'] =  date('Y/m/d H:i:s', $last_payment_time);
         if ($last_payment_time == false) {
+            $x['last_paid'] = "Payment in process";
+        }
+        if ($last_payment == 0 ) {
             $x['last_paid'] = "No payment yet";
         }
 	$x['last_txn'] = $last_payment_txn;
