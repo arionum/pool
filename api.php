@@ -63,6 +63,12 @@ elseif ($q == "payments") {
 		$total_paid=$db->single("SELECT total_paid FROM miners WHERE id='$m'");
 		$pending=$db->single("SELECT pending FROM miners WHERE id='$m'");
 		$last_payment=$db->single("SELECT SUM(val) FROM payments WHERE txn=:lasttxn",[":lasttxn"=>$last_payment_txn]);
+	        if ($last_payment_time == false) {
+       	    	$last_payment_time = "Payment in process";
+        	}
+        	if ($last_payment == 0 ) {
+            	$last_payment_time = "No payment yet";
+       		}
 		$past_24h=$db->single("SELECT SUM(val) FROM payments WHERE address='$m' AND height>=$yesterday_block AND done=1");
 		echo json_encode(array("miner"=>$miner, "total paid"=>$total_paid, "pending"=>$pending, "past_24h"=>$past_24h, "last_payment"=>$last_payment, "last_payment_date"=>$last_payment_time));
 		}
