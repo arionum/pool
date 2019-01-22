@@ -119,7 +119,7 @@ if ($q == "") {
 	$yesterday_block=$aro->single("SELECT height+1 FROM blocks WHERE date<=$yesterday ORDER by height DESC LIMIT 1");
 	$last_payment_txn=$db->single("SELECT txn FROM payments WHERE address=:miner AND done=1 ORDER by height DESC LIMIT 1", [":miner" => $id]);
 	$last_payment_time=$aro->single("SELECT date FROM transactions WHERE id=$last_payment_txn");
-	$last_payment=$db->single("SELECT SUM(val) FROM payments WHERE txn=:lasttxn", [":lasttxn" => $last_payment_txn]);
+	$last_payment=$db->single("SELECT SUM(val) FROM payments WHERE txn=:lasttxn AND done=1", [":lasttxn" => $last_payment_txn]);
 	$past_24h=$db->single("SELECT SUM(val) FROM payments WHERE address=:miner AND height>=$yesterday_block AND done=1", [":miner" => $id]);
 
     $r = $db->run("SELECT * FROM miners WHERE id=:miner",  [":miner" => $id] );

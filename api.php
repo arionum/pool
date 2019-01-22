@@ -62,7 +62,7 @@ elseif ($q == "payments") {
 		$miner=$m;
 		$total_paid=$db->single("SELECT total_paid FROM miners WHERE id='$m'");
 		$pending=$db->single("SELECT pending FROM miners WHERE id='$m'");
-		$last_payment=$db->single("SELECT SUM(val) FROM payments WHERE txn=:lasttxn",[":lasttxn"=>$last_payment_txn]);
+		$last_payment=$db->single("SELECT SUM(val) FROM payments WHERE txn=:lasttxn AND done=1",[":lasttxn"=>$last_payment_txn]);
 	        if ($last_payment_time == false) {
        	    	$last_payment_time = "Payment in process";
         	}

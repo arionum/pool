@@ -74,8 +74,8 @@ echo "\n------------------------------------------------------------------------
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
-
-$db->run('DELETE FROM miners WHERE historic + shares <= 20');
+// dit hele stuk kan naar update
+$db->run('DELETE FROM miners WHERE historic + shares <= 50');
 $db->run('UPDATE miners
           SET gpuhr = (
             SELECT SUM(gpuhr)
@@ -88,6 +88,7 @@ $db->run('UPDATE miners
             FROM workers
             WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600
           )');
+// als de payment gerund wordt zet hij de totale pending die op de dashboard staat, dit kan naar update
 $db->run(
     'UPDATE miners
      SET pending = (
@@ -98,7 +99,7 @@ $db->run(
     [':h' => $current - $blocks_paid]
 );
 
-
+// r wordt dus opgebouwd uit 500 oude blocks tot t-minus 10 die niet zijn uitbetaald
 $r = $db->run(
     'SELECT DISTINCT block FROM payments WHERE height<:h AND done=0 AND height>=:h2',
     [':h' => $current - 10, ':h2' => $current - $blocks_paid]
@@ -107,6 +108,7 @@ if (count($r) === 0) {
     die("No payments pending\n");
 }
 
+// dit kan naar update
 $db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-3600');
 $db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-3600');
 
@@ -115,13 +117,15 @@ foreach ($r as $x) {
     echo "Checking $x[block]\n";
     $s = $aro->single('SELECT COUNT(1) FROM blocks WHERE id=:id', [':id' => $x['block']]);
     if ($s === 0) {
+// dit kunnen we dus aanpassen naar orphaned. block wordt niet nog een keer meegenomen want verdwijnt uit payments
         $db->run('DELETE FROM blocks WHERE id=:id', [':id' => $x['block']]);
+// nu halen we de payments weg en wordt het block niet opnieuw geselecteerd bij de volgende payment cycle
         $db->run('DELETE FROM payments WHERE block=:id', [':id' => $x['block']]);
         echo "Deleted block: $x[block]\n";
     }
 }
 
-
+// vanaf hier begint het echte payment gedeelte
 $total_paid = 0;
 $r = $db->run(
     'SELECT SUM(val) as v, address FROM payments WHERE height<:h AND height>=:h2 AND done=0 GROUP by address',
@@ -149,6 +153,7 @@ foreach ($r as $x) {
         'private_key' => $private_key,
         'public_key' => $public_key,
         'version' => 1,
+// hier kunnen we eventueel toevoegen dat als geen payout message dat ie dan domeinnaam pakt
         'message' => $pool_config['payout_message'],
     ]);
     echo "$val\n";
@@ -181,7 +186,7 @@ $db->run("UPDATE info SET val=:s WHERE id='total_paid'", [':s' => $new]);
 $not = $db->single('SELECT SUM(val) FROM payments WHERE done=0');
 echo "Pending balance: $not\n";
 
-
+// hier wordt het pending op de dashboard aangepast
 $db->run(
     'UPDATE miners
      SET pending = (
@@ -192,4 +197,6 @@ $db->run(
     [':h' => $current - $blocks_paid]
 );
 
+// dit is aan te passen voor als je dat juist niet wilt. uitbetaald en 1000 blocks geleden betekent delete
 $db->run('DELETE FROM payments WHERE done=1 AND height<:h', [':h' => $current - 1000]);
+
