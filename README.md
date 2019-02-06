@@ -38,8 +38,11 @@ Warning: because of additions to the config file, do not simply replace the php-
 - TODO: If no payment message is set in config it takes the pool hostname from config
 
 
-With the current setup payments are split from updates
-Run payments to crontab every x hours, min payment can remain low, but it will prevent big miners from massive small payments
+With the current setup payments are split from updates.
+
+Run payments to crontab every x hours, min payment can remain low, but it will prevent big miners from massive small payments.
+
 Run update in seperate crontab every 1 minute. 
+
 Optional: Run poolsanity as systemd-service
 

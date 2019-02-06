@@ -78,14 +78,17 @@ $pool_config['miner_reward'] = 0;
 $pool_config['min_payout'] = 3;
 
 // The message included in payments
+// If no message is set the poolname will be used
 $pool_config['payout_message'] = '';
 
 /*
 |--------------------------------------------------------------------------
-| Addiontal Pool Information
+| Addiontal Pool Information / Settings
 |--------------------------------------------------------------------------
 */
 
 $pool_config['pool_url'] = 'http://pooladdress.here';
 $pool_config['pool_name'] = 'Your Poolname here';
 
+// percentage of historical share degradation per block. 0.05 is best for pool with big miners, 0.02 for pool with small miners
+$pool_config['pool_degradation'] = 0.05; 
