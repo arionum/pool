@@ -46,28 +46,6 @@ while (1) {
         $current = $ck;
         $db->run('UPDATE miners SET historic=historic+shares-historic*:dr, shares=0,bestdl=1000000', [':dr' => $pool_config['pool_degradation']]);
         $db->run('TRUNCATE table nonces');
-
-        $r = $db->run('SELECT * FROM miners WHERE historic>0');
-        $total_hr = 0;
-        $total_gpu = 0;
-        foreach ($r as $x) {
-            $thr = $db->row(
-                'SELECT SUM(hashrate) AS cpu, SUM(gpuhr) AS gpu
-                 FROM workers
-                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 3600',
-                [':m' => $x['id']]
-            );
-            if ($x['historic'] / $thr['cpu'] < 2 || $x['historic'] / $thr['gpu'] < 2) {
-                $thr['cpu'] = 0;
-                $thr['gpu'] = 0;
-                echo "$x[id] [$x[historic]] -> ".$x['historic'] / $thr[cpu]."\n";
-            }
-            $total_hr += $thr['cpu'];
-            $total_gpu += $thr['gpu'];
-        }
-        echo "Total hr: $total_hr\n";
-        $db->run("UPDATE info SET val=:thr WHERE id='total_hash_rate'", [':thr' => $total_hr]);
-        $db->run("UPDATE info SET val=:thr WHERE id='total_gpu_hr'", [':thr' => $total_gpu]);
     }
 
     $max_dl = ($current % 2) ? $pool_config['max_deadline_gpu'] : $pool_config['max_deadline'];

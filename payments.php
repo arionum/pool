@@ -74,20 +74,6 @@ echo "\n------------------------------------------------------------------------
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
-// dit hele stuk kan naar update
-$db->run('DELETE FROM miners WHERE historic + shares <= 50');
-$db->run('UPDATE miners
-          SET gpuhr = (
-            SELECT SUM(gpuhr)
-            FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600
-          )');
-$db->run('UPDATE miners
-          SET hashrate = (
-            SELECT SUM(hashrate)
-            FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 3600
-          )');
 // als de payment gerund wordt zet hij de totale pending die op de dashboard staat, dit kan naar update
 $db->run(
     'UPDATE miners
@@ -107,10 +93,6 @@ $r = $db->run(
 if (count($r) === 0) {
     die("No payments pending\n");
 }
-
-// dit kan naar update
-$db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-3600');
-$db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-3600');
 
 // check for orphan blocks
 foreach ($r as $x) {
@@ -185,17 +167,6 @@ echo "Total paid: $new\n";
 $db->run("UPDATE info SET val=:s WHERE id='total_paid'", [':s' => $new]);
 $not = $db->single('SELECT SUM(val) FROM payments WHERE done=0');
 echo "Pending balance: $not\n";
-
-// hier wordt het pending op de dashboard aangepast
-$db->run(
-    'UPDATE miners
-     SET pending = (
-       SELECT SUM(val)
-       FROM payments
-       WHERE done = 0 AND payments.address = miners.id AND height >= :h
-     )',
-    [':h' => $current - $blocks_paid]
-);
 
 // dit is aan te passen voor als je dat juist niet wilt. uitbetaald en 1000 blocks geleden betekent delete
 $db->run('DELETE FROM payments WHERE done=1 AND height<:h', [':h' => $current - 1000]);

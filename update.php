@@ -77,7 +77,7 @@ $db->run('UPDATE miners
 //cleanup
 
 $db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-86400');
-$db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-750');
+$db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-1800');
 
 // hier wordt het pending op de dashboard aangepast
 $db->run(
