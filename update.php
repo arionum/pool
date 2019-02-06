@@ -38,7 +38,7 @@ echo "\n------------------------------------------------------------------------
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
-$db->run('DELETE FROM miners WHERE historic + shares <= 50');
+//$db->run('DELETE FROM miners WHERE historic + shares <= 50');
 $db->run('UPDATE miners
           SET gpuhr = (
             SELECT SUM(gpuhr)
@@ -76,7 +76,8 @@ $db->run('UPDATE miners
 
 //cleanup
 
-$db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-86400');
+//$db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-86400');
+$db->run('DELETE FROM miners WHERE shares + historic <=50 AND updated<UNIX_TIMESTAMP()-86400');
 $db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-1800');
 
 // hier wordt het pending op de dashboard aangepast

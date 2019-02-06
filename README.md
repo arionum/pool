@@ -16,8 +16,8 @@ Warning: because of additions to the config file, do not simply replace the php-
 - TODO: either update miner hr more often or insert sum workerHR into dashboard/individual pages/api
 
 ## Medium changes:
-- The 'last-update' values of workers has been reduced from 1hr to 720s to keep the calculation of total hashrate more precise
-- The 'time-out' value of miners has been enlarged to have miners remain in history when they are away for a while. For individual workers it's set to 30minutes
+- The 'last-update' values of workers has been reduced from 1hr to 720s to keep the calculation of total hashrate more precise, this means workers not having reported in during the last 12 minutes are not used int he calculation
+- The 'time-out' value of miners has been enlarged to have miners remain in history when they are away for a while (max 24h). For individual workers it's set to 30minutes. A miner will be deleted from history if the historical share rate drops below 50 AND he has not submitted a nonce in the last 24h
 - The 'cut-off' of last remaining historical shares has been changed to prevent ghost miners remaining in the list indefinely (hist.shares would never reach zero)
 - TODO: The last payments / last blocks 'truncation' has been moved to config in order to be able to adapt it to the size of the pool: small pool wants to keep history longer
 
