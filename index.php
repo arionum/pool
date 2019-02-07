@@ -25,8 +25,10 @@ if ($q == "") {
     $total_shares = 0;
     $shares = [];
 
-    $r = $db->run("SELECT * FROM miners ");
-    $miners = count($r);
+    $p = $db->run("SELECT * FROM miners WHERE hashrate>0 OR gpuhr>0");
+    $miners = count($p);
+
+    $r = $db->run("SELECT * FROM miners");
     $total_historic = 0;
 
     $historic = [];
