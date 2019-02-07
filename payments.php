@@ -35,6 +35,14 @@ if (PHP_SAPI !== 'cli') {
 
 require_once __DIR__.'/db.php';
 
+if ($pool_config['payout_history'] == null) {
+    die('Payout History variable not set in config');
+}
+if ($pool_config['blocks_paid'] == null) {
+    die('Blocks Paid variable not set in config');
+}
+
+
 function pay_post($url, $data = [])
 {
     global $pool_config;
@@ -91,7 +99,7 @@ foreach ($r as $x) {
 $total_paid = 0;
 $r = $db->run(
     'SELECT SUM(val) as v, address FROM payments WHERE height<:h AND height>=:h2 AND done=0 GROUP by address',
-    [':h' => $current - 10, ':h2' => $current - $blocks_paid]
+    [':h' => $current - 10, ':h2' => $current - $pool_config['blocks_paid']]
 );
 foreach ($r as $x) {
     if ($x['v'] < $pool_config['min_payout']) {
@@ -132,7 +140,7 @@ foreach ($r as $x) {
             'UPDATE payments SET txn=:txn, done=1 WHERE address=:address AND height<:h AND done=0 AND height>=:h2',
             [
                 ':h' => $current - 10,
-                ':h2' => $current - $blocks_paid,
+                ':h2' => $current - $pool_config['blocks_paid'],
                 ':txn' => $res['data'],
                 ':address' => $x['address'],
             ]

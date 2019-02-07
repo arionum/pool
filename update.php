@@ -34,6 +34,10 @@ if (PHP_SAPI !== 'cli') {
 
 require_once __DIR__.'/db.php';
 
+if ($pool_config['blocks_paid'] == null) {
+    die('Blocks Paid variable not set in config');
+}
+
 echo "\n----------------------------------------------------------------------------------\n";
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
