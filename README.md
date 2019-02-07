@@ -25,13 +25,16 @@ Warning: because of additions to the config file, do not simply replace the php-
 
 - Small update to dashboard layout based on reoccuring questions in discord
 - To remove the constant confusion we are going to be consequent and call it GPU-*blocks* HR and NOT "GPU HR" (and CPU-*blocks* HR instead of "CPU HR") everywhere on the site. 
+- Added Average GPU Blocks HR next to CPU Blocks HR
 - Removal of long TX addresses in payout page, replaced with links to block explorer
+- Blocks in Blocks Won are veryfiable on Block Explorer, for transparency
 - Bugfix to make poolsanity being able to be started as service
 - Bugfix in template/index.html of html code the purple box showing hashrates. Also: C-HR is shown left, G-HR right, just as in all tables. 
 - Degradation, last-payments-variable, poolname etc. have been moved to config
 - Info page: old mining info removed, pool details (rewards/degradation/payout/DL) are read from the config file
 - Templates: pool name set in config
 - On individual miner page: best DL is 1000000 replaced with No Nonce submitted yet
+- On individual miner page: added time of last submitted nonce
 - On individual miner page: when last payment is still in mempool it's shown as Payment In Process
 - On individual miner page: when no payment ever last payment date is shown as No Payment Yet
 - TODO: Info page: discord handle can be set in config

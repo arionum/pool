@@ -46,11 +46,12 @@ if ($q == "") {
         $historic[] = $x;
     }
 
-    $total_hr = $db->single("SELECT val FROM info WHERE id='total_hash_rate'");
-    $avg_hr = floor($total_hr / $miners);
+    $total_hr=$db->single("SELECT val FROM info WHERE id='total_hash_rate'");
+    $avg_hr = number_format(($total_hr / $miners), 0);
     if ($miners == 0) {
         $avg_hr = 0;
     }
+
     if ($total_hr >= 1000000) {
         $total_hr_text = number_format($total_hr / 1000000, 2);
         $total_hr_ext = "MH/s";
@@ -62,31 +63,38 @@ if ($q == "") {
         $total_hr_ext = "H/s";
     }
 
-    $total_hr=$db->single("SELECT val FROM info WHERE id='total_gpu_hr'");
+    $tpl->assign("hr_ext", $total_hr_ext);
+    $tpl->assign("total_hr", $total_hr_text);
 
-    if($total_hr>=1000000){
-        $total_gpu_text=number_format($total_hr/1000000,2);
+
+    $total_gpuhr = $db->single("SELECT val FROM info WHERE id='total_gpu_hr'");
+    $avg_gpuhr = number_format($total_gpuhr / $miners, 0);
+    if ($miners == 0) {
+        $avg_gpuhr = 0;
+    }
+
+    if($total_gpuhr>=1000000){
+        $total_gpu_text=number_format($total_gpuhr/1000000,2);
         $total_gpu_ext="MH/s";
     }
-    elseif($total_hr>1000&&$total_hr<1000000) {
-        $total_gpu_text=number_format($total_hr/1000,2);
+    elseif($total_gpuhr>1000&&$total_gpuhr<1000000) {
+        $total_gpu_text=number_format($total_gpuhr/1000,2);
         $total_gpu_ext="kH/s";
     } else {
-        $total_gpu_text=number_format($total_hr);
+        $total_gpu_text=number_format($total_gpuhr);
         $total_gpu_ext="H/s";
     }
 
-       $tpl->assign("gpu_ext",$total_gpu_ext);
-        $tpl->assign("total_gpu",$total_gpu_text);
+    $tpl->assign("gpu_ext",$total_gpu_ext);
+    $tpl->assign("total_gpu",$total_gpu_text);
 
     $agem = time();    
     $agem = $current['date'];
 
-    $agem = ( time() - $current['date']) ; 
+    $agem = ( time() - $current['date']); 
     
     $tpl->assign("avg_hr", $avg_hr);
-    $tpl->assign("hr_ext", $total_hr_ext);
-    $tpl->assign("total_hr", $total_hr_text);
+    $tpl->assign("avg_gpuhr", $avg_gpuhr);
     $tpl->assign("miners", $miners);
     $tpl->assign("total_shares", $total_shares);
     $tpl->assign("total_historic", $total_historic);
