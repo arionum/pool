@@ -88,7 +88,7 @@ $db->run(
        FROM payments
        WHERE done = 0 AND payments.address = miners.id AND height >= :h
      )',
-    [':h' => $current - $blocks_paid]
+    [':h' => $current - $pool_config['blocks_paid']]
 );
 
 

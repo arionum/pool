@@ -22,6 +22,7 @@ function shut_down()
     global $pid112;
     system("rm -rf $pid112");
     echo "\n# ShutDown #\n";
+
 }
 
 register_shutdown_function('shut_down');
@@ -62,33 +63,13 @@ function pay_post($url, $data = [])
 }
 
 
-$hour = date('H');
-$min = date('i');
-
-$blocks_paid = 500;
-if ($hour === 10 && $min < 20) {
-    $blocks_paid = 5000;
-}
-
 echo "\n----------------------------------------------------------------------------------\n";
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
-// als de payment gerund wordt zet hij de totale pending die op de dashboard staat, dit kan naar update
-$db->run(
-    'UPDATE miners
-     SET pending = (
-       SELECT SUM(val)
-       FROM payments
-       WHERE done = 0 AND payments.address = miners.id AND height >= :h
-     )',
-    [':h' => $current - $blocks_paid]
-);
-
-// r wordt dus opgebouwd uit 500 oude blocks tot t-minus 10 die niet zijn uitbetaald
 $r = $db->run(
     'SELECT DISTINCT block FROM payments WHERE height<:h AND done=0 AND height>=:h2',
-    [':h' => $current - 10, ':h2' => $current - $blocks_paid]
+    [':h' => $current - 10, ':h2' => $current - $pool_config['blocks_paid']]
 );
 if (count($r) === 0) {
     die("No payments pending\n");
@@ -107,7 +88,6 @@ foreach ($r as $x) {
     }
 }
 
-// vanaf hier begint het echte payment gedeelte
 $total_paid = 0;
 $r = $db->run(
     'SELECT SUM(val) as v, address FROM payments WHERE height<:h AND height>=:h2 AND done=0 GROUP by address',
@@ -128,15 +108,17 @@ foreach ($r as $x) {
     #$val=intval($val);
     $public_key = $pool_config['public_key'];
     $private_key = $pool_config['private_key'];
-
+    $message = $pool_config['payout_message'];
+    if ($message == null) {
+       $message = $pool_config['pool_name'];
+    }
     $res = pay_post('/api.php?q=send', [
         'dst' => $x['address'],
         'val' => $val,
         'private_key' => $private_key,
         'public_key' => $public_key,
         'version' => 1,
-// hier kunnen we eventueel toevoegen dat als geen payout message dat ie dan domeinnaam pakt
-        'message' => $pool_config['payout_message'],
+        'message' => $message,
     ]);
     echo "$val\n";
     echo "$x[address]\n";
@@ -168,6 +150,5 @@ $db->run("UPDATE info SET val=:s WHERE id='total_paid'", [':s' => $new]);
 $not = $db->single('SELECT SUM(val) FROM payments WHERE done=0');
 echo "Pending balance: $not\n";
 
-// dit is aan te passen voor als je dat juist niet wilt. uitbetaald en 1000 blocks geleden betekent delete
-$db->run('DELETE FROM payments WHERE done=1 AND height<:h', [':h' => $current - 1000]);
+$db->run('DELETE FROM payments WHERE done=1 AND height<:h', [':h' => $current - $pool_config['payout_history']]);
 

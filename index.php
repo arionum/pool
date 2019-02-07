@@ -209,6 +209,7 @@ if ($q == "") {
     $tpl->assign("server", gethostname());
     $tpl->assign("pool_url", $pool_config['pool_url']);
     $tpl->assign("pool_degradation", number_format($pool_config['pool_degradation']*100,1));
+    $tpl->assign("handle", $pool_config['handle']);
 
 
 

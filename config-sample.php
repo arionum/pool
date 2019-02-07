@@ -89,6 +89,14 @@ $pool_config['payout_message'] = '';
 
 $pool_config['pool_url'] = 'http://pooladdress.here';
 $pool_config['pool_name'] = 'Your Poolname here';
+$pool_config['handle'] = 'your Discord name here'; 
 
 // percentage of historical share degradation per block. 0.05 is best for pool with big miners, 0.02 for pool with small miners
 $pool_config['pool_degradation'] = 0.05; 
+
+// how many blocks to look back for pending payments. large pool: set at 500, small pool >2000
+$pool_config['blocks_paid'] = 3000;
+
+// how long are old payments shown on the website. Delete after x blocks, default 2000. Small pool set much higher
+$pool_config['payout_history'] = 2000;
+
