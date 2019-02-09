@@ -47,7 +47,7 @@ if ($q == "miner") {
        	    	$gpu_hr = "0";
         	}
 
-		echo json_encode(array("miner"=>$miner, "cpu_hr"=>$hashrate, "gpu_hr"=>$gpu_hr, "historic shares"=>$historic, "current shares"=>$shares, "last nonce submite"=>$update));
+		echo json_encode(array("miner"=>$miner, "cpu_hr"=>$hashrate, "gpu_hr"=>$gpu_hr, "historic shares"=>$historic, "current shares"=>$shares, "last nonce submitted"=>$update));
 		}
 
 	}
