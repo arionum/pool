@@ -9,6 +9,7 @@ Warning: because of additions to the config file, do not simply replace the php-
 - Hashreporting has been removed from payments/poolsanity to a seperate updater. Updating hashrates on the website can be done independently of payment-cycle, and db is no longer only updated when moving to next block. Be aware that the 10minute update interval from the clients is fixed. As is the 'first appearance' in the db after submitting first nonce
 - Api.php has been expanded and restructured with more options
 - Last payment, payment date, payments in 24h, time of last submitted nonce included on individual miner page and api
+- Bugfix: False reporting of stale blocks submitted through Dan's/Cryptogone's miner. 
 - TODO: Orphaned blocks are no longer removed from the list but marked as orphaned. Pending payments are removed. 
 - TODO: Workerid is changed to workername+address to create a unique key without having to alter the database. It prevents changes to client (new address/new workername) not being updated in the workerlist and it also prevents 2 miners using the same workername to be misreported as one. It will NOT change the fact that miners using one single name for many workers causing their hashrate being reported as once worker. This would require a uniqueID being send from the worker
 - TODO: implement the possible external argon2 validation through config file
@@ -27,7 +28,6 @@ Warning: because of additions to the config file, do not simply replace the php-
 - Degradation, last-payments-variable, poolname etc. have been moved to config
 - Bugfix to make poolsanity being able to be started as service
 - Bugfix in hashrate extension determination
-- TODO last blocks 'truncation' has been moved to config in order to be able to adapt it to the size of the pool: small pool wants to keep history longer
 
 ## Display changes:
 

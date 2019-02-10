@@ -83,8 +83,7 @@ if ($q === 'submitNonce') {
 
     $f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
     $g = json_decode($f, true);
-
-    if ($_POST['height'] > 1 && $g['data']['height'] !== $_POST['height']) {
+if ((int)$_POST['height'] > 1 && $g['data']['height'] !== (int)$_POST['height']) {
         api_err('stale block');
     }
 
