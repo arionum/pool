@@ -18,10 +18,11 @@ Warning: because of additions to the config file, do not simply replace the php-
 
 ## Smaller changes:
 - Change: The 'last-update' values of workers has been reduced from 1hr to 720s to keep the calculation of total hashrate more precise, this means workers not having reported in during the last 12 minutes are not added to the miner total hr and pool hr.
-- Change: The 'time-out' value of miners has been enlarged to have miners remain in history when they are away for a while (max 24h). For individual workers it's set to 30minutes. A miner will be deleted from history if the historical share rate drops below 50 AND he has not submitted a nonce in the last 24h
+- Change: The 'time-out' value of miners has been enlarged to have miners remain in history when they are away for a while (max 24h). For individual workers it's set to 30minutes. 
 - Change: Discard of last remaining historical shares has been added to prevent ghost miners remaining in the list indefinely (hist.shares would never reach zero)
+- Change: A miner will be deleted from history if the historical share rate drops below 50 AND he has not submitted a nonce in the last 24h
 - Change: Only 'active miners' are counted to calculate total HR: those with miner HR > 0
-- Added/Change: Nexte average CPU Blocks HR we now also calculate average GPU blocks HR. Both are now only based on active miners. 
+- Added/Change: Next average CPU Blocks HR we now also calculate average GPU blocks HR. Both are now only based on active miners. 
 - Change: How far back last payments are displayed on payments page is moved to config
 - Change: During payment cycle, how far back is searched for small pending payments is moved to config.
 - Change: Manual payment request of all outstanding payments now looks through entire pool history. 

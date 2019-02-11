@@ -121,6 +121,7 @@ else {
 		echo json_encode(array("cpu_hr"=>$total_hr, "gpu_hr"=>$total_gpu, "current_block_height"=>$current, "last_won_block"=>$last_won, "last_won_block_time"=>$last_won_time, "miners"=>$miners, "fee"=>$pool_config['fee']));
 	} 
 
+	else{
 		$miner=$m;
 		$hashrate=$db->single("SELECT hashrate FROM miners WHERE id='$m'");
 		$gpu_hr=$db->single("SELECT gpuhr FROM miners WHERE id='$m'");
@@ -160,7 +161,7 @@ else {
 
 		echo json_encode(array("miner"=>$miner, "cpu_hr"=>$hashrate, "gpu_hr"=>$gpu_hr, "historic shares"=>$historic, "current shares"=>$shares, "last nonce submite"=>$update, "total paid"=>$total_paid, "pending"=>$pending, "past_24h"=>$past_24h, "last_payment"=>$last_payment, "last_payment_date"=>$last_payment_time));
 		
-
+	}
 
 
 }
