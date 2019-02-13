@@ -38,6 +38,7 @@ Warning: because of additions to the config file, do not simply replace the php-
 - Change: On payments page: Removal of long TX addresses in payout page, replaced with links to block explorer
 - Change: To remove the constant confusion we are going to be consequent and call it GPU-*blocks* HR and NOT "GPU HR" (and CPU-*blocks* HR instead of "CPU HR") everywhere on the site. 
 - Bugfix: template/index.html responsive html code of the purple box showing hashrates caused errors on android. Fixed. Also: C-HR is now displayed left, G-HR right, just as in all other tables. 
+- Bugfix: Rounding error hashrates
 - Change: Template/Header page: pool name set in config
 - Added: On dashboard: average h/s displayed on page
 - Added: On blocks won page - Blocks are veryfiable through link to Block Explorer, for transparency

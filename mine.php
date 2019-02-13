@@ -36,8 +36,8 @@ if ($q === 'info') {
         }
 
         $worker = $_GET['worker'];
-        $hr = (int)$_GET['hashrate'];
-        $gpuhr = (int)($_GET['gpuhr'] + (int)$_GET['hrgpu']);
+        $hr = (int)round($_GET['hashrate'],0);
+        $gpuhr = (int)round($_GET['gpuhr'],0) + (int)round($_GET['hrgpu'],0);
         $bind = [
             ':id' => $worker,
             ':hr' => $hr,
