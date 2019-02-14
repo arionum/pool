@@ -36,8 +36,8 @@ if ($q === 'info') {
         }
 
         $worker = $_GET['worker'];
-        $hr = (int)$_GET['hashrate'];
-        $gpuhr = (int)($_GET['gpuhr'] + $_GET['hrgpu']);
+        $hr = (int)round($_GET['hashrate'],0);
+        $gpuhr = (int)round($_GET['gpuhr'],0) + (int)round($_GET['hrgpu'],0);
         $bind = [
             ':id' => $worker,
             ':hr' => $hr,
@@ -48,12 +48,37 @@ if ($q === 'info') {
             ':gpuhr' => $gpuhr,
             ':gpuhr2' => $gpuhr,
         ];
+
+// fix Dan's misreporting
+	if ($gpuhr == 0){
+  		$f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
+  		$g = json_decode($f, true);
+		if ($g['data']['height'] % 2 == 1) {
+	        	$db->run(
+        		'INSERT INTO workers
+             		SET id = :id, updated = UNIX_TIMESTAMP(), miner = :miner, ip = :ip, gpuhr = :hr
+             		ON DUPLICATE KEY UPDATE updated = UNIX_TIMESTAMP(), ip = :ip2, gpuhr = :hr2',
+            		$bind
+        		);
+		}		
+		if ($g['data']['height'] % 2 == 0) {
+		        $db->run(
+        		'INSERT INTO workers
+             		SET id = :id, hashrate = :hr, updated = UNIX_TIMESTAMP(), miner = :miner, ip = :ip
+             		ON DUPLICATE KEY UPDATE updated = UNIX_TIMESTAMP(), ip = :ip2, hashrate = :hr2',
+            		$bind
+        		);
+		}
+	}
+	if ($gpuhr !== 0){
+
         $db->run(
             'INSERT INTO workers
              SET id = :id, hashrate = :hr, updated = UNIX_TIMESTAMP(), miner = :miner, ip = :ip, gpuhr = :gpuhr
              ON DUPLICATE KEY UPDATE updated = UNIX_TIMESTAMP(), hashrate = :hr2, ip = :ip2, gpuhr = :gpuhr2',
             $bind
         );
+	}
     }
 
 
@@ -83,8 +108,7 @@ if ($q === 'submitNonce') {
 
     $f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
     $g = json_decode($f, true);
-
-    if ($_POST['height'] > 1 && $g['data']['height'] !== $_POST['height']) {
+if ((int)$_POST['height'] > 1 && $g['data']['height'] !== (int)$_POST['height']) {
         api_err('stale block');
     }
 

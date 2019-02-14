@@ -35,6 +35,8 @@ if (PHP_SAPI !== 'cli') {
     die('This should only be run as cli');
 }
 
+if ($pool_config['pool_degradation']==null) {die('Degradation rate not set in config');}
+
 $current = 0;
 $ticks = 0;
 while (1) {
@@ -42,35 +44,13 @@ while (1) {
     $ck = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
     if ($ck !== $current && $ck) {
         $current = $ck;
-        $db->run('UPDATE miners SET historic=historic*0.95+shares, shares=0,bestdl=1000000');
+        $db->run('UPDATE miners SET historic=historic+shares-historic*:dr, shares=0,bestdl=1000000', [':dr' => $pool_config['pool_degradation']]);
         $db->run('TRUNCATE table nonces');
-
-        $r = $db->run('SELECT * FROM miners WHERE historic>0');
-        $total_hr = 0;
-        $total_gpu = 0;
-        foreach ($r as $x) {
-            $thr = $db->row(
-                'SELECT SUM(hashrate) AS cpu, SUM(gpuhr) AS gpu
-                 FROM workers
-                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 3600',
-                [':m' => $x['id']]
-            );
-            if ($x['historic'] / $thr['cpu'] < 2 || $x['historic'] / $thr['gpu'] < 2) {
-                $thr['cpu'] = 0;
-                $thr['gpu'] = 0;
-                echo "$x[id] [$x[historic]] -> ".$x['historic'] / $thr[cpu]."\n";
-            }
-            $total_hr += $thr['cpu'];
-            $total_gpu += $thr['gpu'];
-        }
-        echo "Total hr: $total_hr\n";
-        $db->run("UPDATE info SET val=:thr WHERE id='total_hash_rate'", [':thr' => $total_hr]);
-        $db->run("UPDATE info SET val=:thr WHERE id='total_gpu_hr'", [':thr' => $total_gpu]);
     }
 
     $max_dl = ($current % 2) ? $pool_config['max_deadline_gpu'] : $pool_config['max_deadline'];
 
-    $cache_file = "cache/info.txt";
+    $cache_file = __DIR__."/cache/info.txt";
 
     $f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
     $g = json_decode($f, true);

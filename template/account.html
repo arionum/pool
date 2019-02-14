@@ -12,11 +12,11 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>CPU hashrate:</td>
+                        <td>CPU blocks hashrate:</td>
                         <td>{$hashrate['cpuhr']} h/s</td>
                     </tr>
                     <tr>
-                        <td>GPU hashrate:</td>
+                        <td>GPU blocks hashrate:</td>
                         <td>{$hashrate['gpuhr']} h/s</td>
                     </tr>
                     <tr>
@@ -30,6 +30,22 @@
                     <tr>
                         <td>Total paid:</td>
                         <td>{$value.total_paid} ARO</td>
+                    </tr>
+                    <tr>
+                        <td>Paid in last 24 hours:</td>
+                        <td>{$value.24h_paid} ARO</td>
+                    </tr>
+                    <tr>
+                        <td>Last payment:</td>
+                        <td>{$value.last_payment} ARO</td>
+                    </tr>
+                    <tr>
+                        <td>Time of last payment:</td>
+                        <td>{$value.last_paid}</td>
+                    </tr>
+                    <tr>
+                        <td>Check last transaction:</td>
+                        <td><a href="https://arionum.info/transaction/{$value.last_txn}">Link</A></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
@@ -48,6 +64,11 @@
                         <td>Best nonce for current block (best DL):</td>
                         <td>{$value.bestdl}</td>
                     </tr>
+                    <tr>
+                        <td>Last nonce submitted:</td>
+                        <td>{$value.updated}</td>
+                    </tr>
+
                     {/loop}
                     </table>
                 </div>
@@ -69,8 +90,8 @@
                         <thead>
                         <tr>
                             <th class="va-m">Name</th>
-                            <th class="va-m">CPU hashrate</th>
-                            <th class="va-m">GPU hashrate</th>
+                            <th class="va-m">CPU blocks hashrate</th>
+                            <th class="va-m">GPU blocks hashrate</th>
                             <th class="va-m">Last Update</th>
                         </tr>
                         </thead>
@@ -78,8 +99,8 @@
                         <tr>
                         <tr>
                         <th class="va-m">Name</th>
-                        <th class="va-m">CPU hashrate</th>
-                        <th class="va-m">GPU hashrate</th>
+                        <th class="va-m">CPU blocks hashrate</th>
+                        <th class="va-m">GPU blocks hashrate</th>
                         <th class="va-m">Last Update</th>
                         </tr>
                         </tr>
