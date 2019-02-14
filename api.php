@@ -11,9 +11,9 @@ Usage:
 */
 
 header('Content-Type: application/json');
-include("db.php");
+require_once __DIR__.'/db.php';
 
-$q = $_GET['q'];
+$q = san($_GET['q']);
 
 
 if ($q == "miner") {
