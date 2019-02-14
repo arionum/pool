@@ -18,7 +18,7 @@ $q = san($_GET['q']);
 
 if ($q == "miner") {
 
-	$m = $_GET['m'];
+	$m = san($_GET['m']);
 
 	if ($m == null) {
                 echo "Invalid request";
