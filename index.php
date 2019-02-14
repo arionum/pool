@@ -1,12 +1,12 @@
 <?php
 #die("maintenance");
-require("db.php");
+require_once __DIR__.'/db.php';
 $q = san($_GET['q']);
 $id = san($_GET['id']);
 
 use Rain\Tpl;
 
-Tpl::configure('tpl_dir', 'template/');
+Tpl::configure('tpl_dir', $pool_config['template_directory']);
 Tpl::configure('debug', true);
 Tpl::configure('cache_dir', 'cache/template/');
 Tpl::configure('path_replace', false);

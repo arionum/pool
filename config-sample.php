@@ -101,3 +101,14 @@ $pool_config['blocks_paid'] = 5000;
 // how long are old payments shown on the website. Delete after x blocks, default 1000. Small pool set much higher
 $pool_config['payout_history'] = 1000;
 
+
+/*
+|--------------------------------------------------------------------------
+| Design Settings
+|--------------------------------------------------------------------------
+*/
+
+
+$pool_config['template_directory'] = 'template/';
+
+
