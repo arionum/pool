@@ -101,6 +101,7 @@ $pool_config['blocks_paid'] = 5000;
 // how long are old payments shown on the website. Delete after x blocks, default 1000. Small pool set much higher
 $pool_config['payout_history'] = 1000;
 
+$pool_config['payout_shedule'] = '1 hour';
 
 /*
 |--------------------------------------------------------------------------

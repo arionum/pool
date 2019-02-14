@@ -204,6 +204,7 @@ if ($q == "") {
     $tpl->assign("cpu_deadline", number_format($pool_config['max_deadline']));
     $tpl->assign("gpu_deadline", number_format($pool_config['max_deadline_gpu']));
     $tpl->assign("poolwallet", $pool_config['address']);
+    $tpl->assign("payout_shedule", $pool_config['payout_shedule']);
     $tpl->assign("current_reward", $pool_config['current_reward']*100,0);
     $tpl->assign("miner_reward", $pool_config['miner_reward']*100,0);
     $tpl->assign("historic_reward", $pool_config['historic_reward']*100,0);
