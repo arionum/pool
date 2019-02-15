@@ -1,270 +1,271 @@
 <div class="row">
 
-        <div class="col-xs-12 col-md-12 col-lg-12 allcp-grid ">
-
-                <div class="panel of-h" id="spy1">
-
-                        <div class="panel-heading br-b-o w-mt-15">
-
-                                <span class="panel-title">Information:</span>
-
+                <div class="col-xs-12 col-md-12 col-lg-12 allcp-grid ">
+        
+                        <div class="panel of-h" id="spy1">
+        
+                                <div class="panel-heading br-b-o w-mt-15">
+        
+                                        <span class="panel-title">Information:</span>
+        
+                                </div>
+        
+        
+                                <div class="panel-body pn mt25 lead">
+        
+                                        <table class="table">
+        
+        
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Pool mining address / url</h6> 
+        
+                                                        </td>  
+        
+                                                        <td width="25%"> 
+        
+                                                                <h6 class="text-left">{$pool_url}</h6>
+                                                        </td>
+        
+                                                        <td width="25%">  
+        
+                                                                <h6></h6>
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+                                                                <p>{if="$handle"}For information and support:<br> {$handle}@<a target="_blank" href="https://arionum.info/discord/">ARO discord</a>{/if}</p>
+                                                        </td>
+        
+                                                </tr>
+        
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>DeadLine CPU / CBlocks</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$cpu_deadline}</h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+                                                                <h6></h6>
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6></h6>
+        
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>DeadLine GPU / GBlocks</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$gpu_deadline}</h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+        
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Degradation of historic shares</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$pool_degradation}% </h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+        
+                                                        </td>
+                                                </tr>
+        
+        
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Pool fee</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$fee}% </h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Minimum payout</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$minpayout} ARO </h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                        </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Block confirmation</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">10 blocks</h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                        </td>
+                                                </tr>
+        
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Reward structure</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$historic_reward}% historic shares </h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+                                                                <h6>{$current_reward}% current shares </h6>
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+                                                                <h6>{$miner_reward}% block finder </h6>
+        
+                                                        </td>
+                                                </tr>
+        
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Payout schedule</h6> 
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                                <h6 class="text-left">{$payout_shedule} </h6>
+        
+                                                        </td>
+                                                        
+                                                        <td width="25%">
+        
+                                                        </td>
+        
+                                                        <td width="25%">
+        
+                                                        </td>
+                                                </tr>
+        
+                                                <tr>
+                                                        <td width="25%">
+        
+                                                                <h6>Pool balance</h6> 
+        
+                                                        </td>
+        
+                                                        <td colspan='3' class="text-left">
+        
+                                                                <h6><a target="_blank" href="https://arionum.info/account/{$poolwallet}">{$poolwallet}</a></h6>
+        
+                                                        </td>
+        
+                                                </tr>
+             
+                                                <tr>
+           
+        
+                                                        <td colspan='4'>
+        
+                                                                <h6 class="text-danger">This is an independent pool, which means you will only receive a payment when the pool finds a block.</h6>
+                                                        </td>
+        
+                                                </tr>
+        
+        
+                                                
+        
+                                        </table>
+               
+                                
+        
+                                                        <p class="text-right">
+        
+                                                                {if="$server"}<small><i>{$server}</i></small>{/if}
+        
+                                                        </p>
+        
+        
+                                </div>
                         </div>
-
-
-                        <div class="panel-body pn mt25 lead">
-
-                                <table class="table">
-
-
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Pool mining address / url</h4> 
-
-                                                </td>  
-
-                                                <td width="25%"> 
-
-                                                        <h4 class="text-left">{$pool_url}</h4>
-                                                </td>
-
-                                                <td width="25%">  
-
-                                                        <h4></h4>
-
-                                                </td>
-
-                                                <td width="25%">
-                                                        <p>{if="$handle"}For information and support:<br> {$handle}@<a target="_blank" href="https://arionum.info/discord/">ARO discord</a>{/if}</p>
-                                                </td>
-
-                                        </tr>
-
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>DeadLine CPU / CBlocks</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">{$cpu_deadline}</h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-                                                        <h5></h5>
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h5></h5>
-
-                                                </td>
-                                        </tr>
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>DeadLine GPU / GBlocks</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">{$gpu_deadline}</h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-
-                                                </td>
-
-                                                <td width="25%">
-
-
-                                                </td>
-                                        </tr>
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Degradation of historic shares</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">{$pool_degradation}% </h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-
-                                                </td>
-
-                                                <td width="25%">
-
-
-                                                </td>
-                                        </tr>
-
-
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Pool fee</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">{$fee}% </h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                </td>
-                                        </tr>
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Minimum payout</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">{$minpayout} ARO </h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                </td>
-                                        </tr>
-                                        
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Block confirmation</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">10 blocks</h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                </td>
-                                        </tr>
-
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Reward structure</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h5>{$historic_reward}% historic shares </h5>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-                                                        <h5>{$current_reward}% current shares </h5>
-
-                                                </td>
-
-                                                <td width="25%">
-                                                        <h5>{$miner_reward}% block finder </h5>
-
-                                                </td>
-                                        </tr>
-
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Payout schedule</h4> 
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                        <h4 class="text-left">{$payout_shedule} </h4>
-
-                                                </td>
-                                                
-                                                <td width="25%">
-
-                                                </td>
-
-                                                <td width="25%">
-
-                                                </td>
-                                        </tr>
-
-                                        <tr>
-                                                <td width="25%">
-
-                                                        <h4>Pool balance</h4> 
-
-                                                </td>
-
-                                                <td colspan='3' class="text-left">
-
-                                                        <h6><a target="_blank" href="https://arionum.info/account/{$poolwallet}">{$poolwallet}</a></h6>
-
-                                                </td>
-
-                                        </tr>
-     
-                                        <tr>
-   
-
-                                                <td colspan='4'>
-
-                                                        <h6 class="text-danger">This is an independent pool, which means you will only receive a payment when the pool finds a block.</h6>
-                                                </td>
-
-                                        </tr>
-
-
-                                        
-
-                                </table>
-       
-                        
-
-                                                <p class="text-right">
-
-                                                        {if="$server"}<small><i>{$server}</i></small>{/if}
-
-                                                </p>
-
-
-                        </div>
+                                
                 </div>
-                        
         </div>
-</div>
+        
