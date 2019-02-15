@@ -31,7 +31,7 @@ if ($q == "minerstatus") {
 
 			$gpu_hashrate = $db->single("SELECT gpuhr FROM miners WHERE id=:id",[":id"=>$id]);
 			$historic = $db->single("SELECT historic FROM miners WHERE id=:id",[":id"=>$id]);
-			$shares = $db->single("SELECT (shares FROM miners WHERE id=:id",[":id"=>$id]);
+			$shares = $db->single("SELECT shares FROM miners WHERE id=:id",[":id"=>$id]);
 			$update = $db->single("SELECT updated FROM miners WHERE id=:id",[":id"=>$id]);
 
 			$yesterday = time()-86400;
