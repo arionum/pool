@@ -49,9 +49,9 @@ if ($q === 'info') {
             ':gpuhr2' => $gpuhr,
         ];
 
-// fix Dan's misreporting
+    // fix Dan's misreporting
 	if ($gpuhr == 0){
-  		$f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
+  		$f = file_get_contents('cache/info.txt');
   		$g = json_decode($f, true);
 		if ($g['data']['height'] % 2 == 1) {
 	        	$db->run(
@@ -97,18 +97,19 @@ if ($q === 'submitNonce') {
     $argon = $_POST['argon'];
     $address = san($_POST['address']);
 
-    $chk = $db->single('SELECT count(1) FROM nonces WHERE nonce=:nonce', [':nonce' => $nonce]);
+    $chk = $db->single('SELECT count(1) FROM nonces WHERE nonce=:nonce', [':nonce' => $argon]);
     if ($chk !== 0) {
-        $db->run('INSERT into abusers SET miner=:miner, nonce=:nonce', [':miner' => $address, ':nonce' => $nonce]);
+        $db->run('INSERT into abusers SET miner=:miner, nonce=:nonce', [':miner' => $address, ':nonce' => $argon]);
         api_err('duplicate');
         exit;
     }
 
-    $db->run('INSERT IGNORE into nonces SET nonce=:nonce', [':nonce' => $nonce]);
+    $db->run('INSERT IGNORE into nonces SET nonce=:nonce', [':nonce' => $argon]);
 
     $f = file_get_contents($pool_config['node_url'].'/mine.php?q=info');
     $g = json_decode($f, true);
-if ((int)$_POST['height'] > 1 && $g['data']['height'] !== (int)$_POST['height']) {
+    
+    if ((int)$_POST['height'] > 1 && $g['data']['height'] !== (int)$_POST['height']) {
         api_err('stale block');
     }
 
@@ -235,7 +236,7 @@ if ((int)$_POST['height'] > 1 && $g['data']['height'] !== (int)$_POST['height'])
         );
         api_echo('accepted');
     } else {
-        $db->run('DELETE FROM nonces WHERE nonce=:nonce', ['nonce' => $nonce]);
+        $db->run('DELETE FROM nonces WHERE nonce=:nonce', ['nonce' => $argon]);
 
         $db->run(
             'INSERT into rejects SET ip=:ip, data=UNIX_TIMESTAMP() ON DUPLICATE KEY update data=UNIX_TIMESTAMP()',
