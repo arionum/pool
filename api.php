@@ -103,7 +103,7 @@ elseif ($q == "status") {
 
 				$past_24h=$db->single("SELECT SUM(val) FROM payments WHERE address=:id AND height>=$yesterday_block AND done=1",[":id"=>$id]);
 
-				echo json_encode(array("miner"=>$miner, "total paid"=>$total_paid, "pending"=>$pending, "past_24h"=>$past_24h, "last_payment"=>$last_payment, "last_payment_date"=>$last_payment_time));
+				echo json_encode(array("miner"=>$id, "total paid"=>$total_paid, "pending"=>$pending, "past_24h"=>$past_24h, "last_payment"=>$last_payment, "last_payment_date"=>$last_payment_time));
 			}
 		}
 
