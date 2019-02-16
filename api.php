@@ -90,8 +90,8 @@ if ($q == "minerstatus") {
 			}
 			echo json_encode(array(
 				"miner"					=>	$id, 
-				"cpu_hashrate"			=>	$cpu_hashrate, 
-				"gpu_hashrate"			=>	$gpu_hashrate, 
+				"cpu_hr"				=>	$cpu_hashrate, 
+				"gpu_hr"				=>	$gpu_hashrate, 
 				"workers"				=>	$workers, 
 				"historic_shares"		=>	$historic, 
 				"current_shares"		=>	$shares, 
