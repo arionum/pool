@@ -89,18 +89,18 @@ if ($q == "minerstatus") {
 				$workers = 0;
 			}
 			echo json_encode(array(
-				"miner"					=>	$id, 
-				"cpu_hr"				=>	$cpu_hashrate, 
-				"gpu_hr"				=>	$gpu_hashrate, 
-				"workers"				=>	$workers, 
-				"historic_shares"		=>	$historic, 
-				"current_shares"		=>	$shares, 
-				"last_nonce_submited"	=>	$update, 
-				"total_paid"			=>	$total_paid, 
-				"pending"				=>	$pending, 
-				"past_24h"				=>	$past_24h, 
-				"last_payment"			=>	$last_payment, 
-				"last_payment_date"		=>	$last_payment_time
+				"miner"	=> $id, 
+				"cpu_hr" => $cpu_hashrate, 
+				"gpu_hr" => $gpu_hashrate, 
+				"workers" => $workers, 
+				"historic_shares" => $historic, 
+				"current_shares" => $shares, 
+				"last_nonce_submited" => $update, 
+				"total_paid" => $total_paid, 
+				"pending" => $pending, 
+				"past_24h" => $past_24h, 
+				"last_payment" => $last_payment, 
+				"last_payment_date"	=> $last_payment_time
 			));
 			
 		} else { // No result - we don't have record for this id in our miners table
@@ -130,17 +130,17 @@ if ($q == "minerstatus") {
 
 	echo json_encode(
 		array(
-			"cpu_hr"				=>	$total_hr, 
-			"gpu_hr"				=>	$total_gpu, 
-			"current_block_height"	=>	$current, 
-			"last_won_block"		=>	$last_won, 
-			"last_won_block_time"	=>	$last_won_time, 
-			"active miners"			=>	$miners, 
-			"fee"					=>	$pool_config['fee'], 
-			"historic_reward"		=>	$pool_config['historic_reward'], 
-			"current_reward"		=>	$pool_config['current_reward'], 
-			"miner_reward"			=>	$pool_config['miner_reward'], 
-			"min_payout"			=>	$pool_config['min_payout']
+			"cpu_hr" => $total_hr, 
+			"gpu_hr" => $total_gpu, 
+			"current_block_height" => $current, 
+			"last_won_block" => $last_won, 
+			"last_won_block_time" => $last_won_time, 
+			"active miners" => $miners, 
+			"fee" => $pool_config['fee'], 
+			"historic_reward" => $pool_config['historic_reward'], 
+			"current_reward" => $pool_config['current_reward'], 
+			"miner_reward" => $pool_config['miner_reward'], 
+			"min_payout" => $pool_config['min_payout']
 		));
 	
 } elseif ($q == "payments") { 
