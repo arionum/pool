@@ -100,8 +100,6 @@ if ($q == "minerstatus") {
 	$miners = $db->single("SELECT COUNT(1) FROM miners WHERE hashrate>0 OR gpuhr>0");
 	$last_won = (int)$db->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
 	$last_won_time = $aro->single("SELECT date FROM blocks WHERE height=:h",[":h"=>$last_won]);
-	$avg_gpuhr = (int)round($total_gpu / $miners, 0);
-	$avg_hr = (int)round($total_hr / $miners, 0);
 
 	if ($last_won_time == null) {
 		$last_won_time = "Never";
@@ -112,7 +110,7 @@ if ($q == "minerstatus") {
 		$avg_hr = 0;
 	}
 
-	echo json_encode(array("cpu_hr"=>$total_hr, "gpu_hr"=>$total_gpu, "current_block_height"=>$current, "last_won_block"=>$last_won, "last_won_block_time"=>$last_won_time, "active miners"=>$miners, "avg_hr"=>$avg_hr, "avg_gpuhr"=>$avg_gpuhr, "fee"=>$pool_config['fee']));
+	echo json_encode(array("cpu_hr"=>$total_hr, "gpu_hr"=>$total_gpu, "current_block_height"=>$current, "last_won_block"=>$last_won, "last_won_block_time"=>$last_won_time, "active miners"=>$miners, "fee"=>$pool_config['fee']));
 	
 } elseif ($q == "payments") { 
 
