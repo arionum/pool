@@ -57,6 +57,8 @@ $pool_config['fee_address'] = 'fee wallet address';
 // The fee that the pool takes from the funds (default is 2%)
 $pool_config['fee'] = 0.02;
 
+// If value exists, pool will use it for external hash validation - https://github.com/bogdanadnan/ArgonValidationService
+// pool_config['validator_url'] = 'http://localhost:2000';
 
 
 /*

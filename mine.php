@@ -125,9 +125,18 @@ if ($q === 'submitNonce') {
     $base = "$public_key-$nonce-".$g['data']['block'].'-'.$g['data']['difficulty'];
 
 
-    if (!password_verify($base, $argon2)) {
-        api_err("Invalid argon - $base - $argon2");
+
+    if (isset($pool_config['validator_url'])) { // If validator url exists, use it for hash validation
+        $res = file_get_contents($pool_config['validator_url'].'/validate?argon='. $argon2 . '&base=' . $base);
+        if ($res !== 'VALID') {
+            api_err("Invalid argon - $base - $argon2");
+        } 
+    } else { // Validate hash old fashion way
+        if (!password_verify($base, $argon2)) {
+            api_err("Invalid argon - $base - $argon2");
+        }
     }
+
 
     $hash = $base.$argon2;
 
