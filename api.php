@@ -42,6 +42,8 @@ if ($q == "minerstatus") {
 			$pending = $db->single("SELECT pending FROM miners WHERE id=:id",[":id"=>$id]);
 			$last_payment = $db->single("SELECT SUM(val) FROM payments WHERE txn=:lasttxn AND done=1",[":lasttxn"=>$last_payment_txn]);
 			$past_24h = $db->single("SELECT SUM(val) FROM payments WHERE address=:id AND height>=$yesterday_block AND done=1",[":id"=>$id]);
+			
+			$workers = $db->single("SELECT COUNT(1) FROM workers WHERE miner=:id",[":id"=>$id]);
 
 			if ($update == null) {
 				$update = "No nonce submitted";
@@ -83,7 +85,23 @@ if ($q == "minerstatus") {
 				$past_24h = 0;
 			}
 
-			echo json_encode(array("miner"=>$id, "cpu_hr"=>$cpu_hashrate, "gpu_hr"=>$gpu_hashrate, "historic shares"=>$historic, "current shares"=>$shares, "last nonce submited"=>$update, "total paid"=>$total_paid, "pending"=>$pending, "past_24h"=>$past_24h, "last_payment"=>$last_payment, "last_payment_date"=>$last_payment_time));
+			if ($workers == null) {
+				$workers = 0;
+			}
+			echo json_encode(array(
+				"miner"					=>	$id, 
+				"cpu_hr"				=>	$cpu_hashrate, 
+				"gpu_hr"				=>	$gpu_hashrate, 
+				"workers"				=>	$workers, 
+				"historic shares"		=>	$historic, 
+				"current shares"		=>	$shares, 
+				"last nonce submited"	=>	$update, 
+				"total paid"			=>	$total_paid, 
+				"pending"				=>	$pending, 
+				"past_24h"				=>	$past_24h, 
+				"last_payment"			=>	$last_payment, 
+				"last_payment_date"		=>	$last_payment_time
+			));
 			
 		} else { // No result - we don't have record for this id in our miners table
 
@@ -110,7 +128,20 @@ if ($q == "minerstatus") {
 		$avg_hr = 0;
 	}
 
-	echo json_encode(array("cpu_hr"=>$total_hr, "gpu_hr"=>$total_gpu, "current_block_height"=>$current, "last_won_block"=>$last_won, "last_won_block_time"=>$last_won_time, "active miners"=>$miners, "fee"=>$pool_config['fee']));
+	echo json_encode(
+		array(
+			"cpu_hr"				=>	$total_hr, 
+			"gpu_hr"				=>	$total_gpu, 
+			"current_block_height"	=>	$current, 
+			"last_won_block"		=>	$last_won, 
+			"last_won_block_time"	=>	$last_won_time, 
+			"active miners"			=>	$miners, 
+			"fee"					=>	$pool_config['fee'], 
+			"historic_reward"		=>	$pool_config['historic_reward'], 
+			"current_reward"		=>	$pool_config['current_reward'], 
+			"miner_reward"			=>	$pool_config['miner_reward'], 
+			"min_payout"			=>	$pool_config['min_payout']
+		));
 	
 } elseif ($q == "payments") { 
 
