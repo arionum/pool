@@ -90,11 +90,13 @@ foreach ($r as $x) {
     if ($s === 0) {
         
         // dit kunnen we dus aanpassen naar orphaned. block wordt niet nog een keer meegenomen want verdwijnt uit payments
-        $db->run('DELETE FROM blocks WHERE id=:id', [':id' => $x['block']]);
+
+        // let's keep our block so we can display it as orphaned
+        // $db->run('DELETE FROM blocks WHERE id=:id', [':id' => $x['block']]);
         
         // nu halen we de payments weg en wordt het block niet opnieuw geselecteerd bij de volgende payment cycle
         $db->run('DELETE FROM payments WHERE block=:id', [':id' => $x['block']]);
-        echo "Deleted block: $x[block]\n";
+        echo "Deleted payments for block: $x[block]\n";
     }
 }
 
