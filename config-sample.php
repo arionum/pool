@@ -105,6 +105,9 @@ $pool_config['payout_history'] = 1000;
 
 $pool_config['payout_shedule'] = '1 hour';
 
+// Defines if we should keep orphans or delete it instead // bit greedy for render as it will ask node for block details later
+$pool_config['keep_orphans'] = false;
+
 /*
 |--------------------------------------------------------------------------
 | Design Settings

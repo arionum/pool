@@ -174,14 +174,34 @@ if ($q == "") {
     $tpl->draw("account");
 
 } elseif ($q == "blocks") {
-    $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 1000");
+    $limit = 1000;
+
+    if ($pool_config['keep_orphans'] == true) $limit = 100;
+
+    $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT $limit");
     $b = [];
     foreach ($r as $x) {
         $x['reward'] = number_format($x['reward'], 2);
+
+        if ($pool_config['keep_orphans'] == true) {
+            $f = file_get_contents($pool_config['node_url'].'/api.php?q=getBlock&height='.$x['height']);
+            $g = json_decode($f, true);
+            
+            if ($g['data']['generator']) {
+                $x['generator'] = $g['data']['generator'];
+                if ( $pool_config['address'] != $g['data']['generator'] ) {
+                    $x['orphan'] = true;
+                } else $x['orphan'] = false;
+            }
+        } else $x['orphan'] = false;
+    
+
+
         $b[] = $x;
     }
 
     $tpl->assign("blocks", $b);
+    $tpl->assign("limit", $limit);
     $tpl->draw("blocks");
 } elseif ($q == "payments") {
     $r = $db->run("SELECT id,address,val,done,height,txn FROM payments ORDER by id DESC LIMIT 5000");
