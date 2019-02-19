@@ -39,7 +39,7 @@
                                                 <td>{$value.height}</td> 
                                                 <td><div align=right>{$value.val}</div></td>
                                                 <td>{$value.address}</td>
-                                                <td><a target="_blank" href="https://arionum.info/transaction/{$value.txn}">Link</a></td>
+                                                <td>{if="$value.txn"}<a target="_blank" href="https://arionum.info/transaction/{$value.txn}">Link</a>{else}Pending{/if}</td>
                                             </tr>
 {/loop}
                                             </tbody>
