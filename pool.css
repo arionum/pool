@@ -1,0 +1,13 @@
+.odd{
+  background-color:snow !important;
+}
+
+.even{
+  --background-color:antiquewhite;
+  background-color:linen;
+}
+a {
+  color: #0199E2 !important;
+}
+
+
