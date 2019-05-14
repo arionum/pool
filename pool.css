@@ -1,7 +1,31 @@
+@media only screen and (max-width: 600px) {
+  .cbox {float:left;width:100%;padding:10px;margin:10px;border:5px solid snow;}
+  
+  .cbox-text {height:100%;width:50%;float:left;background-color:salmon;text-align:center;color:white;padding-top:10%;padding-bottom:10%;}
+  .cbox-text span {border:1px solid silver;border-radius:10px;padding:5px;background-color:#212F3C;}
+  .cbox-image {width:40%;max-width:40%;float:left;border-width:0px;right:1px;position:relative;padding-left:5px;}
+  
+  .welcome-info {display:none;}
+  .welcome-name {font-size:25px; color:brown;}
+}
+@media only screen and (max-width: 800px) {
+  .welcome-info {display:none;}
+  .welcome-name {font-size:25px; color:brown;}
+}
+@media only screen and (min-width: 600px) {
+  .cbox {float:left;width:45%;padding:10px;margin:10px;border:5px solid snow;}
+  
+  .cbox-text {height:100%;min-height:170px;width:50%;float:left;background-color:salmon;text-align:center;color:white;padding-top:10%;padding-bottom:10%;}
+  .cbox-text span {border:1px solid silver;border-radius:10px;padding:5px;background-color:#212F3C;}
+  .cbox-image {width:30%;float:left;border-width:0px;right:1px;position:relative;padding-left:5px;}
+  
+  .welcome-info {float:left;margin-left:20px;}
+  .welcome-name {float:left;font-size:25px; color:brown;}
+}
+
 .odd{
   background-color:snow !important;
 }
-
 .even{
   --background-color:antiquewhite;
   background-color:linen;
@@ -10,4 +34,12 @@ a {
   color: #0199E2 !important;
 }
 
+  .navbar-logo-image {font-size:16px !important;}
+  .welcome {padding-left:50px;font-size:25px; color:brown;height:100%;font-weight:bold;}
+  .counter {padding-left:50px;top:0px;}
+  .link {cursor:pointer;}
 
+#update
+.sidebar-left-content{
+  background-color:#3d3f48 !important;
+}
