@@ -103,7 +103,7 @@ if ($q == "") {
     $tpl->assign("total_historic", $total_historic);
     $tpl->assign("height", $current['height']);
     $tpl->assign("lastwon", $last_won);
-    $tpl->assign("total_paid", number_format($db->single("SELECT val FROM info WHERE id='total_paid'") / 1000000, 3));
+    $tpl->assign("total_paid", number_format($db->single("SELECT val FROM info WHERE id='total_paid'") / 1000, 3));
     $tpl->assign("shares", $shares);
     $tpl->assign("historic", $historic);
     $tpl->assign("difficulty", 200000000 - $current['difficulty']);
@@ -236,8 +236,13 @@ if ($q == "") {
 
 
     $tpl->draw("info");
+} elseif ($q == "benchmarks") {
+    $tpl->draw("benchmarks");
+} elseif ($q == "links") {
+    $tpl->draw("links");
 }
 
 $tpl = new Tpl();
 $tpl->assign("q", $q);
 $tpl->draw("footer");
+

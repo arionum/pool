@@ -24,6 +24,7 @@ $ip = $_SERVER['REMOTE_ADDR'];
 
 $q = san($_GET['q']);
 $max_dl = $pool_config['max_deadline'];
+$max_dl_network = $pool_config['max_deadline_network'];
 
 
 if ($q === 'info') {
@@ -231,7 +232,7 @@ if ($q === 'submitNonce') {
         }
         api_err('rejected - block changed - 1');
     } elseif ($result > 0 && $result <= $max_dl) {
-        $share = ceil(($max_dl - $result) / 100);
+        $share = ceil(($max_dl_network - $result) / 1000);
 
         $db->run(
             'INSERT INTO miners

@@ -2,12 +2,20 @@
 <html>
 
 <head>
+  <script>
+    if (location.protocol != 'https:') {
+      location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+  </script>
+
     <meta charset="utf-8">
     <title>{$pool_name}</title>
-    <meta name="keywords" content="{$pool_name}"/>
-    <meta name="description" content="{$pool_name}">
+    <meta name="keywords" content="{$pool_name},ARO,Arionum,arionum,pool,arionum pool,solo,solo pool,arionum solo pool,mining,miner,crypto,cryptocurrency,mining pool,cryptogone,bogdanadnan,aropool,arionumpool,aromining""/>
+    <meta name="description" content="{$pool_name} is a reliable, big performance, secure pool for Arionum miners">
    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="utils/price.js"></script>
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -24,8 +32,11 @@
 
   
     <!-- CSS - theme -->
-
     <link rel="stylesheet" type="text/css" href="assets/skin/default_skin/less/theme.min.css">
+
+    <!-- CSS - POOL -->
+    <link rel="stylesheet" type="text/css" href="pool.css">
+
 
     <!-- CSS - allcp forms -->
     <link rel="stylesheet" type="text/css" href="assets/allcp/forms/css/forms.css">
@@ -39,8 +50,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
-.info-block h2 { font-size: 32px; }
-.info-block i { font-size: 16px; }
+  .info-block h2 { font-size: 32px; }
+  .info-block i { font-size: 16px; }
+  .navbar-logo-image {font-size:16px !important;}
+  .welcome {padding-left:50px;font-size:25px; color:brown;height:100%;font-weight:bold;}
+  .counter {padding-left:50px;top:0px;}
+  .link {cursor:pointer;}
 </style>
 </head>
 
@@ -50,7 +65,7 @@
 <div id="main">
 
     <!-- Header  -->
-    <header class="navbar navbar-fixed-top">
+    <header class="navbar navbar-fixed-top" style="background-color:#dee1ec !important;">
         <div class="navbar-logo-wrapper dark bg-dark">
             <span class="navbar-logo-image" style="font-size: 25px; font-weight:bold; color:#00e6e6;" href="/"></a>
                 {$pool_name}
@@ -58,6 +73,18 @@
         </div>
         <span id="sidebar_left_toggle" class="ad ad-lines navbar-nav navbar-left"></span>
 
+<div style="font-size:12px !important;">
+  <div style="float:left;">
+    <img src="images/arionum.png" style="height:60px;" />
+    <img src="images/gpu_icon.png" style="height:60px;" />
+    
+  </div>
+  <div style="float:left;margin-left:20px;">
+    <span>Pool: {$pool_name}</span><br />
+    <span>This pool for home miners: Gpu, multiple CPU min DL: [300.000] </span><br />
+    <span>Work together with another arionum.tk pools</span><br />
+  </div>
+</div>
 
 
     </header>
@@ -81,7 +108,7 @@
                 <li {if="$q=='blocks'"}class="active"{/if} >
                     <a  href="/?q=blocks">
                         <span class="sidebar-title">Blocks Won</span>
-                        <span class="sb-menu-icon fa fa-share-square-o"></span>
+                        <span class="sb-menu-icon fa fa-cubes"></span>
                     </a>
                 </li>
 
@@ -100,11 +127,37 @@
                     </a>
                 </li>
 
+                <li>
+                    <a target="_blank" href="https://cubedpixels.net/projects/Arionum%20Crossplatform%20Wallet/login.html">
+                        <span class="sidebar-title">Web wallet</span>
+
+                        <span class="sb-menu-icon fa fa-compass"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a  href="/?q=links/">
+                        <span class="sidebar-title">Useful links</span>
+
+                        <span class="sb-menu-icon fa fa-share-square-o"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://arionum.tk/">
+                        <span class="sidebar-title">Main page</span>
+
+                        <span class="sb-menu-icon fa fa-slack"></span>
+                    </a>
+                </li>
+
             </ul>
             <!-- /Sidebar Menu  -->
+            <img src="images/gpu_icon.png" style="width:80%;" />
 
         </div>
         <!-- /Sidebar Left Wrapper  -->
+    <div>Pool: {$pool_name}</div>
 
     </aside>
     <!-- /Sidebar -->

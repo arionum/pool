@@ -47,13 +47,13 @@ $db->run('UPDATE miners
           SET gpuhr = (
             SELECT SUM(gpuhr)
             FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 750
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 1800
           )');
 $db->run('UPDATE miners
           SET hashrate = (
             SELECT SUM(hashrate)
             FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 750
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 1800
           )');
 //uit sanity
 
@@ -64,7 +64,7 @@ $db->run('UPDATE miners
             $thr = $db->row(
                 'SELECT SUM(hashrate) AS cpu, SUM(gpuhr) AS gpu
                  FROM workers
-                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 750',
+                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 1800',
                 [':m' => $x['id']]
             );
             if ($x['historic'] / $thr['cpu'] < 2 || $x['historic'] / $thr['gpu'] < 2) {

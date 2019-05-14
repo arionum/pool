@@ -1,10 +1,26 @@
 # Modifications
 
-This repository is based on ario's fork of the official arionum pool code.
+This repository is based on angelexevior's fork.
 System requirements are indentical to the official pool code. 
 
 Warning: because of additions to the config file, do not simply replace the php-files without making sure all variables are added to the config. 
 
+## Mining
+- Share count based on network min DL, 1.000.000, so pool Min DL don't affect share count
+- Multiple pool can work together, (eg. different min DL for Cpu, GPU or other mining settings, but same reward policy)
+
+## Display
+- Expanded informations on main page (need to run /utils/getinfo.sh)
+  -> passed blocks from last found
+  -> luck % (based on passed blocks and actual hashrate, need to finetune)
+  -> Arionum actual price (from arionum.info)
+  -> network hashrates (from arionum.info)
+- Added some icons, and header
+- Added links page (webpages, miners, wallets, pools...)
+- Added Cuby's web wallet link
+
+### angelexevior's changes ###
+ 
 ## Bigger changes:
 - Change: Hashreporting has been removed from payments/poolsanity to a seperate updater. Updating hashrates on the website can be done independently of payment-cycle, and db is no longer only updated when moving to next block. Be aware that the 10minute update interval from the clients is fixed. As is the 'first appearance' in the db after submitting first nonce
 - Added: Api.php has been expanded and restructured with more options
