@@ -1,14 +1,24 @@
 <?php
-include("db.php");
 
-$total_hr=$db->single("SELECT val FROM info WHERE id='total_hash_rate'");
+require __DIR__.'/db.php';
 
-$total_gpu=$db->single("SELECT val FROM info WHERE id='total_gpu_hr'");
+$totalCpuHashrate = $db->single("SELECT val FROM info WHERE id = 'total_hash_rate'");
 
-$current=$aro->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
+$totalGpuHashrate = $db->single("SELECT val FROM info WHERE id = 'total_gpu_hr'");
 
-$miners=$db->single("SELECT COUNT(1) FROM miners");
-$last_won=$db->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
-$last_won_time=$aro->single("SELECT date FROM blocks WHERE height=:h",[":h"=>$last_won]);
+$currentBlockHeight = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 
-echo json_encode(array("cpu_hr"=>$total_hr, "gpu_hr"=>$total_gpu, "current_block_height"=>$current, "last_won_block"=>$last_won, "last_won_block_time"=>$last_won_time, "miners"=>$miners, "fee"=>$pool_config['fee']));
+$miners = $db->single('SELECT COUNT(1) FROM miners');
+
+$lastWon = $db->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
+$lastWonTime = $aro->single('SELECT date FROM blocks WHERE height = :h', [':h' => $lastWon]);
+
+echo json_encode([
+    'cpu_hr' => $totalCpuHashrate,
+    'gpu_hr' => $totalGpuHashrate,
+    'current_block_height' => $currentBlockHeight,
+    'last_won_block' => $lastWon,
+    'last_won_block_time' => $lastWonTime,
+    'miners' => $miners,
+    'fee' => $pool_config['fee'],
+]);
