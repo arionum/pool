@@ -37,10 +37,21 @@ if ($q === 'info') {
         }
 
         $worker = $_GET['worker'];
+        $minerid = $_GET['id'];
+
         $hr = (int)round($_GET['hashrate'],0);
         $gpuhr = (int)round($_GET['gpuhr'],0) + (int)round($_GET['hrgpu'],0);
+
+        if (trim($minerid) === '') {
+          $workerid = substr(substr($miner,0,15) . '.' . substr($worker,0,15),0,31);
+        } else {
+          $workerid = substr($minerid . '.' . substr($worker,0,15),0,31);
+        }
+
         $bind = [
-            ':id' => $worker,
+            ':id' => $workerid,
+            ':workername' => $worker,
+            ':workername2' => $worker,
             ':hr' => $hr,
             ':hr2' => $hr,
             ':miner' => $miner,
@@ -49,6 +60,13 @@ if ($q === 'info') {
             ':gpuhr' => $gpuhr,
             ':gpuhr2' => $gpuhr,
         ];
+
+    //fix not unique rows
+    $db->run(
+            'UPDATE workers SET
+               id = :id, workername = :workername where id = :workername2',
+            $bind
+        );
 
     // fix Dan's misreporting
 	if ($gpuhr == 0){
@@ -75,8 +93,8 @@ if ($q === 'info') {
 
         $db->run(
             'INSERT INTO workers
-             SET id = :id, hashrate = :hr, updated = UNIX_TIMESTAMP(), miner = :miner, ip = :ip, gpuhr = :gpuhr
-             ON DUPLICATE KEY UPDATE updated = UNIX_TIMESTAMP(), hashrate = :hr2, ip = :ip2, gpuhr = :gpuhr2',
+             SET id = :id, workername = :workername, hashrate = :hr, updated = UNIX_TIMESTAMP(), miner = :miner, ip = :ip, gpuhr = :gpuhr
+             ON DUPLICATE KEY UPDATE updated = UNIX_TIMESTAMP(), workername = :workername2, hashrate = :hr2, ip = :ip2, gpuhr = :gpuhr2',
             $bind
         );
 	}
@@ -232,7 +250,8 @@ if ($q === 'submitNonce') {
         }
         api_err('rejected - block changed - 1');
     } elseif ($result > 0 && $result <= $max_dl) {
-        $share = ceil(($max_dl_network - $result) / 1000);
+        //$share = ceil(($max_dl_network - $result) / 1000);
+        $share = ceil(($max_dl_network / $max_dl) * 100);
 
         $db->run(
             'INSERT INTO miners
