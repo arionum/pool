@@ -115,7 +115,7 @@ if ($q == "") {
     $tpl->draw("index");
 } elseif ($q == 'acc') {
 
-    $r = $db->run("SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
+    $r = $db->run("SELECT concat(id) AS id, workername, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
     $b = [];
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate'], 0);
