@@ -52,6 +52,7 @@ CREATE TABLE `rejects` (
 
 CREATE TABLE `workers` (
   `id` varchar(32) NOT NULL,
+  `workername` varchar(32) NOT NULL,
   `hashrate` int(11) NOT NULL,
   `updated` int(11) NOT NULL,
   `miner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
