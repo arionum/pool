@@ -37,7 +37,13 @@
                                                      <p class="text-danger">{$value.height}</p>
                                                     {/if}
                                                 </td>
-                                                <td><div align=left>{$value.miner}</div></td>
+                                                <td>
+                                                  {if="$value.orphan == 0"}
+                                                    <div align=left>{$value.miner}</div>
+                                                  {else}
+                                                     <p align=left class="text-danger">Stealer: {$value.miner}</p>
+                                                  {/if}
+                                                </td>
                                             </tr>
  {/loop}
                                             </tbody>
