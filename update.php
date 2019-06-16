@@ -42,18 +42,18 @@ echo "\n------------------------------------------------------------------------
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
-//$db->run('DELETE FROM miners WHERE historic + shares <= 50');
+$db->run('DELETE FROM miners WHERE historic + shares <= 30');
 $db->run('UPDATE miners
           SET gpuhr = (
             SELECT SUM(gpuhr)
             FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 1800
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 1000
           )');
 $db->run('UPDATE miners
           SET hashrate = (
             SELECT SUM(hashrate)
             FROM workers
-            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 1800
+            WHERE miner = miners.id AND updated > UNIX_TIMESTAMP() - 1000
           )');
 //uit sanity
 
@@ -64,7 +64,7 @@ $db->run('UPDATE miners
             $thr = $db->row(
                 'SELECT SUM(hashrate) AS cpu, SUM(gpuhr) AS gpu
                  FROM workers
-                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 1800',
+                 WHERE miner = :m AND updated > UNIX_TIMESTAMP() - 1000',
                 [':m' => $x['id']]
             );
             if ($x['historic'] / $thr['cpu'] < 2 || $x['historic'] / $thr['gpu'] < 2) {
@@ -82,7 +82,7 @@ $db->run('UPDATE miners
 
 //$db->run('DELETE FROM miners WHERE shares=0 AND historic=0 AND updated<UNIX_TIMESTAMP()-86400');
 $db->run('DELETE FROM miners WHERE shares + historic <=50 AND updated<UNIX_TIMESTAMP()-86400');
-$db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-1800');
+$db->run('DELETE FROM workers WHERE updated<UNIX_TIMESTAMP()-1000');
 
 // hier wordt het pending op de dashboard aangepast
 $db->run(
@@ -94,5 +94,40 @@ $db->run(
      )',
     [':h' => $current - $pool_config['blocks_paid']]
 );
+
+
+//count orphans
+    $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 100");
+    foreach ($r as $x) {
+        if ($pool_config['keep_orphans'] == true) {
+            $f = file_get_contents($pool_config['node_url'].'/api.php?q=getBlock&height='.$x['height']);
+            $g = json_decode($f, true);
+            $oheight = $x['height'];
+
+            if ($g['data']['generator']) {
+                $x['generator'] = $g['data']['generator'];
+                if ( $pool_config['address'] != $g['data']['generator'] ) {
+
+                    //stealer alias
+                    $fa = file_get_contents($pool_config['node_url'].'/api.php?q=getAlias&account='.$g['data']['generator']);
+                    $ga = json_decode($fa, true);
+
+                    if ( trim($ga['data']) !== '' ){
+                      $x['stealer'] = $ga['data'];
+                    }else{
+                      $x['stealer'] = $g['data']['generator'];
+                    }
+
+                    $bind = [
+                      ':height' => $x['height'],
+                      ':miner' => $x['stealer']
+                    ];
+
+                    $db->run("UPDATE blocks SET orphan=1, miner = :miner where height = :height",$bind);
+                }
+            }
+        }
+    }
+
 
 
