@@ -23,6 +23,13 @@ if ($q == "") {
     $current = $aro->row("SELECT * FROM blocks ORDER by height DESC LIMIT 1");
     $last_won = $db->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
 
+    $orphancount = $db->single("select sum(orphan) from (SELECT orphan FROM blocks ORDER by height DESC LIMIT 100) ol");
+    $oblockcount = 100;
+    //$oblockcount = $db->single("SELECT count(*) FROM blocks ORDER by height DESC LIMIT 100");  //comment out on new pool
+    //$oblockcount = min($oblockcount, 100);
+    $orphanpercent = round( ($orphancount / $oblockcount) * 100, 1) ;
+    $tpl->assign("orphanpercent", $orphanpercent);
+
     $total_shares = 0;
     $shares = [];
 
@@ -182,21 +189,6 @@ if ($q == "") {
     $b = [];
     foreach ($r as $x) {
         $x['reward'] = number_format($x['reward'], 2);
-
-        if ($pool_config['keep_orphans'] == true) {
-            $f = file_get_contents($pool_config['node_url'].'/api.php?q=getBlock&height='.$x['height']);
-            $g = json_decode($f, true);
-            
-            if ($g['data']['generator']) {
-                $x['generator'] = $g['data']['generator'];
-                if ( $pool_config['address'] != $g['data']['generator'] ) {
-                    $x['orphan'] = true;
-                } else $x['orphan'] = false;
-            }
-        } else $x['orphan'] = false;
-    
-
-
         $b[] = $x;
     }
 
@@ -232,8 +224,6 @@ if ($q == "") {
     $tpl->assign("pool_url", $pool_config['pool_url']);
     $tpl->assign("pool_degradation", number_format($pool_config['pool_degradation']*100,1));
     $tpl->assign("handle", $pool_config['handle']);
-
-
 
     $tpl->draw("info");
 } elseif ($q == "benchmarks") {
