@@ -6,10 +6,15 @@ System requirements are indentical to the official pool code.
 Warning: because of additions to the config file, do not simply replace the php-files without making sure all variables are added to the config. 
 
 ## Mining
-- Share count based on network min DL, 1.000.000, so pool Min DL don't affect share count
+- Share count based on accepted share and pool min DL and networm maximum min DL rate
 - Multiple pool can work together, (eg. different min DL for Cpu, GPU or other mining settings, but same reward policy)
 
+## Utils
+- Update.php: calculate orphan blocks, and overwriter (stealer)'s alias or address
+
 ## Display
+- Show Orphans % (basen on last 100 block)
+- Show Orphan block overwriter ("stealer")
 - Expanded informations on main page (need to run /utils/getinfo.sh)
   -> passed blocks from last found
   -> luck % (based on passed blocks and actual hashrate, need to finetune)
