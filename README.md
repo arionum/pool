@@ -8,11 +8,18 @@ Warning: because of additions to the config file, do not simply replace the php-
 ## Mining
 - Share count based on accepted share and pool min DL and networm maximum min DL rate
 - Multiple pool can work together, (eg. different min DL for Cpu, GPU or other mining settings, but same reward policy)
+- Database updated with orphan info
+- Poolsanity.php: improved peering to other pools (send and get infos)
 
 ## Utils
 - Update.php: calculate orphan blocks, and overwriter (stealer)'s alias or address
+- Poolsanity.php: modified, to update PID every minute
+- Poolsanity.service: Made a system service for poolsanity, copy to /etc/systemd/sytem
+- getserverinfo.sh: update server resources
+- services: system services for automated jobs (sanity, poolsanity, serverinfo)
 
 ## Display
+- Show Server resources (CPU, Memory, Server load)
 - Show Orphans % (basen on last 100 block)
 - Show Orphan block overwriter ("stealer")
 - Expanded informations on main page (need to run /utils/getinfo.sh)
@@ -23,6 +30,7 @@ Warning: because of additions to the config file, do not simply replace the php-
 - Added some icons, and header
 - Added links page (webpages, miners, wallets, pools...)
 - Added Cuby's web wallet link
+- Added News info
 
 ### angelexevior's changes ###
  
