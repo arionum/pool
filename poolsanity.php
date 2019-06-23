@@ -96,4 +96,14 @@ while (1) {
     file_put_contents($cache_file, $fin);
 
     sleep(2);
+
+    //refresh PID
+    $pid_exists = file_exists($pid112);
+    $pid_time = 0;
+    if ($pid_exists) {
+        $pid_time = filemtime($pid112);
+    }
+    if (time() - $pid_time > 60) {
+        system("touch $pid112");
+    }
 }
