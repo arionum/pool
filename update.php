@@ -97,9 +97,12 @@ $db->run(
 
 
 //count orphans
-    $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 100");
+    $r = $db->run("SELECT * FROM blocks where orphan=0 ORDER by height DESC LIMIT 100");
     foreach ($r as $x) {
-        if ($pool_config['keep_orphans'] == true) {
+        echo("Processing block height:".$x['height'].", orphan:".$x['orphan']." \n");
+        if (($pool_config['keep_orphans'] == true) && ($x['orphan'] == 0)) {
+            echo("Updating block height:".$x['height'].", orphan:".$x['orphan']." \n");
+
             $f = file_get_contents($pool_config['node_url'].'/api.php?q=getBlock&height='.$x['height']);
             $g = json_decode($f, true);
             $oheight = $x['height'];
@@ -124,10 +127,17 @@ $db->run(
                     ];
 
                     $db->run("UPDATE blocks SET orphan=1, miner = :miner where height = :height",$bind);
+                } else {
+                    $bind = [
+                      ':height' => $x['height']
+                    ];
+
+                   $db->run("UPDATE blocks SET orphan=-1 where height = :height",$bind);
                 }
             }
         }
     }
+
 
 
 
