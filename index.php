@@ -23,7 +23,7 @@ if ($q == "") {
     $current = $aro->row("SELECT * FROM blocks ORDER by height DESC LIMIT 1");
     $last_won = $db->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
 
-    $orphancount = $db->single("select sum(orphan) from (SELECT orphan FROM blocks ORDER by height DESC LIMIT 100) ol");
+    $orphancount = $db->single("select sum(orphan) from (SELECT orphan FROM blocks ORDER by height DESC LIMIT 100) ol where orphan>0");
     $oblockcount = 100;
     //$oblockcount = $db->single("SELECT count(*) FROM blocks ORDER by height DESC LIMIT 100");  //comment out on new pool
     //$oblockcount = min($oblockcount, 100);
@@ -230,6 +230,8 @@ if ($q == "") {
     $tpl->draw("benchmarks");
 } elseif ($q == "links") {
     $tpl->draw("links");
+} elseif ($q == "news") {
+    $tpl->draw("news");
 }
 
 $tpl = new Tpl();
