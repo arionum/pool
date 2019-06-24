@@ -1,6 +1,6 @@
 #extract infos from arionum.info
 
-dir=/var/www/__POOL__/utils/
+dir=/var/www/arionum.tk/utils/
 cd $dir
 rm index.html*
 wget arionum.info # index.html
@@ -31,6 +31,10 @@ echo "var aro_price=$price;" > price.js
 echo "var aro_gpu_hashrate=$gpuhashrate;" >> price.js
 echo "var aro_cpu_hashrate=$cpuhashrate;" >> price.js
 
-#spread file to other pool
-cp price.js /var/www/___OTHERPOOLS___/utils
+#spread file
+cp price.js /var/www/mine-arionum.tk/utils
+cp price.js /var/www/smallminers-arionum.tk/utils
+cp price.js /var/www/bigminers-arionum.tk/utils
+cp price.js /var/www/solo-arionum.tk/utils
+cp price.js /var/www/pool-arionum.tk/utils
 

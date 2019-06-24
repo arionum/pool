@@ -40,9 +40,9 @@ while true; do
   UsedMEM=$(( (100 * ($TotalMEM - $FreeMEM) / $TotalMEM) ));
 
   LOAD=(`uptime`) # Get the serverLOAD.
-  L1M=${LOAD[9]/,/}     # Get the MEMs.
-  L5M=${LOAD[10]/,/}
-  L15M=${LOAD[11]/,/}
+  L1M=${LOAD[10]/,/}     # Get the Loads.
+  L5M=${LOAD[11]/,/}
+  L15M=${LOAD[12]/,/}
   L1P=$(echo "scale=2; (($L1M * 100)/4)" | bc -l);
   L5P=$(echo "scale=2; (($L5M * 100)/4)" | bc -l);
   L15P=$(echo "scale=2; (($L15M * 100)/4)" | bc -l);
@@ -52,9 +52,12 @@ while true; do
   echo "var srv_cpu=$CPUUSAGE;" > serverinfo.js
   echo "var srv_mem=$UsedMEM;" >> serverinfo.js
   echo "var srv_load=$L1P;" >> serverinfo.js
-  echo "var srv_load1m=$L1P;" >> serverinfo.js
-  echo "var srv_load5m=$L5P;" >> serverinfo.js
-  echo "var srv_load15m=$L15P;" >> serverinfo.js
+  echo "var srv_load1p=$L1P;" >> serverinfo.js
+  echo "var srv_load5p=$L5P;" >> serverinfo.js
+  echo "var srv_load15p=$L15P;" >> serverinfo.js
+  echo "var srv_load1m=$L1M;" >> serverinfo.js
+  echo "var srv_load5m=$L5M;" >> serverinfo.js
+  echo "var srv_load15m=$L15M;" >> serverinfo.js
 
   #spread file
   cp serverinfo.js /var/www/mine-arionum.tk/utils

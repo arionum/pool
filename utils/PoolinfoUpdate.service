@@ -1,7 +1,7 @@
-#serverinfoUpdate.service
+#PoolinfoUpdate.service
 
 [Unit]
-Description=Serverinfo Update
+Description=Poolinfo Update
 #Requires=mysqld.service
 After=network.target
 
@@ -9,8 +9,8 @@ After=network.target
 User=root
 Type=simple
 TimeoutSec=0
-PIDFile=/var/run/ServerinfoUpdate.pid
-ExecStart=/bin/bash /var/www/arionum.tk/utils/getserverinfo.sh > /dev/null 2>/dev/null
+PIDFile=/var/run/PoolinfoUpdate.pid
+ExecStart=/bin/bash /var/www/arionum.tk/utils/getpoolinfo.sh > /dev/null 2>/dev/null
 #ExecStop=/bin/kill -HUP $MAINPID #It's the default you can change whats happens on stop command
 #ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
@@ -20,8 +20,8 @@ Restart=always
 RestartSec=30s
 
 #If you don't want to make toms of logs you can set it null if you sent a file or some other options it will send all php output to this one.
-StandardOutput=/var/log/ServerinfoUpdate.log
-StandardError=/var/log/ServerinfoUpdate.err
+StandardOutput=/var/log/PoolinfoUpdate.log
+StandardError=/var/log/PoolinfoUpdate.err
 
 [Install]
 WantedBy=default.target
