@@ -2,11 +2,6 @@
 <html>
 
 <head>
-  <script>
-    if (location.protocol != 'https:') {
-      location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-    }
-  </script>
    
     <meta charset="utf-8">
     <title>{$pool_name}</title>
@@ -66,7 +61,7 @@
     <!-- Header  -->
     <header class="navbar navbar-fixed-top" style="background-color:#dee1ec !important;">
         <div class="navbar-logo-wrapper dark bg-dark">
-            <a href="https://arionum.tk">
+            <a href="{$pool_url}">
             <span class="navbar-logo-image" style="font-size: 25px; font-weight:bold; color:#00e6e6;" href="/">
                <img src="images/arionum.png" style="height:30px;border-width:0px;" />
                {$pool_name}
@@ -81,9 +76,8 @@
     <img src="images/arionum.png" style="height:60px;" />
   </div>
   <div class="welcome-info">
-    <span>{$pool_name} pools</span><br />
-    <span>Pools for small cpu miners to big miner farms, and solo miners! </span><br />
-    <span>Choose your pool!</span><br />
+    <span>{$pool_name}</span><br />
+
   </div>
   <div style="float:left;margin-left:20px;" id="srvinfo">
     <span>Server Processor: <strong><script>document.write(srv_cpu+"%");</script>  </strong></span><br />
@@ -101,15 +95,7 @@
     <span>ArionumPool:  <strong><script>document.write(arionumpool_block);</script> </strong></span><br />
     <span>Arionum.Info:  <strong><script>document.write(arionuminfo_block);</script> </strong></span><br />
   </div>
-  <div style="float:right;margin-left:20px;padding-left:30px;padding-right:30px;color:yellow;background-color:gray;font-size:18px;height:65px;overflow:hidden;text-align:center;">
-    <div style="background-color:green;float:top;">
-      <span>* * * Testing ready. Hashing, peering, paying are ok * * *</span><br />
-    </div>
-    <div style="background-color:green;float:top;">
-      <span>Min DLs modified, sync is working fast, pools are working properly.</span><br />
-    </div>
-    <span></span><br />
-  </div>
+
 
 
 </div>
@@ -143,51 +129,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="https://smallminers.arionum.tk/">
-                        <img src="images/cpu_icon.svg" style="height:30px;border-width:0px;" />
-                        <span class="sidebar-title">CPU pool</span>
-
-                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://mine.arionum.tk/">
-                        <img src="images/gpu_icon.svg" style="height:30px;border-width:0px;" />
-                        <span class="sidebar-title">GPU pool</span>
-
-                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://bigminers.arionum.tk/">
-                        <img src="images/rig_icon.svg" style="height:30px;border-width:0px;" />
-                        <span class="sidebar-title">Farm pool</span>
-
-                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://solo.arionum.tk/">
-                        <img src="images/solo_icon.svg" style="height:30px;border-width:0px;" />
-                        <span class="sidebar-title">SOLO pool</span>
-
-                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://node.arionum.tk/">
-                        <img src="images/node_icon.svg" style="height:30px;border-width:0px;" />
-                        <span class="sidebar-title">Arionum Node</span>
-
-                        <!--  <span class="sb-menu-icon fa fa-slack"></span>-->
-                    </a>
-                </li>
-
+              
                 <li>
                   <a href="#">
                         <span class="sidebar-title" style="color:white;">Price: <script>document.write(aro_price)</script> USD</span>

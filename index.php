@@ -16,6 +16,7 @@ $tpl = new Tpl();
 $tpl->assign("q", $q);
 $tpl->assign("id", $id);
 $tpl->assign("pool_name", $pool_config['pool_name']);
+$tpl->assign("pool_url", $pool_config['pool_url']);
 $tpl->assign("template_directory", $pool_config['template_directory']);
 $tpl->draw('header');
 
