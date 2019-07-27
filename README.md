@@ -36,7 +36,16 @@ Warning: because of additions to the config file, do not simply replace the php-
 - Added Cuby's web wallet link
 - Added News info
 
-### angelexevior's changes ###
+With the current setup payments are split from updates.
+
+Run payments to crontab every x hours, min payment can remain low, but it will prevent big miners from massive small payments.
+
+Run update in seperate crontab every 1 minute. 
+
+Optional: Run poolsanity as systemd-service
+
+
+### hendrik's changes ###
  
 ## Bigger changes:
 - Change: Hashreporting has been removed from payments/poolsanity to a seperate updater. Updating hashrates on the website can be done independently of payment-cycle, and db is no longer only updated when moving to next block. Be aware that the 10minute update interval from the clients is fixed. As is the 'first appearance' in the db after submitting first nonce
@@ -78,13 +87,3 @@ Warning: because of additions to the config file, do not simply replace the php-
 - Bugfix: On individual miner page - when no payment ever last payment date is shown as No Payment Yet
 - Change: On info page - old mining info removed, pool details (rewards/degradation/payout/DL) are read from the config file
 - Change: On info page - discord handle can be set in config
-
-
-With the current setup payments are split from updates.
-
-Run payments to crontab every x hours, min payment can remain low, but it will prevent big miners from massive small payments.
-
-Run update in seperate crontab every 1 minute. 
-
-Optional: Run poolsanity as systemd-service
-
