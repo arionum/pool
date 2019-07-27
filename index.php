@@ -23,6 +23,13 @@ if ($q == "") {
     $current = $aro->row("SELECT * FROM blocks ORDER by height DESC LIMIT 1");
     $last_won = $db->single("SELECT height FROM blocks ORDER by height DESC LIMIT 1");
 
+    $orphancount = $db->single("select sum(orphan) from (SELECT orphan FROM blocks ORDER by height DESC LIMIT 100) ol where orphan>0");
+    $oblockcount = 100;
+    //$oblockcount = $db->single("SELECT count(*) FROM blocks ORDER by height DESC LIMIT 100");  //comment out on new pool
+    //$oblockcount = min($oblockcount, 100);
+    $orphanpercent = round( ($orphancount / $oblockcount) * 100, 1) ;
+    $tpl->assign("orphanpercent", $orphanpercent);
+
     $total_shares = 0;
     $shares = [];
 
@@ -103,7 +110,7 @@ if ($q == "") {
     $tpl->assign("total_historic", $total_historic);
     $tpl->assign("height", $current['height']);
     $tpl->assign("lastwon", $last_won);
-    $tpl->assign("total_paid", number_format($db->single("SELECT val FROM info WHERE id='total_paid'") / 1000000, 3));
+    $tpl->assign("total_paid", number_format($db->single("SELECT val FROM info WHERE id='total_paid'") / 1000, 3));
     $tpl->assign("shares", $shares);
     $tpl->assign("historic", $historic);
     $tpl->assign("difficulty", 200000000 - $current['difficulty']);
@@ -115,7 +122,7 @@ if ($q == "") {
     $tpl->draw("index");
 } elseif ($q == 'acc') {
 
-    $r = $db->run("SELECT concat(id) AS id, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
+    $r = $db->run("SELECT concat(id) AS id, workername, sum(hashrate) AS hashrate, sum(gpuhr) as gpuhr, updated FROM workers WHERE miner=:miner GROUP BY id",  [":miner" => $id] );
     $b = [];
     foreach ($r as $x) {
         $x['hashrate'] = number_format($x['hashrate'], 0);
@@ -182,21 +189,6 @@ if ($q == "") {
     $b = [];
     foreach ($r as $x) {
         $x['reward'] = number_format($x['reward'], 2);
-
-        if ($pool_config['keep_orphans'] == true) {
-            $f = file_get_contents($pool_config['node_url'].'/api.php?q=getBlock&height='.$x['height']);
-            $g = json_decode($f, true);
-            
-            if ($g['data']['generator']) {
-                $x['generator'] = $g['data']['generator'];
-                if ( $pool_config['address'] != $g['data']['generator'] ) {
-                    $x['orphan'] = true;
-                } else $x['orphan'] = false;
-            }
-        } else $x['orphan'] = false;
-    
-
-
         $b[] = $x;
     }
 
@@ -233,11 +225,16 @@ if ($q == "") {
     $tpl->assign("pool_degradation", number_format($pool_config['pool_degradation']*100,1));
     $tpl->assign("handle", $pool_config['handle']);
 
-
-
     $tpl->draw("info");
+} elseif ($q == "benchmarks") {
+    $tpl->draw("benchmarks");
+} elseif ($q == "links") {
+    $tpl->draw("links");
+} elseif ($q == "news") {
+    $tpl->draw("news");
 }
 
 $tpl = new Tpl();
 $tpl->assign("q", $q);
 $tpl->draw("footer");
+

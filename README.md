@@ -1,19 +1,49 @@
 # Modifications
 
-This repository is based on ario's fork of the official arionum pool code.
+This repository is based on angelexevior's fork.
 System requirements are indentical to the official pool code. 
 
 Warning: because of additions to the config file, do not simply replace the php-files without making sure all variables are added to the config. 
 
+## Mining
+- Share count based on accepted share and pool min DL and networm maximum min DL rate
+- Multiple pool can work together, (eg. different min DL for Cpu, GPU or other mining settings, but same reward policy)
+- Database updated with orphan info
+- Poolsanity.php: improved peering to other pools (send and get infos)
+- Workers unique ID based on miner's session ID, or the address first 15 char
+
+## Utils
+- Update.php: calculate orphan blocks, and overwriter (stealer)'s alias or address
+- Poolsanity.php: modified, to update PID every minute
+- Poolsanity.service: Made a system service for poolsanity, copy to /etc/systemd/sytem
+- getserverinfo.sh: update server resources
+- services: system services for automated jobs (sanity, poolsanity, serverinfo)
+- Added pool info service: Watching another pool's block height (Aropool.com, Aro.cool, Arionumpool.com, Arionum.info)
+  -> if our height lower, then force sanity
+
+## Display
+- Show another pool's block heights
+- Show Server resources (CPU, Memory, Server load)
+- Show Orphans % (basen on last 100 block)
+- Show Orphan block overwriter ("stealer")
+- Expanded informations on main page (need to run /utils/getinfo.sh)
+  -> passed blocks from last found
+  -> luck % (based on passed blocks and actual hashrate, need to finetune)
+  -> Arionum actual price (from arionum.info)
+  -> network hashrates (from arionum.info)
+- Added some icons, and header
+- Added links page (webpages, miners, wallets, pools...)
+- Added Cuby's web wallet link
+- Added News info
+
+### angelexevior's changes ###
+ 
 ## Bigger changes:
 - Change: Hashreporting has been removed from payments/poolsanity to a seperate updater. Updating hashrates on the website can be done independently of payment-cycle, and db is no longer only updated when moving to next block. Be aware that the 10minute update interval from the clients is fixed. As is the 'first appearance' in the db after submitting first nonce
 - Added: Api.php has been expanded and restructured with more options
 - Added: Last payment, payment date, payments in 24h, time of last submitted nonce included on individual miner page and api
 - Bugfix: False rejects stale blocks submitted through Dan's Javaminer after PHP upgrade. 
 - Bugfix: Workaround for misreporting Dan's Java miner/Android miner
-- TODO: Orphaned blocks are no longer removed from the list but marked as orphaned. Pending payments are removed. 
-- TODO: Workerid is changed to workername+address to create a unique key without having to alter the database. It prevents changes to client (new address/new workername) not being updated in the workerlist and it also prevents 2 miners using the same workername to be misreported as one. It will NOT change the fact that miners using one single name for many workers causing their hashrate being reported as once worker. This would require a uniqueID being send from the worker
-- TODO: implement the possible external argon2 validation through config file
 - TODO: either update miner hr more often or insert sum workerHR into dashboard/individual pages/api
 
 ## Smaller changes:

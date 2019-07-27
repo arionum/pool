@@ -2,12 +2,22 @@
 <html>
 
 <head>
+  <script>
+    if (location.protocol != 'https:') {
+      location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+  </script>
+   
     <meta charset="utf-8">
     <title>{$pool_name}</title>
-    <meta name="keywords" content="{$pool_name}"/>
-    <meta name="description" content="{$pool_name}">
-   
+    <meta name="keywords" content="{$pool_name},ARO,Arionum,arionum,pool,arionum pool,solo,solo pool,arionum solo pool,mining,miner,crypto,cryptocurrency,mining pool,cryptogone,bogdanadnan,aropool,arionumpool,aromining""/>
+    <meta name="description" content="{$pool_name} is a reliable, big performance, secure pool for Arionum miners">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="utils/price.js"></script>
+    <script src="utils/plusinfo.js"></script>
+    <script src="utils/serverinfo.js"></script>
+    <script src="utils/poolinfo.js"></script>
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -22,10 +32,13 @@
     <link rel="stylesheet" type="text/css"
           href="assets/js/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css">
 
-  
+ 
     <!-- CSS - theme -->
-
     <link rel="stylesheet" type="text/css" href="assets/skin/default_skin/less/theme.min.css">
+
+    <!-- CSS - POOL -->
+    <link rel="stylesheet" type="text/css" href="pool.css">
+
 
     <!-- CSS - allcp forms -->
     <link rel="stylesheet" type="text/css" href="assets/allcp/forms/css/forms.css">
@@ -39,25 +52,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
-.info-block h2 { font-size: 32px; }
-.info-block i { font-size: 16px; }
+  .info-block h2 { font-size: 32px; }
+  .info-block i { font-size: 16px; }
 </style>
+
 </head>
 
-<body class="dashboard-page with-customizer">
+<body onload="automat()" class="dashboard-page with-customizer">
 
 <!-- Body Wrap  -->
 <div id="main">
 
     <!-- Header  -->
-    <header class="navbar navbar-fixed-top">
+    <header class="navbar navbar-fixed-top" style="background-color:#dee1ec !important;">
         <div class="navbar-logo-wrapper dark bg-dark">
-            <span class="navbar-logo-image" style="font-size: 25px; font-weight:bold; color:#00e6e6;" href="/"></a>
-                {$pool_name}
+            <a href="https://arionum.tk">
+            <span class="navbar-logo-image" style="font-size: 25px; font-weight:bold; color:#00e6e6;" href="/">
+               <img src="images/arionum.png" style="height:30px;border-width:0px;" />
+               {$pool_name}
             </span>
+            </a>
+
         </div>
         <span id="sidebar_left_toggle" class="ad ad-lines navbar-nav navbar-left"></span>
 
+<div style="font-size:12px !important;">
+  <div style="float:left;">
+    <img src="images/arionum.png" style="height:60px;" />
+  </div>
+  <div class="welcome-info">
+    <span>{$pool_name} pools</span><br />
+    <span>Pools for small cpu miners to big miner farms, and solo miners! </span><br />
+    <span>Choose your pool!</span><br />
+  </div>
+  <div style="float:left;margin-left:20px;" id="srvinfo">
+    <span>Server Processor: <strong><script>document.write(srv_cpu+"%");</script>  </strong></span><br />
+    <span>Server Memory: <strong><script>document.write(srv_mem+"%");</script>  </strong></span><br />
+    <span>Server Load:  <strong><script>document.write(srv_load+"%");</script> </strong></span><br />
+  </div>
+  <div style="float:left;margin-left:20px;" id="srvprogress">
+    <span><script>document.write(drawprogress(srv_cpu));</script></span><br />
+    <span><script>document.write(drawprogress(srv_mem));</script></span><br />
+    <span><script>document.write(drawprogress(srv_load));</script></span><br />
+  </div>
+  <div style="float:left;margin-left:20px;font-size:10px;" id="poolinfo">
+    <span>AroPool.com: <strong><script>document.write(aropool_block);</script>  </strong></span><br />
+    <span>Aro.Cool:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><script>document.write(arocool_block);</script>  </strong></span><br />
+    <span>ArionumPool:  <strong><script>document.write(arionumpool_block);</script> </strong></span><br />
+    <span>Arionum.Info:  <strong><script>document.write(arionuminfo_block);</script> </strong></span><br />
+  </div>
+  <div style="float:right;margin-left:20px;padding-left:30px;padding-right:30px;color:yellow;background-color:gray;font-size:18px;height:65px;overflow:hidden;text-align:center;">
+    <div style="background-color:green;float:top;">
+      <span>* * * Testing ready. Hashing, peering, paying are ok * * *</span><br />
+    </div>
+    <div style="background-color:green;float:top;">
+      <span>Min DLs modified, sync is working fast, pools are working properly.</span><br />
+    </div>
+    <span></span><br />
+  </div>
+
+
+</div>
 
 
     </header>
@@ -72,39 +127,84 @@
           
             <!-- Sidebar Menu  -->
             <ul class="nav sidebar-menu">
-                <li {if="$q==''"}class="active"{/if}>
-                    <a href="/">
-                        <span class="sidebar-title">Dashboard</span>
-                        <span class="sb-menu-icon fa fa-home"></span>
-                    </a>
-                </li>
-                <li {if="$q=='blocks'"}class="active"{/if} >
-                    <a  href="/?q=blocks">
-                        <span class="sidebar-title">Blocks Won</span>
-                        <span class="sb-menu-icon fa fa-share-square-o"></span>
+                <li>
+                    <a  href="/?q=links/">
+                        <img src="images/link_icon.svg" style="height:30px;border-width:0px;" />
+                        <span class="sidebar-title">Useful Links</span>
+
+                        <!-- <span class="sb-menu-icon fa fa-share-square-o"></span> -->
                     </a>
                 </li>
 
-                <li {if="$q=='payments'"}class="active"{/if} >
-                    <a  href="/?q=payments">
-                        <span class="sidebar-title">Payments</span>
-                       
-                        <span class="sb-menu-icon fa fa-list-ul"></span>
-                    </a>
-                </li>
-                <li {if="$q=='info'"}class="active"{/if} >
-                    <a  href="/?q=info">
-                        <span class="sidebar-title">Information</span>
-                       
-                        <span class="sb-menu-icon fa fa-info"></span>
+                <li>
+                    <a  href="/?q=news/">
+                        <span class="sb-menu-icon fa fas fa-2x fa-newspaper-o" style="float:left; border-width:0px;color:black;background-color:inherit;"></span>
+                        <span class="sidebar-title">News</span>
                     </a>
                 </li>
 
+                <li>
+                    <a href="https://smallminers.arionum.tk/">
+                        <img src="images/cpu_icon.svg" style="height:30px;border-width:0px;" />
+                        <span class="sidebar-title">CPU pool</span>
+
+                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://mine.arionum.tk/">
+                        <img src="images/gpu_icon.svg" style="height:30px;border-width:0px;" />
+                        <span class="sidebar-title">GPU pool</span>
+
+                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://bigminers.arionum.tk/">
+                        <img src="images/rig_icon.svg" style="height:30px;border-width:0px;" />
+                        <span class="sidebar-title">Farm pool</span>
+
+                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://solo.arionum.tk/">
+                        <img src="images/solo_icon.svg" style="height:30px;border-width:0px;" />
+                        <span class="sidebar-title">SOLO pool</span>
+
+                        <!-- <span class="sb-menu-icon fa fa-slack"></span> -->
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://node.arionum.tk/">
+                        <img src="images/node_icon.svg" style="height:30px;border-width:0px;" />
+                        <span class="sidebar-title">Arionum Node</span>
+
+                        <!--  <span class="sb-menu-icon fa fa-slack"></span>-->
+                    </a>
+                </li>
+
+                <li>
+                  <a href="#">
+                        <span class="sidebar-title" style="color:white;">Price: <script>document.write(aro_price)</script> USD</span>
+                  </a>
+                </li>
             </ul>
-            <!-- /Sidebar Menu  -->
 
+<div style="position:absolute;bottom:100px;left:30px;">
+<!-- Start of CuterCounter Code -->
+<!-- <a href="http://www.cutercounter.com/" target="_blank"><img src="http://www.cutercounter.com/hits.php?id=gvuupnxaf&nd=6&style=2" border="0" alt="visitor counter"></a> -->
+<!-- End of CuterCounter Code -->
+</div>
+
+            <!-- /Sidebar Menu  -->
         </div>
         <!-- /Sidebar Left Wrapper  -->
+    <div>Pool: {$pool_name}</div>
 
     </aside>
     <!-- /Sidebar -->

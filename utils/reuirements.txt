@@ -1,0 +1,2 @@
+#Requirements
+curl, bc, jq, cputool, cpulimit

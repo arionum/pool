@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col-xs-12 col-md-12 col-lg-12 allcp-grid ">
+    <div class="panel of-h" id="spy1">
+      <div class="panel-heading br-b-o w-mt-15">
+        <span class="panel-title">Arionum links:</span>
+      </div>
+      <div class="panel-body pn mt25 lead">
+        <table class="table">
+          <tr>
+            <td width="25%">
+              <h6>Arionum official</h6> 
+            </td>  
+            <td width="25%"> 
+              <h6 class="text-left"><a target="_blank" href="https://www.arionum.com">www.arionum.com</a></h6>
+            </td>
+            <td width="25%">  
+              <h6 class="text-left"><a target="_blank" href="https://arionum.info">arionum.info</a></h6>
+            </td>
+            <td width="25%">
+              <p class="text-left"><a target="_blank" href="https://arionum.info/discord/">ARO discord</a></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td width="25%">
+              <h6>Arionum exchange</h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://mercatox.com/exchange/ARO/BTC">Mercatox.com</a></h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://vinex.network/market/BTC_ARO">Vinex network</a></h6>
+            </td>
+            <td width="25%">
+            </td>
+          </tr>
+
+          <tr>
+            <td width="25%">
+              <h6>Wallet</h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://cubedpixels.net/projects/Arionum%20Crossplatform%20Wallet/login.html">Cubedpixels Web wallet</a><br />
+                <span>updated, crossplatform web wallet</span>
+              </h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://www.arionum.com/electron/app-win32-x64.zip">Electron wallet</a></h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://www.arionum.com/LightArionumD/setup.exe">Light wallet</a></h6>
+            </td>
+          </tr>
+
+          <tr>
+            <td width="25%">
+              <h6>Arionum.tk pools<br />You can use http:// or https://</h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://smallminers.arionum.tk">Pool for CPU miners</a><br />https://smallminers.arionum.tk
+              <span class="sb-menu-icon fa fa-copy link" onclick="copyToClipboard('https://smallminers.arionum.tk')"></span></h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://mine.arionum.tk">Multiple CPU, or GPU</a><br />https://mine.arionum.tk
+              <span class="sb-menu-icon fa fa-copy link" onclick="copyToClipboard('https://mine.arionum.tk')"></span></h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://bigminers.arionum.tk">Pool for big mining farms</a><br />https://bigminers.arionum.tk
+              <span class="sb-menu-icon fa fa-copy link" onclick="copyToClipboard('https://bigminers.arionum.tk')"></span></h6>
+            </td>
+          </tr>
+
+          <tr>
+            <td width="25%">
+              <h6>Arionum.tk SOLO pool</h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://solo.arionum.tk">Pool for SOLO miners</a><br /><span>https://solo.arionum.tk</span>
+              <span class="sb-menu-icon fa fa-copy link" onclick="copyToClipboard('https://solo.arionum.tk')"></span></h6>
+
+            </td>
+            <td width="25%">
+            </td>
+            <td width="25%">
+            </td>
+          </tr>
+
+          <tr>
+            <td width="25%">
+              <h6>Miner programs</h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://github.com/ProgrammerDan/arionum-java">Java CPU miner</a></h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://github.com/bogdanadnan/ariominer">Bogdanadnan CPU/GPU miner</a></h6>
+            </td>
+            <td width="25%">
+              <h6 class="text-left"><a target="_blank" href="https://bitbucket.org/cryptogone/arionum-gpu-miner/">Cryptogone CPU/GPU miner</a></h6>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan='4'>
+              <h6 class="text-danger"></h6>
+            </td>
+          </tr>
+        </table>
+        <p class="text-right">
+          {if="$server"}<small><i>{$server}</i></small>{/if}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="text" id="clipboard" value="" style="width:100px;position:absolute;top:-100px;">
+<script>
+  function copyToClipboard(cText){
+    var cContainer = document.getElementById("clipboard");
+    cContainer.value = cText;
+    cContainer.focus();
+    cContainer.select();
+    document.execCommand("copy");
+  }        
+</script>

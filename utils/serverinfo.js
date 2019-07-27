@@ -1,0 +1,9 @@
+var srv_cpu=2;
+var srv_mem=10;
+var srv_load=5.00;
+var srv_load1p=5.00;
+var srv_load5p=5.75;
+var srv_load15p=;
+var srv_load1m=0.20;
+var srv_load5m=0.23;
+var srv_load15m=;

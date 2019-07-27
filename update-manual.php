@@ -42,7 +42,7 @@ echo "\n------------------------------------------------------------------------
 $current = $aro->single('SELECT height FROM blocks ORDER by height DESC LIMIT 1');
 echo "Current block $current\n";
 
-$db->run('DELETE FROM miners WHERE historic + shares <= 30');
+$db->run('DELETE FROM miners WHERE historic + shares <= 50');
 $db->run('UPDATE miners
           SET gpuhr = (
             SELECT SUM(gpuhr)
@@ -97,10 +97,10 @@ $db->run(
 
 
 //count orphans
-    $r = $db->run("SELECT * FROM blocks where orphan=0 ORDER by height DESC LIMIT 100");
+    $r = $db->run("SELECT * FROM blocks ORDER by height DESC LIMIT 20");
     foreach ($r as $x) {
         echo("Processing block height:".$x['height'].", orphan:".$x['orphan']." \n");
-        if (($pool_config['keep_orphans'] == true) && ($x['orphan'] == 0)) {
+        if (($pool_config['keep_orphans'] == true) && ($x['orphan'] < 2)) {
             echo("Updating block height:".$x['height'].", orphan:".$x['orphan']." \n");
 
             $f = file_get_contents($pool_config['node_url'].'/api.php?q=getBlock&height='.$x['height']);
@@ -127,6 +127,7 @@ $db->run(
                     ];
 
                     $db->run("UPDATE blocks SET orphan=1, miner = :miner where height = :height",$bind);
+                    echo("Set ORPHAN:".$x['height']." \n");
                 } else {
                     $bind = [
                       ':height' => $x['height']

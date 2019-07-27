@@ -86,7 +86,9 @@ foreach ($r as $x) {
     $s = $aro->single('SELECT COUNT(1) FROM blocks WHERE id=:id', [':id' => $x['block']]);
     if ($s === 0) {
 // dit kunnen we dus aanpassen naar orphaned. block wordt niet nog een keer meegenomen want verdwijnt uit payments
-        $db->run('DELETE FROM blocks WHERE id=:id', [':id' => $x['block']]);
+        if ($pool_config['keep_orphans'] !== true) {
+          $db->run('DELETE FROM blocks WHERE id=:id', [':id' => $x['block']]);
+        }
 // nu halen we de payments weg en wordt het block niet opnieuw geselecteerd bij de volgende payment cycle
         $db->run('DELETE FROM payments WHERE block=:id', [':id' => $x['block']]);
         echo "Deleted block: $x[block]\n";
